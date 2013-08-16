@@ -1,0 +1,32 @@
+<style>
+    .odd {background-color: #eee;}
+    td,th {padding: 4px 8px 4px 8px;}
+</style>
+<h1><%=@report.name%> <%="#{@report.param_name} #{params[:param] || @report.param_default}"%></h1>
+
+<%if @records%>
+    <%=@records.num_rows%> records
+    <table cellspacing=0>
+      <tr>
+      <%while f = @records.fetch_field %>
+        <th><%= f.name %></th>
+      <%end %>
+      </tr>
+    <%odd = false%>  
+    <%while r = @records.fetch_row %>
+        <%odd = !odd%>
+      <tr>
+      <%i = 0%>
+      <%r.each do |c| %>
+        <td <%=odd ? "class='odd'" : nil %>><%=lookup(c, r, i, @records.fetch_fields, @lookups)%></td>
+        <%i+=1%>
+      <%end %>
+      </tr>
+    <% end %>
+    </table>
+<%end%>
+
+<br />
+
+<%= link_to 'Edit', :action => 'edit', :id => @report %> |
+<%= link_to 'Back', :action => 'list' %>

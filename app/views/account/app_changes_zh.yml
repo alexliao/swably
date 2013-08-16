@@ -1,0 +1,28 @@
+---
+changes: 
+  - code: 1503
+    note: 重新设计的界面，更加简单，更加顺畅
+  - code: 1462
+    note: 提高联网稳定性
+  - code: 1450
+    note: 去掉应用页面，主菜单增加搜索应用
+  - code: 1445
+    note: 修复应用列表频繁加载的bug
+  - code: 1440
+    note: 修复升级失败的bug; 改进一些图标
+  - code: 1430
+    note: 增加赞按钮，改进app页面，修复一些bug
+  - code: 1422
+    note: 增加Google Play链接
+  - code: 1420
+    note: 邀请微博好友时可以修改邀请文字
+  - code: 1410
+    note: 可以发布应用截图了
+  - code: 1300
+    note: 搜索应用，搜索用户，打开回复
+  - code: 1260
+    note: 增加拷贝评论文字功能以及其它一些改进
+  - code: 1250
+    note: 增加随机发现应用
+  - code: 1240
+    note: 中文版

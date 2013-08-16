@@ -1,0 +1,7 @@
+<script>
+<%if @err%>
+    window.android_callback.onError('<%=@err%>');
+<%else%>
+    window.android_callback.onGetAccessToken('<%=@access_token%>');
+<%end%>
+</script>

@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.1'
+gem 'rails', '3.2.12'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -36,3 +36,11 @@ gem 'jquery-rails'
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
+
+gem 'mysql2', '0.3.11'
+gem 'activerecord-mysql-adapter'
+#gem 'safe_attributes'
+
+# gem 'gettext'
+gem 'cloudfiles'
+gem 'rmagick'

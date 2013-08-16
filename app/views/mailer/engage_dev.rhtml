@@ -1,0 +1,39 @@
+<%_app_name = @app.local_name('en')%>
+<span style="font-size: 14px;">
+    <img src="<%=ENV['host']%><%=@app.display_icon.thumbnail%>" style="width: 60px; height: 60px; margin-bottom: 10px; margin-right: 10px; float: left;"/>
+    <div style="color: #666; font-size: 18px;"><%=_app_name%></div>
+    <div style="clear: both"></div>
+    <table width="100%"><tr>
+        <td width="100%" style="color: #666; font-size: 18px;"><%=_('What people are talking about %s?')%_app_name %></td>
+        <td><img src="<%=ENV['host']%>/images/logo.png" height="20px" style="float: right;"/></td>
+    </tr></table>
+    <hr/>
+    <div style="margin-top: 20px;">
+    <%@reviews.each do |review|%>
+        <%user = review.user%>
+        <div>
+            <img src="<%=ENV['host']%><%=user.display_photo.square%>" style="width: 48px; height: 48px; margin-bottom: 10px; margin-right: 10px; border: solid 0px #e0e0e0; float: left;"/>
+            <div style="padding-bottom: 5px;"><%=user.display_name%></div>
+            <span><%=h(review.content)%></span>
+            <div style="clear: both"></div>
+            <br/>
+        </div>
+            
+    <%end%>
+    </div>
+    <hr/>
+</span>
+<span style="font-size: 14px; color: #666;">
+    <%=_('Knowing users real thoughts and engage in conversations with them is critical to success of your app. We know it, because we are devs like you. That is why we build Swably, the app sharing, user reviewing and discovery engine, which helps you to keep in real time contact with users.') %><br/>
+    <br/>
+    <%_swably = "<a href='http://swably.com' target='_blank'>#{_('here')}</a>"%>
+    <%=_('Know more about Swably, click %s.')%_swably %><br/>
+    <br/>
+    <%=_("Cheers!<br/>Swably")%><br/>
+    <br/><br/>
+    <%_off = "http://#{ENV['host']}/settings/unsubscribe?email=#{@email}"%>
+    <%_unsubscribe = "<a href='#{_off}' target='_blank'>#{_('here')}</a>"%>
+    <%=_('To unsubscribe, click %s.')%_unsubscribe %><br/>
+    <%=_('© 2013 Swably')%> (<a href="http://<%=ENV['host']%>" target='_blank'>http://<%=ENV['host']%></a>)<br/>
+</span>
+    

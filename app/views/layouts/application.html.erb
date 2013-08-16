@@ -1,14 +1,107 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Swably</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-
-<%= yield %>
-
-</body>
-</html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<HTML xmlns="http://www.w3.org/1999/xhtml">
+    <%=render(:partial =>  'layouts/header') %>
+    <style>
+        html, body { margin: 0px; padding: 0px; background-color: #000;}
+        .xpadding {padding: 0px 2px;}
+        #content {
+            color: #fff;
+            font-family: 'Roboto', 'Open Sans', Arial;
+            font-weight: 300;
+            font-size: 18px;
+            line-height: 125%;
+        }
+        b {font-weight: 400;}
+        .rc10{
+            -moz-border-radius: 10px;
+            -khtml-border-radius: 10px;
+            -webkit-border-radius: 10px;
+            border-radius: 10px;
+        }
+        .rc5{
+            -moz-border-radius: 5px;
+            -khtml-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            border-radius: 5px;
+        }
+        .brc5{
+            -moz-border-radius-bottomleft: 5px;
+            -webkit-border-bottom-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            -moz-border-radius-bottomright: 5px;
+            -webkit-border-bottom-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+        }
+        .rc3{
+            -moz-border-radius: 3px;
+            -khtml-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+        }
+        .brc3{
+            -moz-border-radius-bottomleft: 3px;
+            -webkit-border-bottom-left-radius: 3px;
+            border-bottom-left-radius: 3px;
+            -moz-border-radius-bottomright: 3px;
+            -webkit-border-bottom-right-radius: 3px;
+            border-bottom-right-radius: 3px;
+        }
+        .btn{
+            text-decoration: none;
+            color: #333;
+        }
+        .btn:hover{
+            background-color: #02779e;
+            color: #f8f8f8;
+        }
+        .float {float: left;}
+        .rfloat {float: right;}
+        .clear {clear: both;}
+        .head_color {color: #fff;}
+        img {border: 0;}
+        a {text-decoration: none; color: #e0e0e0;}
+        .frame {width: 100%; max-width: 760px; margin: 0 auto;}
+        .frame_fix {width: 760px; margin: 0 auto;}
+        h1 {color: #82ddec; font-size: 28px; font-weight: 400; line-height: 150%;}
+        .avatar {width: 64px; height: 64px; margin-bottom: 60px; margin-right: 16px; border: solid 6px #e0e0e0; float: left;}
+        .icon {width: 48px; height: 48px; margin-right: 16px; float: left;}
+        .name {font-weight: 400;}
+        
+        <%if session[:m] == "_m"%>    
+        html, body {background-color: #1a1a1a;}
+        #content {
+            line-height: 150%;
+        }
+        .xpadding {padding: 0px 12px;}
+        .avatar {width: 44px; height: 44px; margin-bottom: 30px; margin-right: 12px; border: solid 4px #e0e0e0; float: left;}
+        .name {font-weight: 600;}
+        <%end%>    
+        
+    </style>
+    <body id="<%=@page_id%>" class="<%=session[:lang]%>">
+        <div id="content">
+            <%unless @no_header%>
+            <%end%>
+            <div id="body">
+                <%#=yield.gsub(get_BOM, '')%>
+                <%=yield%>
+            </div>
+        </div>
+        <span id="loading" style = "display:none"><img src='/images/loading.gif' alt="swably_app_sharing" id="swably" name="android_app_sharing" /></span>
+        <%if Rails.env == 'production'%>
+        <script type="text/javascript">
+        
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-1621057-8']);
+          _gaq.push(['_trackPageview']);
+        
+          (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          })();
+        
+        </script>
+        <%end%>
+    </body>
+</HTML>

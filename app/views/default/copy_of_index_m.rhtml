@@ -1,0 +1,30 @@
+<style>
+ </style>
+
+<div class="head_color xpadding" align="center" style="font-size: 14px; padding-top: 12px; padding-bottom: 12px; background: url(/images/header_bg.png);">
+    <img src="/images/logo.png" height="27px" />
+    <div class="rfloat" style="margin-top: 0px;">
+        <%=render :partial => 'shared/btn_lang'%>
+    </div>
+    <div class="clear"></div>
+</div>
+<img width="100%" src="/images/back_<%=session[:lang]%>_m.jpg" />
+<div style="position: relative; width: 100%;">
+    <img width="100%" height="54px" src="/images/metal_belt_m.jpg" />
+    <div class="head_color" align="center" style="width: 100%; position: absolute; top: 14px; font-size: 16px; ">
+        <b><%=_('What apps are people sharing?')%></b>
+    </div>
+</div>
+<div class="xpadding" style="margin-top: 30px; font-size: 16px; line-height: 125%;">
+    <%@comments.each do |c|%>
+        <img src="<%=c.user.display_photo.square%>" class="avatar" />
+        <%str = c.content%>
+        <%str = "#{c.content} ##{c.app.local_name(session[:code])}" if c.app%>
+        <b class="name"><%=c.user.display_name%></b><br/><%=str%><br/>
+        <div class="clear"></div>
+    <%end%>
+</div>
+<br/>
+<div align="center">
+    <%=render(:partial =>  'default/download_m') %>
+</div>

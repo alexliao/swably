@@ -1,0 +1,58 @@
+---
+changes: 
+  - code: 1503
+    note: New designed UI, more simple and more smooth user experience
+  - code: 1462
+    note: More stable network connect
+  - code: 1450
+    note: Remove app page, add search apps to sliding menu
+  - code: 1445
+    note: Fix app list loading bug
+  - code: 1440
+    note: Fix upgrading fail bug; Refine some icons
+  - code: 1430
+    note: Add like button, refine app page, fix some bugs
+  - code: 1420
+    note: Add Google Play link for an App;
+  - code: 1410
+    note: you can post screenshot along with review
+  - code: 1300
+    note: Search apps, search users and open in reply to
+  - code: 1260
+    note: Can copy review text, and some minor improvement
+  - code: 1251
+    note: Add app shuffle, fix sign in FC
+  - code: 1237
+    note: Some minor change
+  - code: 1233
+    note: Fix some crashes
+  - code: 1230
+    note: Now you can use Swably without signing in
+  - code: 1220
+    note: Add Terms of Service to upload page.
+  - code: 1200
+    note: Nappstr is upgraded to Swably, new name, new face, new dev support claim and manage apps, and the old Nappstr app is obsolete, will stop running before 6th Oct.
+  - code: 1120
+    note: Fix can not remember the checkbox status permenantly on post screen
+  - code: 1103
+    note: Add phone model for each review, fix some minus bugs
+  - code: 1102
+    note: Brand new design, Cool Jelly Bean UI and better performance
+  - code: 1000
+    note: Sending review in background
+  - code: 997
+    note: Support Twitter sign in
+  - code: 996
+    note: Add public timeline, refine UI
+  - code: 995
+    note: some refine
+  - code: 994
+    note: beta test version
+  - code: 950
+    note: add timestamp, refine cover for xlarge screen
+  - code: 930
+    note: refine some icons
+  - code: 920
+    note: fix some bugs
+  - code: 500
+    note: test upgrading

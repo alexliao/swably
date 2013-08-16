@@ -1,0 +1,68 @@
+<style type="text/css">
+    html, body, #content, #body {height: 100%;}
+    img {vertical-align: top;}
+    .round_avatar{
+        -moz-border-radius: 25px;
+        -khtml-border-radius: 25px;
+        -webkit-border-radius: 25px;
+        border-radius: 25px;
+        width: 50px;
+    }
+    .round_avatar_bg{
+        -moz-border-radius: 30px;
+        -khtml-border-radius: 30px;
+        -webkit-border-radius: 30px;
+        border-radius: 30px;
+        width: 50px;
+        height: 50px;
+        padding: 5px;
+        background: #b7b7b7;
+    }
+
+</style>
+    <div style="color: #b7b7b7; min-height: 100%; border-top: solid 1px transparent;">
+        <%if @comment%>
+            <%user = @comment.user%>
+            <%#user.name="Anthony Bourdain"%>
+            <%app = @comment.app%>
+            <%app_name = app.local_name(params[:lr]||session[:code])%>
+                <div style="text-align: center; margin-top: 20px; margin-bottom: 15px;">
+                    <div style="color: #444; font-size:12px; margin-right: 15px;" class="rfloat"><%=time_ago_in_words @comment.created_at%></div>
+                    <div class="round_avatar_bg" style="margin: 0 auto; margin-bottom: 12px;"><img src="<%=user.display_photo.square%>" class="round_avatar" /></div>
+                    <div style="font-size: 18px;"><b><%=user.display_name%></b></div>
+                    <div class="clear"></div>
+                </div>
+                <div style="padding:15px; border-bottom: solid 1px #939393;">
+                    <div style="font-size:24px; line-height: 125%;"><%=@comment.content%></div>
+                    <br/>
+                    <div style="margin-top: 5px;">
+                        <img src="<%=app.display_icon.thumbnail%>" class="icon" />
+                        <div>
+                            <span style="font-size:18px; line-height: 120%;"><b><%=app_name%></b></span><br/>
+                            <span style="font-size:12px; line-height: 150%; display: none; ">
+                                <%#=_('Size')%> <%#="%.2fMB"%(app[:size]/1024.0/1024.0)%>
+                            </span>
+                        </div>
+                        <div style="clear:both" ></div>
+                    </div>
+                </div>        
+                <%=render(:partial =>  'shared/download_app', :locals => {:app => app}) %>
+                <%if @comment.image%>
+                <br/>
+                <div style="padding: 8px;">
+                    <img src="<%=Photo.new(@comment.image).large%>" width="100%"/>
+                </div>
+                <%end%>
+        <%else%>
+            <%=_('No record or deleted')%>
+        <%end%>
+        <div style="width: 100%; height: 50px; "></div>
+    </div>
+    <a href="/" >
+        <div class="btn" style="width: 100%; background: #000; margin-top: -50px;">
+            <div style="padding: 10px;" >
+                <img src="/images/small_logo.png" height="30px" style="vertical-align: middle;" />
+                <span style="color: #fff; font-size: 18px;">&nbsp;&nbsp;<%=t :lets_swap_apps%></span>
+            </div>
+        </div>
+    </a>

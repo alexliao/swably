@@ -2,4 +2,9 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+  follow_us_on: "Follow us on"
+  slogon: "Upload, download, comment apps"
+  lets_swap_apps: "Let's Swap Apps!"
+  x_posts: 
+    one: "1 Post"
+    other: "%{count} Posts"

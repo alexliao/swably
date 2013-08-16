@@ -1,0 +1,62 @@
+<div class="panel" id="about">
+    <h1><%=_('About')%></h1>
+    <%=_('We are a startup and we like to do cool stuff. We love Internet and believe in free flow of information will create a better world.')%><br/>
+    <br/>
+    <%=_('Bannka was inspired with the idea that an American man who had himself photographed daily and his photos timelined on website.')%><br/>
+    <br/>
+    <%=_('Bannka makes it snap easy to post photos from phone to web.')%><br/>
+    <br/>
+</div>
+<div class="panel" id="contact">
+    <h1><%=_('Contact')%></h1>
+    <%=_("Request a feature")%><br/>
+    <%=_("Report a bug")%><br/>
+    <a href="mailto:tech@bannka.com">tech@bannka.com</a><br/>
+    <br/>
+    <%=_("Business cooperation")%><br/>
+    <%=_("Work with us")%><br/>
+    <a href="mailto:biz@bannka.com">biz@bannka.com</a><br/>
+    <br/>
+    <%=_("Investment query")%><br/>
+    <a href="mailto:investment@bannka.com">investment@bannka.com</a><br/>
+    <br/>
+</div>
+<div class="panel" id="faq">
+    <h1><%=_('FAQ')%></h1>
+    <%if session[:lang] == 'zh' %>
+    <h2>1.Bannka究竟是什么？</h2>
+    它是一个非常快捷的手机图片上传和分享服务，可以看成是图片的“微博”。
+    <br/><br/>
+    <h2>2.要是我没有iPhone或者Android手机怎么办？</h2>
+    在电脑上注册后，你会得到一个Bannka邮箱，把它作为一个“联系人”存到手机名单上，将图片作为彩信发给这个邮件地址即可，费率取决于你的电信运营商。
+    <br/><br/>
+    <h2>3.Bannka和微博很类似吗?</h2>
+    是的，除了一点，Bannka的“更新”全部是照片，并且，如果是使用iPhone或者 Android应用拍摄的话，还包含图片拍摄的地点信息。
+    <br/><br/>
+    <h2>4.为什么Bannka没有滤镜？</h2>
+    用户使用Bannka来记录分享他们生活的真实瞬间，而滤镜可能让图片模糊不清。
+    <br/><br/>
+    <%else%>
+    <h2>1.What is Bannka all about?</h2>
+    It is a damn quick mobile photo post and share service, it is also somewhat like a “twitter” service of snapshots.
+    <br/><br/>
+    <h2>2.How do I use it if I don’t have iPhone or Android handsets?</h2>
+    Register and you will get a Bannka mail, save it as a contact, send picture as MMS to this mail will work, though this will evolve costs depends on your telco carrier rates.
+    <br/><br/>
+    <h2>3.Is Bannka similar to Twitter?</h2>
+    Yes, except that Bannka “tweets” or updates are all photos and provides with location and time the photo was taken, if it is taken with iPhone and Android handsets. 
+    <br/><br/>
+    <h2>4.Why there is no filters?</h2>
+    People use Bannka to document their real life but filters may blur the images. 
+    <br/><br/>
+    <%end%>
+</div>
+<div class="panel" id="terms">
+    <h1><%=_("Terms")%></h1>
+    <%=_("No porn and violence images please.")%><br/>
+    <br/>
+    <%=_("If you didn't select the private option to protect your updates, by submitting photo updates you are aware that the photos are made public upon posting, they might be shared on Facebook, Buzz, Twitter and many social sites and blogs, they might be used by other Bannka user, and we will not be taken responsible for possible damages these photos might bring to you or any third party.")%><br/>
+    <br/>
+    <%=_("Your photos will not be used for commercial purpose unless we have your written consent.")%><br/>
+    <br/>
+</div>

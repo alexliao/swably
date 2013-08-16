@@ -1,0 +1,22 @@
+﻿<style>
+.div
+{
+	margin:5px;
+	padding:5px;
+}
+</style>
+<div id="main">
+    <h2>给<%=params[:title]%>发送邮件</h2>
+    <%=form_remote_tag  :url => {:controller => "admin", :action => params[:send_action], :lang => params[:lang]}, :loading => "$('start_send').disabled = true; ", :complete => "$('start_send').disabled = false; eval(request.responseText);" %>
+    邮件标题:<br/>
+    <input id="subject" name="subject" class="" style="width:100%" value=""></input>
+    邮件内容:<br/>
+    <textarea name="content" class="textarea1" style="wrap:soft;"><%=params[:content]%></textarea><br/>
+    每次同时发给<input id="howmany" name="howmany" class="" style="width:50px;" value="1" ></input>人 &nbsp;&nbsp;
+    <%=submit_tag '开始发送', :id=>'start_send', :onclick=>"stop=0;" %><input type=button value="停止" onclick="stop=1;alert('本次发送完成后将停止.')" /><br/><br/>
+    <%=submit_tag '发送', :id=>'send', :style=>"display:none"%><br/>
+    <%=end_form_tag%>
+    <div id="feedback_panel" style="border:1px solid;height:200px;overflow:auto;"></div>
+    <%#DisablePanel("check_send_panel",periodically_call_remote(:method => 'get', :update => 'feedback_panel', :complete => "", :url => {:controller => 'admin', :action => 'check_send_progress'}, :frequency => 1))%>
+    <%#periodically_call_remote(:method => 'get', :update => 'feedback_panel', :position => :top, :complete => "", :url => {:controller => 'admin', :action => 'check_send_progress'}, :frequency => 1)%>
+</div>
