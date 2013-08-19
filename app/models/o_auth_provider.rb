@@ -1,7 +1,7 @@
 require 'oauth'  
 require 'json'
 class OAuthProvider
-  include GetText
+  # include GetText
   include ActionView::Helpers::TextHelper
 #  attr_accessor provider_id
 #  attr_accessor provider_name

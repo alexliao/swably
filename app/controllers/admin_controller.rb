@@ -1,6 +1,7 @@
+# encoding: utf-8 
 # require 'lib/time_util'
 require 'yaml'
-require 'soap/wsdlDriver'   
+# require 'soap/wsdlDriver'   
 require 'net/pop'
 #require 'iconv'    
 #require 'console_with_helpers'

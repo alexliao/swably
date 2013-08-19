@@ -1,10 +1,10 @@
-require 'exifr'
+# require 'exifr'
 class Mailer < ActionMailer::Base
   include CommonHelper
   include ModelHelper
   include FileHelper
-  include GetText
-  bindtextdomain "main"
+  # include GetText
+  # bindtextdomain "main"
   helper ApplicationHelper # for referring __() in rhtml
   helper ActionView::Helpers::UrlHelper
   
@@ -164,150 +164,150 @@ class Mailer < ActionMailer::Base
   
 private 
 
-  def run_task(email)
-    type = email.subject
-    id = email.body.strip
-    case type
-    when "new_update"
-      iu = Upload.find(:first, :conditions => "id=#{id}")
-      if iu
-        puts iu.id
-        iu.notify_followers
-        iu.user.sync(iu)
-      end      
-    when "new_comment"
-      cm = Comment.find(:first, :conditions => "id=#{id}")
-      if cm
-        puts cm.id
-        cm.notify_followers
-      end      
-    when "connect"
-      params = id.split
-      user_id = params[0]
-      provider_id = params[1]
-      u = User.find(:first, :conditions => "id=#{user_id}")
-      if u
-        puts u.id
-        puts provider_id
-        u.sync_graph(provider_id)
-      end      
-    end
-  end
+#   def run_task(email)
+#     type = email.subject
+#     id = email.body.strip
+#     case type
+#     when "new_update"
+#       iu = Upload.find(:first, :conditions => "id=#{id}")
+#       if iu
+#         puts iu.id
+#         iu.notify_followers
+#         iu.user.sync(iu)
+#       end      
+#     when "new_comment"
+#       cm = Comment.find(:first, :conditions => "id=#{id}")
+#       if cm
+#         puts cm.id
+#         cm.notify_followers
+#       end      
+#     when "connect"
+#       params = id.split
+#       user_id = params[0]
+#       provider_id = params[1]
+#       u = User.find(:first, :conditions => "id=#{user_id}")
+#       if u
+#         puts u.id
+#         puts provider_id
+#         u.sync_graph(provider_id)
+#       end      
+#     end
+#   end
 
-  def get_title(email)
-    ret = nil
-    ret = email.subject unless email.in_reply_to
-    ret = get_text(email, 'plain').split("\n")[0] if ret.blank?
-    ret = truncate_ex(ret ,100) if ret
-    ret
-  end
-  #get text part from mail iterally
-  def get_text(mail, sub_type)
-    ret = nil
-    if mail.parts.size == 0 
-      ret = mail.body if mail.main_type == 'text' and mail.sub_type == sub_type
-    else
-      mail.parts.each do |part|
-        ret = get_text(part, sub_type)
-        break if ret
-      end
-    end
-    ret
-  end
+#   def get_title(email)
+#     ret = nil
+#     ret = email.subject unless email.in_reply_to
+#     ret = get_text(email, 'plain').split("\n")[0] if ret.blank?
+#     ret = truncate_ex(ret ,100) if ret
+#     ret
+#   end
+#   #get text part from mail iterally
+#   def get_text(mail, sub_type)
+#     ret = nil
+#     if mail.parts.size == 0 
+#       ret = mail.body if mail.main_type == 'text' and mail.sub_type == sub_type
+#     else
+#       mail.parts.each do |part|
+#         ret = get_text(part, sub_type)
+#         break if ret
+#       end
+#     end
+#     ret
+#   end
 
-  def add_upload(attachment, title, user, email)
-#    begin
-      #infos = {:width => params[:width], :height => params[:height], :shot_at => params[:shot_at], :time_zone => params[:time_zone], :upload_at => params[:upload_at], :longitude => params[:longitude], :latitude => params[:latitude], :altitude => params[:altitude], :bias => params[:bias], :caption => params[:caption], :model => params[:model], :fingerprint => params[:fingerprint], :sdk => params[:sdk], :client_os => params[:client_os], :client_version => params[:client_version]}
-      infos = {:upload_at => email.date(Time.now), :caption => title, :fingerprint => email.from, :client_os => "Email", :client_version => "1"}
-      save_url = save_image(attachment, infos)
-      if save_url
-        iu = Upload.create(infos.update({:url=>save_url, :user_id=>user.id}), true)
-      end
-      return iu
-#    rescue Exception => e
-#      logger.error("#{Time.now.short_time} Custom log : Exception in Mailer.add_upload " + e)
-#    end
-  end
+#   def add_upload(attachment, title, user, email)
+# #    begin
+#       #infos = {:width => params[:width], :height => params[:height], :shot_at => params[:shot_at], :time_zone => params[:time_zone], :upload_at => params[:upload_at], :longitude => params[:longitude], :latitude => params[:latitude], :altitude => params[:altitude], :bias => params[:bias], :caption => params[:caption], :model => params[:model], :fingerprint => params[:fingerprint], :sdk => params[:sdk], :client_os => params[:client_os], :client_version => params[:client_version]}
+#       infos = {:upload_at => email.date(Time.now), :caption => title, :fingerprint => email.from, :client_os => "Email", :client_version => "1"}
+#       save_url = save_image(attachment, infos)
+#       if save_url
+#         iu = Upload.create(infos.update({:url=>save_url, :user_id=>user.id}), true)
+#       end
+#       return iu
+# #    rescue Exception => e
+# #      logger.error("#{Time.now.short_time} Custom log : Exception in Mailer.add_upload " + e)
+# #    end
+#   end
 
-  def save_image(attachment, infos)
-    #save to file
-    save_name = ((Time.now-Time.gm(2007))*1000).to_i.to_s
-    postfix = sub_type(attachment)
-    save_name = "#{save_name}.#{postfix}"
-    save_url = "#{get_picture_dir}/#{save_name}"
-    save_path = "public#{save_url}"
-    File.open(save_path, "wb") { |f| f.write(attachment.read) }
-    size = File.size(save_path)
-    if size > 2100000
-puts "Too big, delete #{save_path}"
-      File.delete(save_path)
-      logger.info("#{Time.now.short_time} Attachment size #{size} too big, deleted.")
-      save_url = nil
-      puts
-    else
-      get_metadata(save_path, infos) if postfix == 'jpg'
-      #crop to 500*500
-      infos[:width], infos[:height], infos[:size] = Photo.create_thumbnail(save_url, save_path, 500)
-      #system "chmod", "666", save_path # no need because add "umask 000" into procmailrc
-    end    
-    return save_url
-  end
+#   def save_image(attachment, infos)
+#     #save to file
+#     save_name = ((Time.now-Time.gm(2007))*1000).to_i.to_s
+#     postfix = sub_type(attachment)
+#     save_name = "#{save_name}.#{postfix}"
+#     save_url = "#{get_picture_dir}/#{save_name}"
+#     save_path = "public#{save_url}"
+#     File.open(save_path, "wb") { |f| f.write(attachment.read) }
+#     size = File.size(save_path)
+#     if size > 2100000
+# puts "Too big, delete #{save_path}"
+#       File.delete(save_path)
+#       logger.info("#{Time.now.short_time} Attachment size #{size} too big, deleted.")
+#       save_url = nil
+#       puts
+#     else
+#       get_metadata(save_path, infos) if postfix == 'jpg'
+#       #crop to 500*500
+#       infos[:width], infos[:height], infos[:size] = Photo.create_thumbnail(save_url, save_path, 500)
+#       #system "chmod", "666", save_path # no need because add "umask 000" into procmailrc
+#     end    
+#     return save_url
+#   end
   
-  def get_metadata(path, infos)
-    obj = EXIFR::JPEG.new(path)
-    if obj.exif?
-      exif = obj.exif[0]
-      #print_exif(exif)
-      #get shot_at
-      shot_at = exif.date_time_original || exif.date_time || exif.date_time_digitized
-#puts shot_at      
-      #infos[:shot_at] = shot_at.strftime('%Y-%m-%d %H:%M:%S') if shot_at
-      infos[:shot_at] = shot_at
-      #get GPS info
-      if exif.gps_latitude
-        lat = exif.gps_latitude[0].to_f + (exif.gps_latitude[1].to_f / 60) + (exif.gps_latitude[2].to_f / 3600)
-        lat = lat * -1 if exif.gps_latitude_ref == 'S'    # (N is +, S is -)
-        infos[:latitude] = lat
-      end
-      if exif.gps_longitude
-        long = exif.gps_longitude[0].to_f + (exif.gps_longitude[1].to_f / 60) + (exif.gps_longitude[2].to_f / 3600)
-        long = long * -1 if exif.gps_longitude_ref == 'W' # (W is -, E is +)
-        infos[:longitude] = long
-      end
-      if exif.gps_altitude
-        alt = exif.gps_altitude.to_i
-        alt = alt * -1 unless exif.gps_altitude_ref.nil? or exif.gps_altitude_ref.strip.empty?
-        infos[:altitude] = alt
-      end
-      infos[:model] = exif.model
-      infos[:sdk] = exif.software
-    end
-  end
-  def print_exif(exif)
-    puts "--- EXIF information ---".center(50)
-    hash = exif.to_hash
-    hash.each_pair do |k, v|
-      puts "-- #{k.to_s.rjust(20)} -> #{v}"
-    end
-  end
+#   def get_metadata(path, infos)
+#     obj = EXIFR::JPEG.new(path)
+#     if obj.exif?
+#       exif = obj.exif[0]
+#       #print_exif(exif)
+#       #get shot_at
+#       shot_at = exif.date_time_original || exif.date_time || exif.date_time_digitized
+# #puts shot_at      
+#       #infos[:shot_at] = shot_at.strftime('%Y-%m-%d %H:%M:%S') if shot_at
+#       infos[:shot_at] = shot_at
+#       #get GPS info
+#       if exif.gps_latitude
+#         lat = exif.gps_latitude[0].to_f + (exif.gps_latitude[1].to_f / 60) + (exif.gps_latitude[2].to_f / 3600)
+#         lat = lat * -1 if exif.gps_latitude_ref == 'S'    # (N is +, S is -)
+#         infos[:latitude] = lat
+#       end
+#       if exif.gps_longitude
+#         long = exif.gps_longitude[0].to_f + (exif.gps_longitude[1].to_f / 60) + (exif.gps_longitude[2].to_f / 3600)
+#         long = long * -1 if exif.gps_longitude_ref == 'W' # (W is -, E is +)
+#         infos[:longitude] = long
+#       end
+#       if exif.gps_altitude
+#         alt = exif.gps_altitude.to_i
+#         alt = alt * -1 unless exif.gps_altitude_ref.nil? or exif.gps_altitude_ref.strip.empty?
+#         infos[:altitude] = alt
+#       end
+#       infos[:model] = exif.model
+#       infos[:sdk] = exif.software
+#     end
+#   end
+#   def print_exif(exif)
+#     puts "--- EXIF information ---".center(50)
+#     hash = exif.to_hash
+#     hash.each_pair do |k, v|
+#       puts "-- #{k.to_s.rjust(20)} -> #{v}"
+#     end
+#   end
     
-  # addr should like : "alex-abcd@bannka.com"
-  def get_user(addr)
-    user = nil
-    begin
-      lh = addr.split('@')[0].split("-")
-      if lh.size == 2
-        username = lh[0]
-        user_id = decode_id(lh[1])
-        if user_id
-          user = User.find(:first, :conditions => ["username=? and id=?", username, user_id])
-        end                
-      end
-    rescue Exception => e
-      logger.error("#{Time.now.short_time} Custom log : Exception in Mailer.get_user: " + e)
-    end
-    user
-  end
+#   # addr should like : "alex-abcd@bannka.com"
+#   def get_user(addr)
+#     user = nil
+#     begin
+#       lh = addr.split('@')[0].split("-")
+#       if lh.size == 2
+#         username = lh[0]
+#         user_id = decode_id(lh[1])
+#         if user_id
+#           user = User.find(:first, :conditions => ["username=? and id=?", username, user_id])
+#         end                
+#       end
+#     rescue Exception => e
+#       logger.error("#{Time.now.short_time} Custom log : Exception in Mailer.get_user: " + e)
+#     end
+#     user
+#   end
 
   def engage_dev(email, reviews, app)
     @sent_on    = Time.now

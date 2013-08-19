@@ -1,3 +1,4 @@
+# encoding: utf-8 
 require 'net/http/post/multipart'
 require 'multipart_post_helper.rb'
 class OAuthQq < OAuthProvider
