@@ -376,10 +376,10 @@ protected
 
   def _login(user, remember_me = "1")
     _sign_in(user)
-    if remember_me == "1"
-      current_user.remember_me
-      cookies[:auth_token] = { :value => current_user.remember_token , :expires => current_user.remember_token_expires }
-    end
+    # if remember_me == "1"
+    #   current_user.remember_me
+    #   cookies[:auth_token] = { :value => current_user.remember_token , :expires => current_user.remember_token_expires }
+    # end
   end
 
   def offline(delay = nil)
@@ -387,7 +387,7 @@ protected
   end
  
   def logout
-    @current_user.forget_me unless @current_user.is_anonymous
+    # @current_user.forget_me unless @current_user.is_anonymous
     session[:user_id] = nil
     @current_user = User.fake
     cookies.delete :auth_token
