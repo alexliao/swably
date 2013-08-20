@@ -9,7 +9,7 @@ class AccountController < ApplicationController
     if session[:lang] == 'zh'
       ret = {:main => "218.245.3.176", :upload => "218.245.3.176"}
     else
-     ret = {:main => "184.106.206.67", :upload => "184.106.206.67"}
+     ret = {:main => "192.155.195.138", :upload => "192.155.195.138"}
     end
     api_response ret
   end
