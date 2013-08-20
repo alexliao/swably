@@ -36,7 +36,7 @@ class OAuthProvider
 
 
   def get_callback(parameters = nil)
-    host = (RAILS_ENV == "development") ? "192.168.2.107:2001" : ENV['host']
+    host = (Rails.env == "development") ? "172.24.1.101:3000" : ENV['host']
 #    host = (RAILS_ENV == "development") ? "localhost:2001" : ENV['host']
 #host = "192.168.1.101:5021"
     callback = ("http://#{host}/connections/accept/#{@provider_id}")

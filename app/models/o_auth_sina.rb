@@ -144,7 +144,7 @@ puts resp.code
   end
 
   def get_callback(parameters = nil)
-    host = (RAILS_ENV == "development") ? "192.168.2.107:2001" : ENV['host']
+    host = (Rails.env == "development") ? "192.168.2.107:2001" : ENV['host']
     callback = ("http://#{host}/connections/accept/#{@provider_id}")
     callback
   end

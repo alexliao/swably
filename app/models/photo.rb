@@ -87,7 +87,7 @@ class Photo
 #    thumbnail_url = ensure_directory(picture_url) + thumbnail_name(picture_url, size) + '.png'
     thumbnail_url = ensure_directory(picture_url) + thumbnail_name(picture_url, size) + get_postfix(picture_url)
     thumbnail_path = 'public' + thumbnail_url
-    self.create_thumbnail(picture_url, thumbnail_path, size) unless File.exist?(thumbnail_path) #if RAILS_ENV == "production"
+    self.create_thumbnail(picture_url, thumbnail_path, size) unless File.exist?(thumbnail_path) #if Rails.env == "production"
     thumbnail_url
   end
 
