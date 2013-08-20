@@ -835,3 +835,11 @@ class Hash
   end
 end
 
+class Time
+  
+  def short_time
+    strftime('%Y-%m-%d %H:%M:%S')
+  end
+
+end
+
