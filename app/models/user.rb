@@ -584,7 +584,7 @@ puts "sync exception: " + e.to_s
 
   
   def save_options
-      update_attribute(:options, options)
+      update_attribute(:options, options.to_json)
   end
 #  def twitter_sync
 #    if options["twitter_sync"]
