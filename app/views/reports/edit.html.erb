@@ -1,9 +1,6 @@
 <h1>Editing report</h1>
 
-<%= start_form_tag :action => 'update', :id => @report %>
-  <%= render :partial => 'form' %>
-  <%= submit_tag 'Edit' %>
-<%= end_form_tag %>
+<%= render 'form' %>
 
-<%= link_to 'Show', :action => 'show', :id => @report %> |
-<%= link_to 'Back', :action => 'list' %>
+<%= link_to 'Show', @report %> |
+<%= link_to 'Back', reports_path %>

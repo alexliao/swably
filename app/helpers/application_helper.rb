@@ -3,7 +3,7 @@
 module ApplicationHelper
 
   def space(num = 1)
-    "&nbsp;" * num
+    " " * num
   end
   
   # def get_BOM

@@ -6,6 +6,7 @@
 
 class ApplicationController < ActionController::Base
   protect_from_forgery
+  ADMIN_PASSWORD = "gaofei888"
 
   # init_gettext "main"
   before_filter :set_lang
@@ -22,6 +23,11 @@ class ApplicationController < ActionController::Base
   after_filter :log_action_duration
   #layout :enable_embed
   
+
+  # def authorize
+  #   flash[:admin_return] = request.path
+  #   redirect_to :controller => "admin", :action => "login" unless (session[:is_admin] || (current_user and current_user.is_admin))
+  # end
 
   def authorize
     flash[:admin_return] = request.path
@@ -41,10 +47,10 @@ class ApplicationController < ActionController::Base
     else
       if params[:admin][:password] == ENV['admin_pwd']
         session[:is_admin] = true
-        flash[:admin_return] ||= "/admin/index"
+        flash[:admin_return] ||= "/reports"
         redirect_to flash[:admin_return]
       else
-        flash[:notice] = "<span class='notice'>Invalid password, try again</span><br/><br/>"
+        flash[:notice] = "Invalid password, try again\n"
       end
     end
   end

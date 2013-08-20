@@ -48,6 +48,11 @@ Swably::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
+  
+  match 'reports/list' => 'reports#index'
+
+  resources :reports
+
   root :to => 'default#index'
   match 'a/:id' => 'apps#show', :id => /\d+/
   match 'r/:id' => 'comments#show', :id => /\d+/

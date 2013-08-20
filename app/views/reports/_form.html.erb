@@ -1,25 +1,41 @@
-<%= error_messages_for 'report' %>
+<%= form_for(@report) do |f| %>
+  <% if @report.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@report.errors.count, "error") %> prohibited this report from being saved:</h2>
 
-<!--[form:report]-->
-<p><label for="report_category">Category</label><br/>
-<%= text_field 'report', 'category'  %></p>
+      <ul>
+      <% @report.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
 
-<p><label for="report_name">Name</label><br/>
-<%= text_field 'report', 'name'  %></p>
-
-<p><label for="report_sql">Sql</label><br/>
-<%= text_area 'report', 'sql', :style => "width:100%;height:100px;"  %></p>
-
-<p><label for="report_lookups">Lookups</label><br/>
-<%= text_field 'report', 'lookups'  %></p>
-
-<p><label for="report_param_name">Param Name</label><br/>
-<%= text_field 'report', 'param_name'  %></p>
-
-<p><label for="report_param_default">Param Default</label><br/>
-<%= text_field 'report', 'param_default'  %></p>
-
-<p><label for="report_created_at">Created at</label><br/>
-<%= datetime_select 'report', 'created_at'  %></p>
-<!--[eoform:report]-->
-
+  <div class="field">
+    <%= f.label :category %><br />
+    <%= f.text_field :category %>
+  </div>
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :sql %><br />
+    <%= text_area 'report', 'sql', :style => "width:100%;height:100px;"  %>
+  </div>
+  <div class="field">
+    <%= f.label :param_name %><br />
+    <%= f.text_field :param_name %>
+  </div>
+  <div class="field">
+    <%= f.label :param_default %><br />
+    <%= f.text_field :param_default %>
+  </div>
+  <div class="field">
+    <%= f.label :lookups %><br />
+    <%= f.text_field :lookups %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

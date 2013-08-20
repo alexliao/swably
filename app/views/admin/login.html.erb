@@ -2,10 +2,10 @@
     html,body {background-color: white; }
 </style>
 <div style="color: black;">
-    <%=start_form_tag%>
+    <form action="/admin/login" method="post">
     <span><%=flash[:notice]%></span><br/>
     Admin password：<%=password_field("admin","password")%><%=submit_tag "Ok"%>
-    <%=end_form_tag%>
+    </form>
     <br/><br/>
 </div>
 <script>
