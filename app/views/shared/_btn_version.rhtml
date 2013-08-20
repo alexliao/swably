@@ -1,9 +1,0 @@
-<%pl=params.clone%>
-<%if session[:m] == '_m' -%>
-    <%pl[:version] = 'd'-%>
-    <%name = _('Desktop') -%>
-<%else -%>
-    <%pl[:version] = 'm'-%>
-    <%name = _('Mobile') -%>
-<%end -%>
-<%=link_to name, pl%>
