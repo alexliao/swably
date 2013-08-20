@@ -1,0 +1,22 @@
+<%@no_sidenav=true%>
+<div class="panel<%=session[:m]%>">
+    <h1><%=_('You are creating an account')%>
+        <%if session[:connect_info]%>
+            <%=_('connecting with ')%><img src='/images/<%=session[:connect_info][:provider_id]%>16.png' />
+            <%=session[:connect_info][:username]%>
+        <%end%>
+    </h1>
+<%= form_tag({:controller => "account", :action => 'signup', :follow => params[:follow]}, :onsubmit => "$('submit').disabled = true; return true;")%>
+    <%=render :partial => 'settings/account_form' %>
+    <div align="right">
+        <%=flash[:notice_account]%>&nbsp;&nbsp;<%=submit_tag _('Next'), :id => "submit", :class => 'btn2'%>
+    </div>
+<%= end_form_tag %>
+<%unless session[:connect_info]%>
+    <div class="footer">
+    <%=_('You can also sign in with ')%>
+    <%=render :partial => 'default/signin3party'%>
+    </div>
+<%end%>
+<br/>
+</div>

@@ -1,0 +1,13 @@
+<style>
+    html,body {background-color: white; }
+</style>
+<div style="color: black;">
+    <%=start_form_tag%>
+    <span><%=flash[:notice]%></span><br/>
+    Admin password：<%=password_field("admin","password")%><%=submit_tag "Ok"%>
+    <%=end_form_tag%>
+    <br/><br/>
+</div>
+<script>
+    selectAndFocus('admin_password');
+</script>
