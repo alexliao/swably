@@ -56,7 +56,7 @@ class User < ActiveRecord::Base
     ret[:row] = self[:row]
     if options[:with_key]
       ret[:key] = self.password 
-      ret[:invites_left] = 100 - self.invites_count
+      # ret[:invites_left] = 100 - self.invites_count
       ret[:activated] = self.activated
       ret[:need_invite_code] = false # control if the invite mechenism is enabled
     end
