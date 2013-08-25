@@ -133,7 +133,8 @@ private
   end
   
   def self.gen_sub_dir(picture_url)
-    (picture_url.hash.abs/1048576).to_s # value range is 0-1024 by Fixnum/2^20
+    # (picture_url.hash.abs/1048576).to_s # value range is 0-1024 by Fixnum/2^20
+    picture_url.hash.to_s[-3,3] # value range is 000-999
   end
   
   def self.thumbnail_name(picture_url, size)
