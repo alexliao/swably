@@ -30,6 +30,7 @@
     </a>
     <div style="position: relative; width: 720px; margin: 0 auto; padding-top: 45px; color: #b7b7b7;">
         <%if @comment%>
+            <%@page_title=@comment.content%>
             <%user = @comment.user%>
             <%#user.name="Anthony Bourdain"%>
             <%app = @comment.app%>

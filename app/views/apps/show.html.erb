@@ -32,6 +32,7 @@
         <%if @app%>
             <%app = @app%>
             <%app_name = app.local_name(params[:lr]||session[:code])%>
+            <%@page_title=app_name%>
             <div class="round_avatar_bg" style="position: relative; margin: 0 auto; z-index: 20;"><img src="/images/noname.png" class="round_avatar" /></div>
             <div class="rc10" style="background: #000; position: relative; top: -60px; ">
                 <div style="text-align: center; padding-top: 80px; border-bottom: solid 1px #939393;">

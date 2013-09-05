@@ -22,6 +22,7 @@
 </style>
     <div style="color: #b7b7b7; min-height: 100%; border-top: solid 1px transparent;">
         <%if @comment%>
+            <%@page_title=@comment.content%>
             <%user = @comment.user%>
             <%#user.name="Anthony Bourdain"%>
             <%app = @comment.app%>
