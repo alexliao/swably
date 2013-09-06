@@ -22,11 +22,12 @@
 </style>
     <div style="color: #b7b7b7; min-height: 100%; border-top: solid 1px transparent;">
         <%if @comment%>
-            <%@page_title=@comment.content%>
             <%user = @comment.user%>
             <%#user.name="Anthony Bourdain"%>
             <%app = @comment.app%>
             <%app_name = app.local_name(params[:lr]||session[:code])%>
+            <%@page_title="##{app_name} #{@comment.content}"%>
+            <%@page_author=user.display_name%>
                 <div style="text-align: center; margin-top: 20px; margin-bottom: 15px;">
                     <div style="color: #444; font-size:12px; margin-right: 15px;" class="rfloat"><%=time_ago_in_words @comment.created_at%></div>
                     <div class="round_avatar_bg" style="margin: 0 auto; margin-bottom: 12px;"><img src="<%=user.display_photo.square%>" class="round_avatar" /></div>

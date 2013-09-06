@@ -30,11 +30,12 @@
     </a>
     <div style="position: relative; width: 720px; margin: 0 auto; padding-top: 45px; color: #b7b7b7;">
         <%if @comment%>
-            <%@page_title=@comment.content%>
             <%user = @comment.user%>
             <%#user.name="Anthony Bourdain"%>
             <%app = @comment.app%>
             <%app_name = app.local_name(params[:lr]||session[:code])%>
+            <%@page_title="##{app_name} #{@comment.content}"%>
+            <%@page_author=user.display_name%>
             <div class="round_avatar_bg" style="position: relative; margin: 0 auto; z-index: 20;"><img src="<%=user.display_photo.square%>" class="round_avatar" /></div>
             <div class="rc10" style="background: #000; position: relative; top: -60px; ">
                 <div style="color: #888; font-size:18px; margin-top: 10px; margin-right: 15px;" class="rfloat"><%=time_ago_in_words @comment.created_at%></div>
