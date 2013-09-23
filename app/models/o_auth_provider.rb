@@ -129,7 +129,7 @@ class OAuthProvider
     end
     unless @access_token
       # The user might have rejected this application. Or there was some other error during the request.
-      err = _("Authorization failed")
+      err = "Authorization failed"
     end
     err
   end 
