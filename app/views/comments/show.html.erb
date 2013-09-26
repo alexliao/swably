@@ -34,9 +34,9 @@
             <%#user.name="Anthony Bourdain"%>
             <%app = @comment.app%>
             <%app_name = app.local_name(params[:lr]||session[:code])%>
-            <%@page_title="#{app_name}"%>
+            <%@page_title=app_name%>
             <%@page_author=user.display_name%>
-            <%@page_description="#{@comment.content}"%>
+            <%@page_description=@comment.content%>
             <div class="round_avatar_bg" style="position: relative; margin: 0 auto; z-index: 20;"><img src="<%=user.display_photo.square%>" class="round_avatar" /></div>
             <div class="rc10" style="background: #000; position: relative; top: -60px; ">
                 <div style="color: #888; font-size:18px; margin-top: 10px; margin-right: 15px;" class="rfloat"><%=time_ago_in_words @comment.created_at%></div>
