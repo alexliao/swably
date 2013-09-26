@@ -37,7 +37,7 @@
             <%@page_title=app_name%>
             <%@page_author=user.display_name%>
             <%@page_description=@comment.content%>
-            <%@page_image=@comment.image ? Photo.new(@comment.image).thumbnail : app.display_icon.thumbnail%>
+            <%@page_image=@comment.image ? Photo.new(@comment.image).original : app.display_icon.original%>
             <div class="round_avatar_bg" style="position: relative; margin: 0 auto; z-index: 20;"><img src="<%=user.display_photo.square%>" class="round_avatar" /></div>
             <div class="rc10" style="background: #000; position: relative; top: -60px; ">
                 <div style="color: #888; font-size:18px; margin-top: 10px; margin-right: 15px;" class="rfloat"><%=time_ago_in_words @comment.created_at%></div>
