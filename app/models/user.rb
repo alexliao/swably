@@ -50,6 +50,8 @@ class User < ActiveRecord::Base
     ret[:username] = self.username
     ret[:avatar_mask] = self.display_photo.mask
     ret[:avatar] = self.display_photo.big_square
+    ret[:banner_mask] = self.display_banner.mask
+    ret[:banner] = self.display_banner.medium
     ret[:screen_name] = self.get_screen_name
     ret[:signup_sns] = self.setting.signup_sns
     ret[:sns_user_id] = self.setting["user_id_#{self.setting.signup_sns}"]
@@ -167,6 +169,14 @@ class User < ActiveRecord::Base
     Photo.new(path)
   end
   
+  def display_banner
+    path = banner || ""
+    if path == ""
+      path = '/images/banner.png'
+    end
+    Photo.new(path)
+  end
+
   def display_id
     if id==0
       ret = ''

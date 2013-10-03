@@ -200,7 +200,7 @@ private
         when :small
           imglst.each {|img| img.change_geometry('240x240>') { |cols, rows| img.thumbnail! cols, rows }; ret = img; }
         when :medium
-          imglst.each {|img| img.change_geometry('500x500>') { |cols, rows| img.thumbnail! cols, rows }; ret = img; }
+          imglst.each {|img| img.change_geometry('720x720>') { |cols, rows| img.thumbnail! cols, rows }; ret = img; }
         when :large
           imglst.each {|img| img.change_geometry('1280x1280>') { |cols, rows| img.thumbnail! cols, rows }; ret = img; }
         else

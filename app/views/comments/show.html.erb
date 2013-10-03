@@ -62,10 +62,10 @@
                 <%=render(:partial =>  'shared/download_app', :locals => {:app => app}) %>
             </div>
         <%else%>
-            <%=_('No record or deleted')%>
+            <%=('No record or deleted')%>
         <%end%>
     </div>
-    <%if @comment.image%>
+    <%if @comment and @comment.image%>
     <div style="background: #000; margin-top: -40px;">
         <div style="padding: 20px; width: 680px; margin: 0 auto;">
             <img src="<%=Photo.new(@comment.image).large%>" width="100%"/>

@@ -32,6 +32,7 @@ class OAuthTwitter < OAuthProvider
     user_default[:web] = userinfo['url'][0,100] if userinfo['url']
     # should get big avatar by twitter api. e.g. http://api.twitter.com/1.1/users/profile_image?screen_name=twitterapi&size=bigger, size can be http://api.twitter.com/1.1/users/profile_image?screen_name=twitterapi&size=bigger(73*73) | normal(48*48) | mini(24*24) | original 
     user_default[:photo] = userinfo['profile_image_url'][0,500].sub("_normal.", ".") if userinfo['profile_image_url'] 
+    user_default[:banner] = userinfo['profile_banner_url'][0,500] + "/ipad_retina" if userinfo['profile_banner_url'] 
     user_default
   end
   
