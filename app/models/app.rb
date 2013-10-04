@@ -30,6 +30,7 @@ class App < ActiveRecord::Base
     ret[:version_code] = self.version_code
     ret[:size] = self.size
     ret[:icon] = self.display_icon.thumbnail
+    ret[:banner] = self.display_banner.medium
     ret[:apk] = self.apk
     ret[:enabled] = self.enabled
     ret[:updated_at] = self.updated_at.to_i
@@ -111,6 +112,11 @@ class App < ActiveRecord::Base
     if path == ""
       path = '/images/noimage.png'
     end
+    Photo.new(path)
+  end
+
+  def display_banner
+    path = '/images/banner.png'
     Photo.new(path)
   end
 
