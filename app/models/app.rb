@@ -1,7 +1,7 @@
 require 'net/http'
 require 'rexml/document'
 require 'cloudfiles'
-require 'rmagick'
+require 'RMagick.rb'
 
 class App < ActiveRecord::Base
   include CommonHelper
