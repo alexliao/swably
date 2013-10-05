@@ -1,6 +1,7 @@
 require 'net/http'
 require 'rexml/document'
 require 'cloudfiles'
+require 'rmagick'
 
 class App < ActiveRecord::Base
   include CommonHelper
@@ -118,6 +119,19 @@ class App < ActiveRecord::Base
   def display_banner
     path = '/images/banner.png'
     Photo.new(path)
+  end
+
+  # Composite icon on swably feature art to ensure the size of sharing image is large enough for Facebook and Google+ using.
+  def icon4share
+    icon_path = self.display_icon.original
+    icon4share_path = icon_path + "4share.jpg"
+    unless File.exist?('public'+icon4share_path)
+      back = Magick::Image.read('public/images/back4share.jpg').first
+      icon = Magick::Image.read('public'+icon_path).first
+      result = back.composite(icon, Magick::CenterGravity, Magick::OverCompositeOp)
+      result.write('public'+icon4share_path)
+    end
+    icon4share_path
   end
 
   def self.copy2cloud(options = {})
