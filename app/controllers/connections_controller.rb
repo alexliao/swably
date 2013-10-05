@@ -15,7 +15,7 @@ class ConnectionsController < ApplicationController
   
   def signin
     logout
-    url, session[:oauth_request] = OAuthProvider.get_instance(params[:id]).get_authorize_url("next=signin")
+    url = OAuthProvider.get_instance(params[:id]).get_authorize_url("next=signin")
     redirect_to url
   end
   
@@ -27,17 +27,17 @@ class ConnectionsController < ApplicationController
     redirect_to request.env["HTTP_REFERER"]
   end
   
-  def connect
-    url, session[:oauth_request] = OAuthProvider.get_instance(params[:id]).get_authorize_url("next=#{params[:next]}")
-puts "/connections/connect:"
-puts url
-    redirect_to url
-  end
+#   def connect
+#     url, session[:oauth_request] = OAuthProvider.get_instance(params[:id]).get_authorize_url("next=#{params[:next]}")
+# puts "/connections/connect:"
+# puts url
+#     redirect_to url
+#   end
   
-  def disconnect
-    @current_user.setting.update_attribute("oauth_#{params[:id]}", nil)
-    redirect_to request.env["HTTP_REFERER"]
-  end
+  # def disconnect
+  #   @current_user.setting.update_attribute("oauth_#{params[:id]}", nil)
+  #   redirect_to request.env["HTTP_REFERER"]
+  # end
   
 #  # accept for web site
 #  def accept
@@ -64,7 +64,7 @@ puts url
   def accept
     provider = OAuthProvider.get_instance(params[:id])
     if provider.authed(params)
-      err = provider.accept(params, session[:oauth_request])
+      err = provider.accept(params)
     else
       err = _("Not authorized")
     end

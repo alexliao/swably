@@ -59,7 +59,9 @@ class OAuthProvider
     request_token = consumer.get_request_token(options)
     url = request_token.authorize_url
     url += "&oauth_callback=#{callback}" unless url.match("&oauth_callback")
-    return url, {:token => request_token.token, :secret => request_token.secret}
+
+    # return url, {:token => request_token.token, :secret => request_token.secret}
+    return url
   end
 
   def authed(params)
@@ -118,10 +120,11 @@ class OAuthProvider
 #  end 
   
   # oauth 1.0 style implementation for App 
-  def accept(params, request)
+  def accept(params)
     consumer = get_consumer
     begin
-      request_token = OAuth::RequestToken.new(consumer,  request[:token], request[:secret])  
+      # request_token = OAuth::RequestToken.new(consumer,  request[:token], request[:secret])  
+      request_token = OAuth::RequestToken.new(consumer,  params[:oauth_token], nil)  
       options = get_options
       options[:oauth_verifier] = params[:oauth_verifier]
       @access_token = request_token.get_access_token(options)
