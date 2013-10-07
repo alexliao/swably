@@ -85,7 +85,7 @@ class UsersController < ApplicationController
     return unless validate_id_and_get_user
     limit = params[:count]
     @max_condition =  params[:max_id] ? "follow_id < #{params[:max_id]}" : "true"
-    @users = @user.followings.find :all, :conditions => "#{@max_condition}", :order => "follow_id desc", :limit => limit
+    @users = @user.followings.find :all, :select => "users.*, follows.follow_id", :conditions => "#{@max_condition}", :order => "follow_id desc", :limit => limit
     ret = {:user => @user.facade(@current_user), :users => @users.facade(@current_user)}
     api_response ret
   end
@@ -97,7 +97,7 @@ class UsersController < ApplicationController
     return unless validate_id_and_get_user
     limit = params[:count]
     @max_condition =  params[:max_id] ? "follow_id < #{params[:max_id]}" : "true"
-    @users = @user.followers.find :all, :conditions => "#{@max_condition}", :order => "follow_id desc", :limit => limit
+    @users = @user.followers.find :all, :select => "users.*, follows.follow_id", :conditions => "#{@max_condition}", :order => "follow_id desc", :limit => limit
     ret = {:user => @user.facade(@current_user), :users => @users.facade(@current_user)}
     api_response ret
   end
@@ -272,7 +272,7 @@ class UsersController < ApplicationController
     return unless validate_id_and_get_user
     limit = params[:count]
     @max_condition =  params[:max_id] ? "like_id < #{params[:max_id]}" : "true"
-    @apps = @user.liked_apps.find :all, :conditions => "#{@max_condition}", :order => "like_id desc", :limit => limit
+    @apps = @user.liked_apps.find :all, :select => "apps.*, likes.like_id", :conditions => "#{@max_condition}", :order => "like_id desc", :limit => limit
     api_response @apps.facade(@current_user), "apps"
   end
 
