@@ -1,4 +1,5 @@
 require 'RMagick.rb' # force to require RMagick.rb instead of RMagick.so to avoid an error Can't convert string to integer when call ImageList.new
+require 'zlib'
 
 class Photo 
   include ModelHelper
@@ -134,7 +135,8 @@ private
   
   def self.gen_sub_dir(picture_url)
     # (picture_url.hash.abs/1048576).to_s # value range is 0-1024 by Fixnum/2^20
-    picture_url.hash.to_s[-3,3] # value range is 000-999
+    # picture_url.hash.to_s[-3,3] # value range is 000-999 # the hash code changed amoung sessions
+    Zlib.crc32(picture_url).to_s[-3,3]
   end
   
   def self.thumbnail_name(picture_url, size)
