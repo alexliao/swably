@@ -86,11 +86,12 @@ class ApplicationController < ActionController::Base
   def log_action_duration
     return unless @begin_time
     #breakpoint()
+
     @access.update_attribute(:duration, Time.now - @begin_time) if @access
     access = Access.new
-    access.controller = request.path_parameters["controller"]
-    access.action = request.path_parameters["action"]
-    access.item_id = request.path_parameters["id"]
+    access.controller = request.path_parameters[:controller]
+    access.action = request.path_parameters[:action]
+    access.item_id = request.path_parameters[:id]
     access.method = request.method.to_s
     access.is_xhr = request.xhr?
     access.remote_ip = request.remote_ip
