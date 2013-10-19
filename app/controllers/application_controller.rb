@@ -12,10 +12,11 @@ class ApplicationController < ActionController::Base
   before_filter :set_lang
   before_filter :set_code
   before_filter :set_mobile
-  before_filter :login_from_basic_auth
-  before_filter :login_from_user_key
-  before_filter :login_from_cookie
-  before_filter :login_from_param
+  # before_filter :login_from_basic_auth
+  # before_filter :login_from_user_key
+  # before_filter :login_from_cookie
+  # before_filter :login_from_param
+  before_filter :login_by_user_id
   before_filter :set_current_user_for_template
   before_filter :set_lang
   before_filter :do_job
@@ -103,6 +104,15 @@ class ApplicationController < ActionController::Base
     access.created_at = Time.now
     access.duration = Time.now - @begin_time 
     access.save
+  end
+
+  def login_by_user_id
+    if params[:user_id]
+      user = User.find_by_id(params[:user_id])
+      if user and user.enabled
+        _sign_in(user)
+      end
+    end
   end
 
   def login_from_user_key
