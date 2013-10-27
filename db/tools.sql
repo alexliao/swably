@@ -1,0 +1,2 @@
+# twitter id
+SELECT concat("@",user_id_twitter) as TwitterId, u.name as username, date(u.updated_at) as last_active_on, u.id FROM nappstr.settings s join users u on u.id=s.user_id where user_id_twitter is not null order by last_active_on limit 1000 offset 0;
