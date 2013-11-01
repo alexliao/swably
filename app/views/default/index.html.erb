@@ -1,1 +1,5 @@
-<%=render(:partial =>  'default/index') %>
+<%if session[:lang] == 'en'%>
+	<%=render(:partial =>  'default/index') %>
+<%else%>
+	<%=render(:partial =>  'default/index_normal') %>
+<%end%>
