@@ -97,7 +97,7 @@ class ApplicationController < ActionController::Base
     access.is_xhr = request.xhr?
     access.remote_ip = request.remote_ip
     access.http_user_agent = request.env["HTTP_USER_AGENT"]
-    access.http_referer = request.env["HTTP_REFERER"]
+    access.http_referer = params[:referer] || request.env["HTTP_REFERER"]
     access.query_string = request.env["QUERY_STRING"]
     access.user_id = @current_user.id == 0 ? nil : @current_user.id
     access.imei = params[:imei]
