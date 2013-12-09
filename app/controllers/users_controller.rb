@@ -306,7 +306,8 @@ class UsersController < ApplicationController
     limit = params[:count]
     @max_condition =  params[:max_id] ? "comments.id < #{params[:max_id]}" : "true"
     @comments = @user.comments.find :all, :include => [:app, :user], :conditions => "#{@max_condition} and users.enabled=1", :order => "comments.id desc", :limit => limit
-    ret = {:user => @user.facade(@current_user), :reviews => @comments.facade(@current_user, :lang => session[:lang])}
+    @uploaded_apps = @user.uploaded_apps.find :all, :order => "share_id desc", :limit => 3
+    ret = {:user => @user.facade(@current_user), :reviews => @comments.facade(@current_user, :lang => session[:lang]), :uploaded_apps => @uploaded_apps.facade(@current_user, :lang => session[:lang], :names_only => true)}
     api_response ret
   end
 

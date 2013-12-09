@@ -13,6 +13,7 @@ class App < ActiveRecord::Base
   has_many :likes
   has_and_belongs_to_many :liked_by_users, :class_name => "User", :foreign_key => "app_id", :association_foreign_key => "user_id", :join_table => "likes"
   belongs_to :dev, :class_name => 'User', :foreign_key => 'dev_id'
+  has_and_belongs_to_many :uploaders, :class_name => "User", :join_table => "shares"
 
   # constant for move apk to cloud storage
   # CACHE_SIZE = 4000 

@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   has_many :likes
   has_many :digs
   has_and_belongs_to_many :liked_apps, :class_name => "App", :foreign_key => "user_id", :association_foreign_key => "app_id", :join_table => "likes"
-  has_and_belongs_to_many :shared_apps, :class_name => "App", :foreign_key => "user_id", :association_foreign_key => "app_id", :join_table => "shares"
+  has_and_belongs_to_many :uploaded_apps, :class_name => "App", :join_table => "shares"
 #  has_and_belongs_to_many :claimed_signature_apps, :class_name => "App", :finder_sql => 'SELECT apps.* FROM apps INNER JOIN user_signs ON apps.signature = user_signs.signature WHERE (user_signs.user_id = #{id})'
   has_many :claimed_apps, :class_name => "App", :foreign_key => "dev_id"
   has_one :setting_record, :class_name => "Setting"
