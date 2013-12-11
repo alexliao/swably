@@ -50,6 +50,7 @@ class User < ActiveRecord::Base
     ret[:username] = self.username
     ret[:avatar_mask] = self.display_photo.mask
     ret[:avatar] = self.display_photo.big_square
+    self.display_photo.square # ensure gen square size thumbnail
     ret[:banner_mask] = self.display_banner.mask
     ret[:banner] = self.display_banner.medium
     ret[:screen_name] = self.get_screen_name
