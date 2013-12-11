@@ -162,8 +162,7 @@ class AppsController < ApplicationController
     limit = params[:count]
     @max_condition =  params[:max_id] ? "id < #{params[:max_id]}" : "true"
     @comments = @app.comments.find :all, :conditions => "#{@max_condition}", :order => "id desc", :limit => limit
-    @uploaders = @app.uploaders.find :all, :order => "share_id desc", :limit => 3
-    ret = {:app => @app.facade(@current_user, :lang => session[:lang]), :reviews => @comments.facade(@current_user, :lang => session[:lang]), :uploaders => @uploaders.facade(@current_user, :lang => session[:lang], :names_only => true)}
+    ret = {:app => @app.facade(@current_user, :lang => session[:lang]), :reviews => @comments.facade(@current_user, :lang => session[:lang])}
     api_response ret
   end
 

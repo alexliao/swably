@@ -83,6 +83,9 @@ class User < ActiveRecord::Base
       
       ret[:like_id] = self[:like_id] if self[:like_id]
       ret[:dig_id] = self[:dig_id] if self[:dig_id]
+      @recent_uploaded = self.uploaded_apps.find :all, :order => "share_id desc", :limit => 3
+      ret[:recent_uploaded] = @recent_uploaded.facade(current_user, :lang => options[:lang], :names_only => true)
+      ret[:uploaded_count] = self.uploaded_apps.count
     end
     ret
   end

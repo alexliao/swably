@@ -51,6 +51,9 @@ class App < ActiveRecord::Base
         ret[:is_liked] = current_user.is_liking(self.id) ? true : false if current_user
         ret[:like_id] = self[:like_id] if self[:like_id]
         ret[:dev] = self.dev.facade(nil, options.merge(:names_only => true)) if self[:dev_id] && self.dev
+        @recent_uploaders = self.uploaders.find :all, :order => "share_id desc", :limit => 3
+        ret[:recent_uploaders] = @recent_uploaders.facade(current_user, :lang => options[:lang], :names_only => true)
+        ret[:uploaders_count] = self.uploaders.count
       end
     end
     ret
