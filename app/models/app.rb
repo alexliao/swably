@@ -8,7 +8,7 @@ class App < ActiveRecord::Base
   include ModelHelper
   include FileHelper
   has_many :locales, :class_name => "AppLocale"
-  #has_and_belongs_to_many :users, :class_name => "User", :foreign_key => "app_id", :association_foreign_key => "user_id", :join_table => "shares"
+  has_and_belongs_to_many :uploaders, :class_name => "User", :foreign_key => "app_id", :association_foreign_key => "user_id", :join_table => "shares"
   has_many :comments
   has_many :likes
   has_and_belongs_to_many :liked_by_users, :class_name => "User", :foreign_key => "app_id", :association_foreign_key => "user_id", :join_table => "likes"
@@ -54,7 +54,9 @@ class App < ActiveRecord::Base
         @recent_uploaders = self.uploaders.find :all, :order => "share_id desc", :limit => 3
         ret[:recent_uploaders] = @recent_uploaders.facade(current_user, :lang => options[:lang], :names_only => true)
         ret[:uploaders_count] = self.uploaders.count
-      end
+        ret[:upload_id] = self[:share_id] if self[:share_id]
+        ret[:uploaded_at] = self[:uploaded_at].to_i if self[:uploaded_at]
+     end
     end
     ret
   end

@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   has_many :likes
   has_many :digs
   has_and_belongs_to_many :liked_apps, :class_name => "App", :foreign_key => "user_id", :association_foreign_key => "app_id", :join_table => "likes"
-  has_and_belongs_to_many :uploaded_apps, :class_name => "App", :join_table => "shares"
+  has_and_belongs_to_many :uploadees, :class_name => "App", :join_table => "shares"
 #  has_and_belongs_to_many :claimed_signature_apps, :class_name => "App", :finder_sql => 'SELECT apps.* FROM apps INNER JOIN user_signs ON apps.signature = user_signs.signature WHERE (user_signs.user_id = #{id})'
   has_many :claimed_apps, :class_name => "App", :foreign_key => "dev_id"
   has_one :setting_record, :class_name => "Setting"
@@ -80,12 +80,13 @@ class User < ActiveRecord::Base
        # if self is followed by current_user
       ret[:is_followed] = current_user.is_friend(self.id) ? true : false if current_user
       ret[:follow_id] = self[:follow_id] if self[:follow_id]
-      
       ret[:like_id] = self[:like_id] if self[:like_id]
       ret[:dig_id] = self[:dig_id] if self[:dig_id]
-      @recent_uploaded = self.uploaded_apps.find :all, :order => "share_id desc", :limit => 3
-      ret[:recent_uploaded] = @recent_uploaded.facade(current_user, :lang => options[:lang], :names_only => true)
-      ret[:uploaded_count] = self.uploaded_apps.count
+      @recent_uploadees = self.uploadees.find :all, :order => "share_id desc", :limit => 3
+      ret[:recent_uploadees] = @recent_uploadees.facade(current_user, :lang => options[:lang], :names_only => true)
+      ret[:uploadees_count] = self.uploadees.count
+      ret[:upload_id] = self[:share_id] if self[:share_id]
+      ret[:uploaded_at] = self[:uploaded_at].to_i if self[:uploaded_at]
     end
     ret
   end

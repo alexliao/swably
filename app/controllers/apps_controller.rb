@@ -144,13 +144,13 @@ class AppsController < ApplicationController
   end
 
   #api
-  def all_users
+  def uploaders
     return unless validate_format
     return unless validate_count
     return unless validate_id_and_get_app
     limit = params[:count]
     @max_condition =  params[:max_id] ? "share_id < #{params[:max_id]}" : "true"
-    @users = @app.users.find :all, :conditions => "#{@max_condition}", :order => "share_id desc", :limit => limit
+    @users = @app.uploaders.find :all, :select => "users.*, shares.share_id, shares.updated_at as uploaded_at", :conditions => "#{@max_condition}", :order => "share_id desc", :limit => limit
     api_response @users.facade, "users"
   end
 
