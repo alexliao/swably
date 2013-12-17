@@ -1,5 +1,7 @@
 ---
 changes: 
+  - code: 1570
+    note: 展示上传者
   - code: 1540
     note: 全新的分享功能，为微信优化
   - code: 1503

@@ -1,5 +1,7 @@
 ---
 changes: 
+  - code: 1570
+    note: Show uploaders of an App
   - code: 1540
     note: Brand new sharing feature
   - code: 1503
