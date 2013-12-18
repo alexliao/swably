@@ -9,12 +9,13 @@ class Share < ActiveRecord::Base
     ret[:created_at] = self.updated_at.to_i
     ret[:app] = self.app.facade
     ret[:user] = self.user.facade(nil, :names_only => true)
+    ret[:version_name] = self.version_name
     ret
   end
 
   def self.add(user, app)
-    Share.delete_all("user_id = #{user.id} and app_id = #{app.id}")
-    record = Share.new(:user_id => user.id, :app_id => app.id)
+    # Share.delete_all("user_id = #{user.id} and app_id = #{app.id}")
+    record = Share.new(:user_id => user.id, :app_id => app.id, :version_name => app.version_name)
     record.save
     user.shares_count(true)
     record
