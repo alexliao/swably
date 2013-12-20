@@ -123,7 +123,7 @@ class App < ActiveRecord::Base
   end
 
   def display_banner
-    path = '/images/banner.png'
+    path = '/images/banner1.png'
     Photo.new(path)
   end
 

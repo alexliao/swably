@@ -177,7 +177,7 @@ class User < ActiveRecord::Base
   def display_banner
     path = banner || ""
     if path == ""
-      path = '/images/banner.png'
+      path = '/images/banner1.png'
     end
     Photo.new(path)
   end
