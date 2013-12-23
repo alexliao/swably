@@ -15,66 +15,77 @@ class UsersController < ApplicationController
     end
   end
   
-  #api
+#   #api
+#   def show
+#     if params[:format]
+#       return unless validate_format
+#       return unless validate_count
+#       return unless validate_id_and_get_user
+#       @limit = params[:count]
+#     else
+#       @user = User.find(:first, :conditions => ["username=?", params[:username]]) if params[:username]
+#       @user = User.find(:first, :conditions => ["id=?", params[:id]]) if params[:id]
+#       @limit = mobile ? 10 : 20
+#     end
+#     #stream_id = params[:stream_id] || params[:user_id]
+#     #if stream_id
+#     #  @user = User.find(:first, :conditions => ["id=?", stream_id])
+#     #else
+#     #  @user = User.find(:first, :conditions => ["username=?", params[:id]])
+#     #end
+#     if @user
+#       #@upload_pages = Paginator.new self, @user.uploads.count, limit, params[:page]
+#       #@uploads = @user.uploads.find(:all, :include => [:user], :conditions => "#{@before_date} and #{@max_condition}", :order => "uploads.#{@order_by} desc", :limit => @limit)
+# #      if params[:max_id]
+# #        @uploads = @user.uploads.find(:all, :include => [:user], :conditions => "#{before_date} and uploads.id < #{params[:max_id]}", :order => "uploads.#{order_by} desc", :limit => limit)
+# #      else
+# #        @uploads = @user.uploads.find(:all, :include => [:user], :conditions => "#{before_date}", :order => "uploads.#{order_by} desc", :limit => @upload_pages.items_per_page, :offset => @upload_pages.current.offset)
+# #      end
+#       if @user.visible_to(@current_user)
+#         if params[:order_by] == "shot_at" or params[:date]
+#           gen_stream_conditions("uploads")
+#           @uploads = @user.uploads.find(:all, :include => [:user], :conditions => "#{@before_date} and #{@max_condition}", :order => "uploads.#{@order_by} desc", :limit => @limit)
+#           @days = Upload.find_by_sql("select count(*) as count, date(shot_at) as shot_at from uploads where user_id = #{@user.id} and shot_at is not null group by date(shot_at) order by shot_at desc limit 100")
+#           @page_name = @user.username
+#         else
+#           gen_stream_conditions
+#           #@uploads = @user.updates.find(:all, :include => [:user], :conditions => "#{@before_date} and #{@max_condition}", :order => "#{@order_by} desc", :limit => @limit)
+#           @uploads = @user.uploads.find(:all, :include => [:user], :conditions => "#{@before_date} and #{@max_condition}", :order => "#{@order_by} desc", :limit => @limit)
+#           @rss_enabled = true
+#           @rss_url = "/users/rss/#{@user.id}"
+#         end
+#       end
+#       if request.xhr?
+#         render :partial => '/shared/updates', :locals => {:updates => @uploads, :init_script => false}
+#       end
+#       if params[:format]
+#         code = @user.visible_to(@current_user) ? 200 : 403
+#         if params[:user_info]
+#           ret = Hash.new
+#           ret[:user] = @user.facade(@current_user)
+#           if @user.visible_to(@current_user)
+#             ret[:updates] = @uploads.facade(@current_user)
+#           end
+#           api_response ret.facade, nil, code
+#         else
+#           if @user.visible_to(@current_user)
+#             api_response @uploads.facade(@current_user), "update", code
+#           else
+#             api_error "The user is not visible", code
+#           end
+#         end
+#       end
+#     end
+#   end
+
+  # GET /users/1
+  # GET /users/1.json
   def show
-    if params[:format]
-      return unless validate_format
-      return unless validate_count
-      return unless validate_id_and_get_user
-      @limit = params[:count]
-    else
-      @user = User.find(:first, :conditions => ["username=?", params[:username]]) if params[:username]
-      @user = User.find(:first, :conditions => ["id=?", params[:id]]) if params[:id]
-      @limit = mobile ? 10 : 20
-    end
-    #stream_id = params[:stream_id] || params[:user_id]
-    #if stream_id
-    #  @user = User.find(:first, :conditions => ["id=?", stream_id])
-    #else
-    #  @user = User.find(:first, :conditions => ["username=?", params[:id]])
-    #end
-    if @user
-      #@upload_pages = Paginator.new self, @user.uploads.count, limit, params[:page]
-      #@uploads = @user.uploads.find(:all, :include => [:user], :conditions => "#{@before_date} and #{@max_condition}", :order => "uploads.#{@order_by} desc", :limit => @limit)
-#      if params[:max_id]
-#        @uploads = @user.uploads.find(:all, :include => [:user], :conditions => "#{before_date} and uploads.id < #{params[:max_id]}", :order => "uploads.#{order_by} desc", :limit => limit)
-#      else
-#        @uploads = @user.uploads.find(:all, :include => [:user], :conditions => "#{before_date}", :order => "uploads.#{order_by} desc", :limit => @upload_pages.items_per_page, :offset => @upload_pages.current.offset)
-#      end
-      if @user.visible_to(@current_user)
-        if params[:order_by] == "shot_at" or params[:date]
-          gen_stream_conditions("uploads")
-          @uploads = @user.uploads.find(:all, :include => [:user], :conditions => "#{@before_date} and #{@max_condition}", :order => "uploads.#{@order_by} desc", :limit => @limit)
-          @days = Upload.find_by_sql("select count(*) as count, date(shot_at) as shot_at from uploads where user_id = #{@user.id} and shot_at is not null group by date(shot_at) order by shot_at desc limit 100")
-          @page_name = @user.username
-        else
-          gen_stream_conditions
-          #@uploads = @user.updates.find(:all, :include => [:user], :conditions => "#{@before_date} and #{@max_condition}", :order => "#{@order_by} desc", :limit => @limit)
-          @uploads = @user.uploads.find(:all, :include => [:user], :conditions => "#{@before_date} and #{@max_condition}", :order => "#{@order_by} desc", :limit => @limit)
-          @rss_enabled = true
-          @rss_url = "/users/rss/#{@user.id}"
-        end
-      end
-      if request.xhr?
-        render :partial => '/shared/updates', :locals => {:updates => @uploads, :init_script => false}
-      end
-      if params[:format]
-        code = @user.visible_to(@current_user) ? 200 : 403
-        if params[:user_info]
-          ret = Hash.new
-          ret[:user] = @user.facade(@current_user)
-          if @user.visible_to(@current_user)
-            ret[:updates] = @uploads.facade(@current_user)
-          end
-          api_response ret.facade, nil, code
-        else
-          if @user.visible_to(@current_user)
-            api_response @uploads.facade(@current_user), "update", code
-          else
-            api_error "The user is not visible", code
-          end
-        end
-      end
+    @user = User.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @user.facade}
     end
   end
 
@@ -346,6 +357,21 @@ class UsersController < ApplicationController
       msg = e.to_s
       msg = msg.split(": SELECT ")[0]
       api_error msg , 400
+    end
+  end
+
+  # PUT /users/1
+  # PUT /users/1.json
+  def update
+    @user = User.find(params[:id])
+    respond_to do |format|
+      if @user.update_attributes(params[:user])
+        format.html { redirect_to @user, notice: 'user was successfully updated.' }
+        format.json { render json: @user.facade }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
     end
   end
 

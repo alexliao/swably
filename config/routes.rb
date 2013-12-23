@@ -52,6 +52,7 @@ Swably::Application.routes.draw do
   match 'reports/list' => 'reports#index'
 
   resources :reports
+  resources :users
 
   root :to => 'default#index'
   match 'a/:id' => 'apps#show', :id => /\d+/
