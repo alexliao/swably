@@ -43,7 +43,7 @@ class OAuthQq < OAuth2Provider
 
   def get_user(access_token_str)
     ses = https(@api_site)
-    resp = ses.get("#{@api_userinfo}&access_token=#{get_api_access_token(access_token_str)}&openid=#{get_api_openid(access_token_str)}&oauth_consumer_key=#{@key}&oauth_version=2.a&scope=all&clientip=#{request.remote_ip}")
+    resp = ses.get("#{@api_userinfo}&#{common_params(access_token_str)}")
     if resp.class == Net::HTTPOK
       @userinfo = JSON.parse(resp.body)
       parse_user_id(@userinfo)
@@ -158,6 +158,10 @@ puts userinfo
 
   
 protected
+  def common_params(access_token_str)
+    "access_token=#{get_api_access_token(access_token_str)}&openid=#{get_api_openid(access_token_str)}&oauth_consumer_key=#{@key}&oauth_version=2.a&scope=all&clientip=#{request.remote_ip}"
+  end
+
   def get_api_access_token(access_token_str)
     access_token_str.split(" ")[0]
   end
