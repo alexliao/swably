@@ -1,9 +1,7 @@
 # encoding: utf-8 
 require 'net/http/post/multipart'
 require 'multipart_post_helper.rb'
-require 'rack'
-
-class OAuthQq < OAuth2Provider
+class OAuthQq < OAuthProvider
   NAME = "腾讯微博"
   
   def initialize
@@ -12,9 +10,7 @@ class OAuthQq < OAuth2Provider
     @key = "801464315"
     @secret = "e363436936097529e95f9e7ac251ae11"
     @params = {:site => "https://open.t.qq.com", :scheme => :query_string, :http_method => :get, :request_token_path => "/cgi-bin/request_token", :access_token_path => "/cgi-bin/access_token", :authorize_path=> "/cgi-bin/authorize"}
-    @api_site = 'https://open.t.qq.com'
-    @path_authorize = "/cgi-bin/oauth2/authorize"
-    @path_access_token = "/cgi-bin/oauth2/access_token"
+    @api_site = 'http://open.t.qq.com'
     @api_userinfo = '/api/user/info?format=json'
   end
 
@@ -24,38 +20,7 @@ class OAuthQq < OAuth2Provider
 #    {:nonce => nonce}
 #  end
 
-  # Tencent return format is not json 
-  def accept(params)
-    callback=ERB::Util.url_encode(get_callback("next=#{params[:next]}"))
-    ses = https(@api_site)
-    resp = ses.post(@path_access_token,"client_id=#{@key}&client_secret=#{@secret}&redirect_uri=#{callback}&code=#{params[:code]}&grant_type=authorization_code")
-    if resp.class == Net::HTTPOK
-      params = Rack::Utils.parse_nested_query resp.body
-      # Tencent api require openid included in url params, so save it into access_token_str in database
-      @access_token_str = "#{params['access_token']} #{params['openid']}" # default is online access_token which will expires in 3 months
-#      err = get_user(@access_token_str)
-    else
-      # The user might have rejected this application. Or there was some other error during the request.
-      err = resp.body
-    end
-    err
-  end 
-
-  def get_user(access_token_str)
-    ses = https(@api_site)
-    resp = ses.get("#{@api_userinfo}&access_token=#{get_api_access_token(access_token_str)}&openid=#{get_api_openid(access_token_str)}&oauth_consumer_key=#{@key}&oauth_version=2.a&scope=all&clientip=#{request.remote_ip}")
-    if resp.class == Net::HTTPOK
-      @userinfo = JSON.parse(resp.body)
-      parse_user_id(@userinfo)
-    else
-      err = resp.body
-    end
-    err
-  end
-
-
   def parse_user_id(userinfo)
-puts "------------------"
 puts userinfo
     @user_id = userinfo['data']['name']
     @username = userinfo['data']['name']
@@ -151,19 +116,5 @@ puts userinfo
     end
     ret
   end
-
-  def follow_official(user)
-    # follow_on_sns user, "Swably"
-  end
-
   
-protected
-  def get_api_access_token(access_token_str)
-    access_token_str.split(" ")[0]
-  end
-
-  def get_api_openid(access_token_str)
-    access_token_str.split(" ")[1]
-  end
-
 end

@@ -71,6 +71,7 @@ class ConnectionsController < ApplicationController
     if err
       @err = err
     else
+# logger.error("------------")
       @access_token = provider.access_token_str
     end
     render :layout => false
@@ -80,6 +81,7 @@ class ConnectionsController < ApplicationController
   # for oauth in client app, such as facebook android SSO
   def accept_access_token
     provider = OAuthProvider.get_instance(params[:id])
+    provider.request = request
     err = provider.get_user(params[:access_token])
     unless err
       connect_info = {:provider_id => params[:id], :access_token_str => params[:access_token], :user_id => provider.user_id, :username => provider.username}

@@ -12,6 +12,7 @@ class OAuthProvider
   FRIENDS_LIMIT = 200
   attr_reader :user_id
   attr_reader :username
+  attr_accessor :request
   
   def initialize
     @options = {}
@@ -79,7 +80,11 @@ class OAuthProvider
   
   #virtual def parse_userinfo(resp)
 
-  def access_token_str
+  def access_token_str(logger = nil)
+
+# logger.error(@access_token.to_s)
+# logger.error(@access_token.token)
+
     @access_token.token+" "+@access_token.secret
   end
   def get_access_token_by(str)

@@ -13,10 +13,10 @@ class OAuth2Provider < OAuthProvider
   def get_authorize_url(parameters = nil)
     callback=ERB::Util.url_encode(get_callback(parameters))
     url = "#{@api_site}#{@path_authorize}?client_id=#{@key}&response_type=code&redirect_uri=#{callback}"
-    return url, nil
+    return url
   end
 
-  def accept(params, request)
+  def accept(params)
     callback=ERB::Util.url_encode(get_callback("next=#{params[:next]}"))
     ses = https(@api_site)
     resp = ses.post(@path_access_token,"client_id=#{@key}&client_secret=#{@secret}&redirect_uri=#{callback}&code=#{params[:code]}&grant_type=authorization_code")
