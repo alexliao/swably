@@ -7,8 +7,8 @@ class OAuthQq < OAuthProvider
   def initialize
     super
     @provider_id = "qq"
-    @key = "a1113d3075384b94bde30cdfa68fd093"
-    @secret = "a29cfb18b4136085b0b0973a719c6e86"
+    @key = "801461555"
+    @secret = "6de71ecd0a73eda6b6fc5202421f37da"
     @params = {:site => "https://open.t.qq.com", :scheme => :query_string, :http_method => :get, :request_token_path => "/cgi-bin/request_token", :access_token_path => "/cgi-bin/access_token", :authorize_path=> "/cgi-bin/authorize"}
     @api_site = 'http://open.t.qq.com'
     @api_userinfo = '/api/user/info?format=json'
@@ -37,7 +37,7 @@ puts userinfo
     user_default[:name] = nil if user_default[:name] == user_default[:username]
     user_default[:bio] = userinfo['data']['introduction'][0,160] if userinfo['data'] and userinfo['data']['introduction']
     user_default[:location] = userinfo['data']['location'][0,160] if userinfo['data'] and userinfo['data']['location']
-    user_default[:photo] = userinfo['data']['head']+"/100" if userinfo['data'] and !userinfo['data']['head'].blank? 
+    user_default[:photo] = userinfo['data']['head']+"/180" if userinfo['data'] and !userinfo['data']['head'].blank? 
     user_default
   end
 
