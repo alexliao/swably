@@ -9,8 +9,8 @@ class OAuthQq < OAuth2Provider
   def initialize
     super
     @provider_id = "qq"
-    @key = "801464315"
-    @secret = "e363436936097529e95f9e7ac251ae11"
+    @key = "801461555"
+    @secret = "6de71ecd0a73eda6b6fc5202421f37da"
     @params = {:site => "https://open.t.qq.com", :scheme => :query_string, :http_method => :get, :request_token_path => "/cgi-bin/request_token", :access_token_path => "/cgi-bin/access_token", :authorize_path=> "/cgi-bin/authorize"}
     @api_site = 'https://open.t.qq.com'
     @path_authorize = "/cgi-bin/oauth2/authorize"
