@@ -76,17 +76,42 @@ puts userinfo
     user_default
   end
 
+  def get_status_id(json)
+    json["data"]["id"]    
+  end
+
 # sync without picture, it works.
   def sync(upload_url, iu, setting)
-    caption = iu.caption
-    caption = "发布了新相片" if caption.blank?
-    status = caption + " " + upload_url
-    parameters = {:format => 'json', :content => status, :clientip => iu.client_ip, :wei => iu.latitude, :jing => iu.longitude}
-    @params = {:site => @api_site, :scheme => :query_string, :http_method => :post}
-    access_token = OAuth::AccessToken.new(get_consumer, setting.get_token(@provider_id), setting.get_secret(@provider_id))
-    resp = access_token.post("/api/t/add", parameters, {})
+    status = ERB::Util.url_encode("##{iu.app.local_name('zh')}# #{iu.content} #{upload_url}")
+    data = "content=#{status}&#{common_params(setting.oauth_qq)}"
+    resp = https(@api_site).post("/api/t/add", data)
     resp
   end
+
+  def delete(status_id, setting)
+    return unless status_id
+    data = "id=#{status_id}&#{common_params(setting.oauth_qq)}"
+    resp = https(@api_site).post("/api/t/del", data)
+    resp
+  end
+
+#   def sync(upload_url, iu, setting)
+#     #post status
+#     status = ERB::Util.url_encode("##{iu.app.local_name('zh')}# #{iu.content} #{upload_url}")
+# #    data = "access_token=#{setting.oauth_sina}&status=#{status}"
+# #    resp = https(@api_site).post("/2/statuses/update.json", data)
+# #    resp
+#     #post status and upload photo    
+#     image = iu.image || iu.app.icon
+#     file = File.new("public#{image}", "rb")
+#     url = URI.parse('https://upload.api.weibo.com/2/statuses/upload.json')
+#     data = {"status" => status, "access_token" => setting.oauth_sina}
+#     req = Net::HTTP::Post::Multipart.new url.request_uri, {
+#       "pic" => UploadIO.new(file, "image/jpeg", file.path)
+#     }.merge(data)
+#     resp = https("https://upload.api.weibo.com").request(req) 
+#     resp    
+#   end
 
   
 #  def sync(upload_url, iu, setting)
@@ -159,7 +184,8 @@ puts userinfo
   
 protected
   def common_params(access_token_str)
-    "access_token=#{get_api_access_token(access_token_str)}&openid=#{get_api_openid(access_token_str)}&oauth_consumer_key=#{@key}&oauth_version=2.a&scope=all&clientip=#{request.remote_ip}"
+    clientip = request.nil? ? nil : request.remote_ip
+    "access_token=#{get_api_access_token(access_token_str)}&openid=#{get_api_openid(access_token_str)}&oauth_consumer_key=#{@key}&oauth_version=2.a&scope=all&format=json&clientip=#{clientip}"
   end
 
   def get_api_access_token(access_token_str)
