@@ -80,11 +80,26 @@ puts userinfo
     json["data"]["id"]    
   end
 
-# sync without picture, it works.
+  # # sync without picture, works.
+  # def sync(upload_url, iu, setting)
+  #   status = ERB::Util.url_encode("##{iu.app.local_name('zh')}# #{iu.content} #{upload_url}")
+  #   data = "content=#{status}&#{common_params(setting.oauth_qq)}"
+  #   resp = https(@api_site).post("/api/t/add", data)
+  #   resp
+  # end
+
+  # sync with picture, works.
   def sync(upload_url, iu, setting)
-    status = ERB::Util.url_encode("##{iu.app.local_name('zh')}# #{iu.content} #{upload_url}")
-    data = "content=#{status}&#{common_params(setting.oauth_qq)}"
-    resp = https(@api_site).post("/api/t/add", data)
+    status = "##{iu.app.local_name('zh')}# #{iu.content} #{upload_url}"
+    data = Rack::Utils.parse_nested_query common_params(setting.oauth_qq)
+    data["content"] = status
+    image = iu.image || iu.app.icon
+    file = File.new("public#{image}", "rb")
+    url = URI.parse("#{@api_site}/api/t/add_pic")
+    req = Net::HTTP::Post::Multipart.new url.request_uri, {
+      "pic" => UploadIO.new(file, "image/jpeg", file.path)
+    }.merge(data)
+    resp = https(@api_site).request(req) 
     resp
   end
 
