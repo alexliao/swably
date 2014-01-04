@@ -26,7 +26,7 @@ class Comment < ActiveRecord::Base
     ret[:dig_id] = self[:dig_id] if self[:dig_id]
     if self[:image]
       ret[:image] = Photo.new(self[:image]).large
-      ret[:thumbnail] = Photo.new(self[:image]).thumbnail
+      ret[:thumbnail] = Photo.new(self[:image]).tweet
     end
     ret
   end

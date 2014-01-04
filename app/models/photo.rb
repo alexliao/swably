@@ -44,6 +44,9 @@ class Photo
   def large
     Photo.thumbnail(path, :large)
   end
+  def tweet
+    Photo.thumbnail(path, :tweet)
+  end
   def original
     path
   end
@@ -205,6 +208,9 @@ private
           imglst.each {|img| img.change_geometry('720x720>') { |cols, rows| img.thumbnail! cols, rows }; ret = img; }
         when :large
           imglst.each {|img| img.change_geometry('1280x1280>') { |cols, rows| img.thumbnail! cols, rows }; ret = img; }
+        when :tweet
+          # make width 768 and height 384
+          imglst.each {|img| img.change_geometry('768') { |cols, rows| img.thumbnail!(cols, rows).crop!(CenterGravity, 768, 384, true) }; ret = img; }
         else
           imglst.each {|img| img.change_geometry("#{size}x#{size}>") { |cols, rows| img.thumbnail! cols, rows }; ret = img; }
       end
