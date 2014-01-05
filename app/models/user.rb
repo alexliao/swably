@@ -88,6 +88,7 @@ class User < ActiveRecord::Base
       ret[:uploadees_count] = self.uploadees.count
       ret[:upload_id] = self[:share_id] if self[:share_id]
       ret[:uploaded_at] = self[:uploaded_at].to_i if self[:uploaded_at]
+      ret[:version_name] = self[:version_name] if self[:version_name]
     end
     ret
   end
