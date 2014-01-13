@@ -97,7 +97,7 @@ class ApplicationController < ActionController::Base
     access.is_xhr = request.xhr?
     access.remote_ip = request.remote_ip
     access.http_user_agent = request.env["HTTP_USER_AGENT"]
-    access.http_referer = params[:r] || params[:referer] || request.env["HTTP_REFERER"]
+    access.http_referer = gen_simple_referer(params)
     access.query_string = request.env["QUERY_STRING"]
     access.user_id = @current_user.id == 0 ? nil : @current_user.id
     access.imei = params[:imei]
@@ -110,6 +110,7 @@ class ApplicationController < ActionController::Base
     ret = params[:r] || params[:referer] || request.env["HTTP_REFERER"]
     ret = "sync_sina" if ret.match('weibo\.') and controller='comments' and action='show'
     ret = "sync_tencent" if ret.match('t\.qq\.com') and controller='comments' and action='show'
+    ret 
   end
 
   def login_by_user_id
