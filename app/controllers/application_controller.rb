@@ -108,8 +108,8 @@ class ApplicationController < ActionController::Base
 
   def gen_simple_referer(params)
     ret = params[:r] || params[:referer] || request.env["HTTP_REFERER"]
-    ret = "sync_sina" if ret.match('weibo\.')
-    ret = "sync_tencent" if ret.match('t\.qq\.com')
+    ret = "sync_sina" if ret.match('weibo\.') and controller='comments' and action='show'
+    ret = "sync_tencent" if ret.match('t\.qq\.com') and controller='comments' and action='show'
   end
 
   def login_by_user_id
