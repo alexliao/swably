@@ -106,6 +106,12 @@ class ApplicationController < ActionController::Base
     access.save
   end
 
+  def gen_simple_referer(params)
+    ret = params[:r] || params[:referer] || request.env["HTTP_REFERER"]
+    ret = "sync_sina" if ret.match('weibo\.')
+    ret = "sync_tencent" if ret.match('t\.qq\.com')
+  end
+
   def login_by_user_id
     if params[:user_id]
       user = User.find_by_id(params[:user_id])
