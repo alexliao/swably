@@ -15,6 +15,11 @@ class CommentsController < ApplicationController
   def create
     return unless validate_format
     return unless validate_signin
+    if params[:app_id].nil? or params[:app_id] == 0
+      api_error "you need to specify app_id.", 400
+      return
+    end
+    
     @comment = Comment.new()
     @comment.app_id = params[:app_id]
     @comment.content = truncate_ex(params[:content],120)
