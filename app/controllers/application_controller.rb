@@ -111,6 +111,7 @@ class ApplicationController < ActionController::Base
     if ret
       ret = "sync_sina" if ret.match('weibo\.') and controller='comments' and action='show'
       ret = "sync_tencent" if ret.match('t\.qq\.com') and controller='comments' and action='show'
+      ret = "sync_twitter" if ret.match('t\.co') and controller='comments' and action='show'
     end
     ret 
   end

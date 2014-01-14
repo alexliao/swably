@@ -1,5 +1,7 @@
 ---
 changes: 
+  - code: 1580
+    note: Add in-stream screenshots and upload history
   - code: 1570
     note: Show uploaders of an App
   - code: 1540
