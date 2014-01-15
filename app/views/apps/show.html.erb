@@ -1,21 +1,12 @@
 <style type="text/css">
     img {vertical-align: top;}
     .round_avatar{
-        -moz-border-radius: 48px;
-        -khtml-border-radius: 48px;
-        -webkit-border-radius: 48px;
-        border-radius: 48px;
         width: 96px;
     }
     .round_avatar_bg{
-        -moz-border-radius: 58px;
-        -khtml-border-radius: 58px;
-        -webkit-border-radius: 58px;
-        border-radius: 58px;
         width: 96px;
         height: 96px;
         padding: 10px;
-        background: #b7b7b7;
     }
 
 </style>
@@ -36,23 +27,14 @@
             <%@page_author=""%>
             <%@page_description=""%>
             <%@page_image=app.icon4share%>
-           <div class="round_avatar_bg" style="position: relative; margin: 0 auto; z-index: 20;"><img src="/images/noname.png" class="round_avatar" /></div>
+           <div class="round_avatar_bg" style="position: relative; margin: 0 auto; z-index: 20;"><img src="<%=app.display_icon.thumbnail%>" class="round_avatar"/></div>
             <div class="rc10" style="background: #000; position: relative; top: -60px; ">
-                <div style="text-align: center; padding-top: 80px; border-bottom: solid 1px #939393;">
-                    <div style="font-size: 36px;"><b><%=t :x_posts, count: app.reviews_count %></b></div>
-                    <br/><br/><br/>
+                <div style="text-align: center; padding-top: 80px;">
+                    <div style="font-size: 36px;"><b><%=app_name%></b></div>
+                    <br/>
                 </div>
                 <div style="padding:30px; border-bottom: solid 1px #939393;">
-                    <div >
-                        <img src="<%=app.display_icon.thumbnail%>" class="icon" style="width: 96px; height: 96px;" />
-                        <div>
-                            <span style="font-size:36px; line-height: 120%;"><b><%=app_name%></b></span><br/>
-                            <span style="font-size:18px; line-height: 150%; display: none; ">
-                                <%#=_('Size')%> <%#="%.2fMB"%(app[:size]/1024.0/1024.0)%>
-                            </span>
-                        </div>
-                        <div style="clear:both" ></div>
-                    </div>
+                            <span style="font-size:36px; line-height: 120%;"><b><%=app.description%></b></span><br/>
                 </div>        
                 <%=render(:partial =>  'shared/download_app', :locals => {:app => app}) %>
             </div>
