@@ -8,3 +8,4 @@ en:
   x_posts: 
     one: "1 Post"
     other: "%{count} Posts"
+  download_disabled: "Sorry, downloading is disabled by the developer of the app"

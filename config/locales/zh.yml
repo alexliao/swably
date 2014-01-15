@@ -3,6 +3,8 @@ zh:
   slogon: "上传，下载，评论应用"
   lets_swap_apps: "让我们交换应用吧！"  
   x_posts: "%{count}条评论"
+  download_disabled: "抱歉，这个应用的开发者禁止了下载"
+  
 
   date:
     abbr_day_names:

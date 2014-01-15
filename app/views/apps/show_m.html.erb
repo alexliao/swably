@@ -27,35 +27,22 @@
             <%@page_title=app_name%>
             <%@page_author=""%>
                 <div style="text-align: center; margin-top: 20px; ">
-                    <div class="round_avatar_bg" style="margin: 0 auto; margin-bottom: 12px;"><img src="/images/noname.png" class="round_avatar" /></div>
-                    <div style="font-size: 18px; border-bottom: solid 1px #939393;">
-                        <b><%=t :x_posts, count: app.reviews_count %></b>
-                        <br/><br/>
+                    <div style="margin: 0 auto; margin-bottom: 12px;"><img src="<%=app.display_icon.thumbnail%>" style="width: 48px; height: 48px;" /></div>
+                    <div style="font-size: 18px;">
+                        <b><%=app_name%></b>
                     </div>
                 </div>
                 <div style="padding:30px; border-bottom: solid 1px #939393;">
-                    <div >
-                        <img src="<%=app.display_icon.thumbnail%>" class="icon" />
-                        <div>
-                            <span style="font-size:18px; line-height: 120%;"><b><%=app_name%></b></span><br/>
-                            <span style="font-size:12px; line-height: 150%; display: none; ">
-                                <%#=_('Size')%> <%#="%.2fMB"%(app[:size]/1024.0/1024.0)%>
-                            </span>
-                        </div>
-                        <div style="clear:both" ></div>
-                    </div>
+                    <span style="font-size:24px; line-height: 120%;"><b><%=app.description%></b></span>
                 </div>        
                 <%=render(:partial =>  'shared/download_app', :locals => {:app => app}) %>
         <%else%>
             <%=_('No record or deleted')%>
         <%end%>
-        <div style="width: 100%; height: 50px; border-top: solid 1px #939393;"></div>
+        <div style="width: 100%; height: 50px; "></div>
     </div>
-    <a href="/" >
-        <div class="btn" style="width: 100%; background: #000; margin-top: -50px;">
-            <div style="padding: 10px;" >
-                <img src="/images/small_logo.png" height="30px" style="vertical-align: middle;" />
-                <span style="color: #fff; font-size: 18px;">&nbsp;&nbsp;<%=t :lets_swap_apps%></span>
-            </div>
-        </div>
-    </a>
+    
+    <div style="width: 100%; margin-top: -70px;" align="right">
+        <a href="/"><img src="/images/corner.png" height="70px"/></a>
+    </div>
+
