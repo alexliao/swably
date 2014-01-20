@@ -7,7 +7,7 @@ class AccountController < ApplicationController
   def dns
     return unless validate_format
     if session[:lang] == 'zh'
-      ret = {:main => "198.23.74.114", :upload => "198.23.74.114"}
+      ret = {:main => "117.121.10.138", :upload => "117.121.10.138"}
     else
      ret = {:main => "192.155.195.138", :upload => "192.155.195.138"}
     end
