@@ -23,7 +23,7 @@ class ConnectionsController < ApplicationController
     @current_user.set_option_sync(params[:id], params[:option_sync] ? 1 : 0)
     @current_user.set_option_auto_follow(params[:id], params[:option_auto_follow] ? 1 : 0)
     @current_user.save_options
-    flash["notice_#{params[:id]}"] = gen_notice(_("Saved"), true);
+    flash["notice_#{params[:id]}"] = gen_notice("Saved", true);
     redirect_to request.env["HTTP_REFERER"]
   end
   
@@ -66,7 +66,7 @@ class ConnectionsController < ApplicationController
     if provider.authed(params)
       err = provider.accept(params)
     else
-      err = _("Not authorized")
+      err = "Not authorized"
     end
     if err
       @err = err
