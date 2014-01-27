@@ -9,3 +9,4 @@ en:
     one: "1 Post"
     other: "%{count} Posts"
   download_disabled: "Sorry, downloading is disabled by the developer of the app"
+  download_swably: "Download Swably"

@@ -1,9 +1,6 @@
-            <%if session[:lang]=='zh'%>
-            <a href="http://play.google.com/store/apps/details?id=goofy2.swably.zh">
-              <img alt="下载Swably" src="/images/get_swably_en_m.png" height="30px"/>
-            </a>
-            <%else%>
-            <a href="http://play.google.com/store/apps/details?id=goofy2.swably">
-              <img alt="Get Swably on Google Play" src="/images/get_swably_en_m.png" height="30px" />
-            </a>
-            <%end%>
+<a href="/account/upgrade" >
+	<div style="">
+  		<img src="/images/download.png" height="35px" style="vertical-align: bottom;" />
+  		<span style="font-size: 22px; line-height: 100%;">&nbsp;<%=t(:download_swably)%></span>
+		</div>
+</a>
