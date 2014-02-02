@@ -49,8 +49,8 @@ class FeedsController < ApplicationController
     ret[:count] = ret[:reviews_count] + ret[:follows_count]
     ret[:review_names] = review_names
     ret[:follow_names] = follow_names
-    ret[:recent_review] = recent_review.facade
-    ret[:recent_follower] = recent_follower.facade
+    ret[:recent_review] = recent_review.facade if recent_review
+    ret[:recent_follower] = recent_follower.facade if recent_follower
     api_response ret.facade
   end
 #-------------------------------------------------------------------------  
