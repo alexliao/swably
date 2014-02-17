@@ -34,6 +34,7 @@ class CommentsController < ApplicationController
       @comment.save
       posted = @comment
       @comment.update_parent
+      @comment.clear_below_ids_for_above
       @comment.notify_followers
       @current_user.sync(@comment, params[:sync_sns])
     end
@@ -131,8 +132,37 @@ class CommentsController < ApplicationController
     render :template => "comments/show#{session[:m]}"
   end
 
+  #api
+  def above
+    return unless validate_format
+    return unless validate_count
+    limit = params[:count]
+    @comment = Comment.find(:first, :conditions => ["id=?", params[:id]])
+    if @comment.above_ids.size > 0
+      @reviews = Comment.find :all, :conditions => "id in (#{@comment.above_ids})", :order => "id", :limit => limit
+    else
+      @reviews = []
+    end
+    api_response @reviews.facade(@current_user, :lang => session[:lang]), "reviews"
+  end
+
+  #api
+  def below
+    return unless validate_format
+    return unless validate_count
+    limit = params[:count]
+    @comment = Comment.find(:first, :conditions => ["id=?", params[:id]])
+    if @comment.below_ids.size > 0
+      @reviews = Comment.find :all, :conditions => "id in (#{@comment.below_ids})", :order => "id", :limit => limit
+    else
+      @reviews = []
+    end
+    api_response @reviews.facade(@current_user, :lang => session[:lang]), "reviews"
+  end
+
   #------------------------------------------------------------------------
   private
+  
   def save_image(image)
 #    save_name = ((Time.now-Time.gm(2011))*1000).to_i.to_s
 #    postfix = get_suffix(upload_field.original_filename)

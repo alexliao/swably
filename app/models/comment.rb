@@ -75,4 +75,49 @@ class Comment < ActiveRecord::Base
     ret
   end
 
+  def above_ids(refresh = false)
+    ret = refresh ? nil : read_attribute("above_ids")
+    unless ret
+      ret = gen_above_id_array(self.id).join(",")
+      self.update_attribute(:above_ids, ret)
+    end
+    ret
+  end
+
+  def below_ids(refresh = false)
+    ret = refresh ? nil : read_attribute("below_ids")
+    unless ret
+      ret = gen_below_id_array(self.id).join(",")
+      self.update_attribute(:below_ids, ret)
+    end
+    ret
+  end
+
+  def clear_below_ids_for_above
+    return if self.above_ids == ""
+    Comment.connection.execute "update comments set below_ids = null where id in (#{self.above_ids})"
+  end
+
+
+  def gen_above_id_array(id)
+    ret = []
+    record = Comment.find :first, :select => "in_reply_to_id", :conditions => "id=#{id}"
+    if record and record.in_reply_to_id
+      ret << record.in_reply_to_id
+      ret += gen_above_id_array(record.in_reply_to_id)
+    end
+    ret
+  end
+
+  def gen_below_id_array(id)
+    ret = []
+    direct_below_ids = Comment.find :all, :select => "id", :conditions => "in_reply_to_id = #{id}"
+    direct_below_ids.each do |record|
+      ret << record.id
+      ret += gen_below_id_array(record.id)
+    end
+    ret
+  end
+
+
 end
