@@ -139,7 +139,8 @@ class CommentsController < ApplicationController
     limit = params[:count]
     @comment = Comment.find(:first, :conditions => ["id=?", params[:id]])
     if @comment.above_ids.size > 0
-      @reviews = Comment.find :all, :conditions => "id in (#{@comment.above_ids})", :order => "id", :limit => limit
+      @reviews = Comment.find :all, :conditions => "id in (#{@comment.above_ids})", :order => "id desc", :limit => limit
+      @reviews.reverse!
     else
       @reviews = []
     end
@@ -158,6 +159,30 @@ class CommentsController < ApplicationController
       @reviews = []
     end
     api_response @reviews.facade(@current_user, :lang => session[:lang]), "reviews"
+  end
+
+  #api
+  def thread
+    return unless validate_format
+    return unless validate_count
+    limit = params[:count]
+    @comment = Comment.find(:first, :conditions => ["id=?", params[:id]])
+    
+    if @comment.above_ids.size > 0
+      @above_reviews = Comment.find :all, :conditions => "id in (#{@comment.above_ids})", :order => "id desc", :limit => limit
+      @above_reviews.reverse!
+    else
+      @above_reviews = []
+    end
+
+    if @comment.below_ids.size > 0
+      @below_reviews = Comment.find :all, :conditions => "id in (#{@comment.below_ids})", :order => "id", :limit => limit
+    else
+      @below_reviews = []
+    end
+
+    @thread = @above_reviews + [@comment] + @below_reviews
+    api_response @thread.facade(@current_user, :lang => session[:lang]), "reviews"
   end
 
   #------------------------------------------------------------------------
