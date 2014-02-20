@@ -127,6 +127,16 @@ class CommentsController < ApplicationController
     api_response @comments.facade(@current_user, :lang => session[:lang]), "reviews"
   end
 
+  #api
+  def shares
+    return unless validate_format
+    return unless validate_count
+    limit = params[:count]
+    @max_condition =  params[:max_id] ? "comments.id < #{params[:max_id]}" : "true"
+    @comments = Comment.find :all, :include => [:app, :user], :conditions => "app_id > 0 and in_reply_to_id is null and #{@max_condition} and users.enabled=1", :order => "comments.id desc", :limit => limit
+    api_response @comments.facade(@current_user, :lang => session[:lang]), "reviews"
+  end
+
   def show
     @comment = Comment.find(:first, :conditions => ["id=?", params[:id]])
     render :template => "comments/show#{session[:m]}"
