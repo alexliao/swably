@@ -105,13 +105,13 @@ class Comment < ActiveRecord::Base
 
   def clear_below_ids_for_above
     return if self.above_ids == ""
-    Comment.connection.execute "update comments set below_ids = null where id in (#{self.above_ids})"
+    Comment.connection.execute "update comments set below_ids = null, below_json = null where id in (#{self.above_ids})"
   end
 
-  def clear_below_json_for_above
-    return if self.above_ids == ""
-    Comment.connection.execute "update comments set below_json = null where id in (#{self.above_ids})"
-  end
+  # def clear_below_json_for_above
+  #   return if self.above_ids == ""
+  #   Comment.connection.execute "update comments set below_json = null where id in (#{self.above_ids})"
+  # end
 
   def gen_above_id_array(id)
     ret = []
@@ -141,8 +141,8 @@ class Comment < ActiveRecord::Base
     below_array.reverse!
     ret = {app_icons: [], replies_count: below_array.size}
     (1..([below_array.size, 3].min)).each do |n|
-      app = App.find_by_id below_array[n-1]
-      ret[:app_icons] << app.display_icon.thumbnail
+      comment = Comment.find_by_id below_array[n-1]
+      ret[:app_icons] << comment.app.display_icon.thumbnail
     end
     ret.to_json
   end
