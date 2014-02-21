@@ -28,6 +28,7 @@ class Comment < ActiveRecord::Base
       ret[:image] = Photo.new(self[:image]).large
       ret[:thumbnail] = Photo.new(self[:image]).tweet
     end
+    ret[:below_json] = self.below_json
     ret
   end
   
@@ -93,11 +94,24 @@ class Comment < ActiveRecord::Base
     ret
   end
 
+  def below_json(refresh = false)
+    ret = refresh ? nil : read_attribute("below_json")
+    unless ret
+      ret = gen_below_json
+      self.update_attribute(:below_json, ret)
+    end
+    ret
+  end
+
   def clear_below_ids_for_above
     return if self.above_ids == ""
     Comment.connection.execute "update comments set below_ids = null where id in (#{self.above_ids})"
   end
 
+  def clear_below_json_for_above
+    return if self.above_ids == ""
+    Comment.connection.execute "update comments set below_json = null where id in (#{self.above_ids})"
+  end
 
   def gen_above_id_array(id)
     ret = []
@@ -119,5 +133,18 @@ class Comment < ActiveRecord::Base
     ret
   end
 
+  # generate json for reply thumbnails in post stream
+  def gen_below_json
+    return "" if self.below_ids.nil? or self.below_ids == ""
+    below_array = below_ids.split(",").collect {|id| id.to_i}
+    below_array.sort!
+    below_array.reverse!
+    ret = {app_icons: [], replies_count: below_array.size}
+    (1..([below_array.size, 3].min)).each do |n|
+      app = App.find_by_id below_array[n-1]
+      ret[:app_icons] << app.display_icon.thumbnail
+    end
+    ret.to_json
+  end
 
 end
