@@ -108,6 +108,11 @@ class Comment < ActiveRecord::Base
     Comment.connection.execute "update comments set below_ids = null, below_json = null where id in (#{self.above_ids})"
   end
 
+  def clear_above_ids_for_below
+    return if self.below_ids == ""
+    Comment.connection.execute "update comments set above_ids = null where id in (#{self.below_ids})"
+  end
+
   # def clear_below_json_for_above
   #   return if self.above_ids == ""
   #   Comment.connection.execute "update comments set below_json = null where id in (#{self.above_ids})"

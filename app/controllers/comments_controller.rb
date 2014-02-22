@@ -53,6 +53,8 @@ class CommentsController < ApplicationController
     if @comment
       @comment.destroy
       @comment.update_parent
+      @comment.clear_below_ids_for_above
+      @comment.clear_above_ids_for_below
       if @comment.sns_id
         provider = OAuthProvider.get_instance(@comment.sns_id)
 	    logger.info("#{Time.now.short_time} start delete #{@comment.sns_id} for review #{@comment.sns_status_id}")
