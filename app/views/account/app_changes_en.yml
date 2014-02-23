@@ -1,5 +1,7 @@
 ---
 changes: 
+  - code: 1600
+    note: Add thread and navigation
   - code: 1582
     note: Can send app request
   - code: 1580

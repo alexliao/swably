@@ -1,5 +1,7 @@
 ---
 changes: 
+  - code: 1600
+    note: 增加上下文和新导航
   - code: 1582
     note: 增加提问功能
   - code: 1580
