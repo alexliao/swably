@@ -6,6 +6,8 @@ class Comment < ActiveRecord::Base
   belongs_to :in_reply_to, :class_name => 'Comment', :foreign_key => 'in_reply_to_id'
   has_many :digs
   has_and_belongs_to_many :digged_by_users, :class_name => "User", :foreign_key => "comment_id", :association_foreign_key => "user_id", :join_table => "digs"
+  has_and_belongs_to_many :watchers, :class_name => "User", :join_table => "watches"
+  has_many :watches
   
   def facade(current_user = nil, options = {})
     ret = {}
@@ -29,6 +31,7 @@ class Comment < ActiveRecord::Base
       ret[:thumbnail] = Photo.new(self[:image]).tweet
     end
     ret[:below_json] = self.below_json
+    ret[:watches_count] = self.watches_count
     ret
   end
   
@@ -72,6 +75,15 @@ class Comment < ActiveRecord::Base
     unless ret
       ret = self.digs(:refresh).count
       self.update_attribute(:digs_count, ret)
+    end
+    ret
+  end
+
+   def watches_count(refresh = false)
+    ret = refresh ? nil : read_attribute("watches_count")
+    unless ret
+      ret = self.watches(:refresh).count
+      self.update_attribute(:watches_count, ret)
     end
     ret
   end

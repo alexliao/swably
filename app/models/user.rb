@@ -22,6 +22,8 @@ class User < ActiveRecord::Base
   has_many :invites, :foreign_key => "invitor_id"
   has_and_belongs_to_many :invitees, :select => "distinct users.* ", :class_name => "User", :foreign_key => "invitor_id", :association_foreign_key => "invitee_id", :join_table => "invites"
   has_and_belongs_to_many :invitors, :select => "distinct users.* ", :class_name => "User", :foreign_key => "invitee_id", :association_foreign_key => "invitor_id", :join_table => "invites"
+  has_and_belongs_to_many :watching_comments, :class_name => "Comment", :join_table => "watches"
+  has_many :watches
   
   attr_accessor :plain_password 
   attr_accessor :new_created
@@ -419,6 +421,15 @@ class User < ActiveRecord::Base
     unless ret
       ret = self.digs(:refresh).count
       self.update_attribute(:digs_count, ret)
+    end
+    ret
+  end
+
+   def watches_count(refresh = false)
+    ret = refresh ? nil : read_attribute("watches_count")
+    unless ret
+      ret = self.watches(:refresh).count
+      self.update_attribute(:watches_count, ret)
     end
     ret
   end
