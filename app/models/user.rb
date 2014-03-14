@@ -31,10 +31,10 @@ class User < ActiveRecord::Base
   
   attr_accessor :anonymous
 
-  validates_presence_of(:username, :message => _("Username is required!") )  
-  validates_length_of(:username, :maximum => 20, :message => _("Username is too long (maximum is 20 characters)") )
+  # validates_presence_of(:username, :message => _("Username is required!") )  
+  # validates_length_of(:username, :maximum => 20, :message => _("Username is too long (maximum is 20 characters)") )
 #  validates_format_of(:username, :with => /^[a-zA-Z0-9_]*$/, :message=> _("only use letters, numbers and '_' for username") )
-  validates_uniqueness_of(:username, :message => _("The username have been used, please choose another one.") )  
+  # validates_uniqueness_of(:username, :message => _("The username have been used, please choose another one.") )  
 #  #validates_presence_of(:plain_password, :message => _("忘记输入密码了?") )  
 #  #validates_confirmation_of(:plain_password, :message => _("两次输入的密码不一样!") )  
 #  validates_length_of(:email, :maximum => 100, :message => _("Email is too long (maximum is 100 characters)") )
