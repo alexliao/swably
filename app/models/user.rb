@@ -648,6 +648,16 @@ puts "sync exception: " + e.to_s
 #  end
 #--------- end of options -----------------
 
+  # refresh info from social network in data loast case
+  def refresh_userinfo_sina
+    return unless self.setting.oauth_sina
+    system("curl http://zh.swably.com/connections/accept_access_token/sina.json?access_token=#{self.setting.oauth_sina}")
+  end
+  def refresh_userinfo_qq
+    return unless self.setting.oauth_qq
+    system("curl http://zh.swably.com/connections/accept_access_token/qq.json?access_token=#{ERB::Util.url_encode(self.setting.oauth_qq)}")
+  end
+
   
   #--------------------------------------------------------------------------------------------------------------
 private

@@ -201,4 +201,27 @@ class App < ActiveRecord::Base
 #  def self.local_path2cloud_name(path)
 #    path.gsub "/", "_"
 #  end
+
+  # recover review from app cache in data lost case.
+  def save_review
+    return unless self.review
+    begin
+      r = JSON.parse self.review
+      c = Comment.new
+      c.id = r['id']
+      c.content = r['content']
+      c.user_id = r['user']['id']
+      c.app_id = r['app']['id']
+      c.created_at = Time.at r['created_at']
+      c.model = r['model']
+      c.sdk = r['sdk']
+      c.image = r['image']
+      c.image_size = r['image_size']
+      c.sns_status_id = r['sns_status_id']
+      c.sns_id = r['sns_id'] 
+      c.in_reply_to_id = r['in_reply_to_id']
+      c.save
+    rescue
+    end
+  end
 end
