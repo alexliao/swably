@@ -32,6 +32,11 @@ class Comment < ActiveRecord::Base
     end
     ret[:below_json] = self.below_json
     ret[:watches_count] = self.watches_count
+
+    if options[:with_watchers]
+      ret[:recent_watchers] = self.watchers.find(:all, order: "created_at desc", limit: 3).facade(current_user, options.merge(:names_only => true))
+    end
+
     ret
   end
   

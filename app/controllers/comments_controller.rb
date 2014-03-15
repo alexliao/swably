@@ -35,6 +35,7 @@ class CommentsController < ApplicationController
       posted = @comment
       @comment.update_parent
       @comment.clear_below_ids_for_above
+      Watch.add(@current_user, @comment)
       @comment.notify_followers
       @current_user.sync(@comment, params[:sync_sns])
     end
@@ -193,8 +194,10 @@ class CommentsController < ApplicationController
       @below_reviews = []
     end
 
-    @thread = @above_reviews + [@comment] + @below_reviews
-    api_response @thread.facade(@current_user, :lang => session[:lang]), "reviews"
+    @thread = @above_reviews.facade(@current_user, lang: session[:lang]) \
+      + [@comment].facade(@current_user, lang: session[:lang], with_watchers: true) \
+      + @below_reviews.facade(@current_user, lang: session[:lang])
+    api_response @thread, "reviews"
   end
 
   #------------------------------------------------------------------------
