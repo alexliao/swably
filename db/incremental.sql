@@ -53,4 +53,23 @@ DROP INDEX `oauth_sina` ,
 DROP INDEX `oauth_facebook` ,
 DROP INDEX `oauth_twitter` ;
 
+CREATE TABLE `nappstr`.`metions` (
+  `metion_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `friend_id` int(10) unsigned NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`metion_id`),
+  UNIQUE KEY `unique` (`user_id`,`friend_id`),
+  KEY `Index_2` (`user_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nappstr`.`notifications` (
+  `notification_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `comment_id` int(10) unsigned NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`notification_id`),
+  KEY `Index_2` (`user_id`),
+  KEY `Index_4` (`created_at`) USING BTREE
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 

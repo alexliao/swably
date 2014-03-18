@@ -375,12 +375,49 @@ class UsersController < ApplicationController
     end
   end
 
+  #api
+  def mentioned_friends
+    if params[:format]
+      return unless validate_format
+      return unless validate_id_and_get_user
+      limit = params[:count]
+    end
+    limit ||= 10
+
+    gen_friends_for_mention(@user) if @user.mentioned_friends.count == 0
+    # mentioned_friends = @user.mentioned_friends.find :all, order: "mention_id desc", limit: limit
+    mentioned_friends = @user.mentioned_friends.find :all, \
+      select: "users.*, if(w.user_id is null, false, true) as is_watching", \
+      joins: "left join watches w on w.user_id=users.id and w.comment_id=#{params[:review_id]}", \
+      order: "mention_id desc", limit: limit
+    
+    review = Comment.find_by_id params[:review_id]
+    review_watchers = review.watchers.find :all, select: "users.*, true as is_watching", order: "watch_id desc", limit: limit*2
+    # review_watchers = review.watchers.find :all, \
+    #   select: "users.*, true as is_watching", \
+    #   joins: "left join mentions m on m.friend_id=watches.user_id and m.user_id=#{@user.id}", \
+    #   order: "watches.watch_id desc", limit: limit
+    @users = mentioned_friends | review_watchers
+    # @users = mentioned_friends 
+    ret = {:user => @user.facade(@current_user), :users => @users.facade(@current_user, :names_only => true)}
+    api_response ret
+  end
+
+
   #----------------------------------------------------------------------
 protected
   def map_field(str)
     #str.gsub!("users.nodes_count", "users.followings_count")
   end
   
+  def gen_friends_for_mention(user)
+    # followings = user.followings.find :order => "follow_id desc", :limit => 5
+    recent_talkers = Comment.find_by_sql("select distinct user_id from comments order by id desc limit 5")
+    recent_talkers.reverse.each do |r|
+      friend = User.find_by_id r["user_id"]
+      Mention.add(user, friend)
+    end
+  end
   #----------------------------------------------------------------------
 private
   

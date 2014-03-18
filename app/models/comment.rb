@@ -34,7 +34,7 @@ class Comment < ActiveRecord::Base
     ret[:watches_count] = self.watches_count
 
     if options[:with_watchers]
-      ret[:recent_watchers] = self.watchers.find(:all, order: "created_at desc", limit: 3).facade(current_user, options.merge(:names_only => true))
+      ret[:recent_watchers] = self.watchers.find(:all, order: "watch_id desc", limit: 3).facade(current_user, options.merge(:names_only => true))
     end
 
     ret
@@ -168,6 +168,15 @@ class Comment < ActiveRecord::Base
       ret[:app_icons] << icon.thumbnail
     end
     ret.to_json
+  end
+
+  def notify_watchers
+    return if self.above_ids == ""
+    users = User.find_by_sql("select u.* from users u join watches w on u.id=w.user_id where w.comment_id in (#{self.above_ids})")
+    users.each do |user|
+      Notification.add(user, self)
+      expire_notify(user.id) unless user.id == self.user_id
+    end
   end
 
 end

@@ -24,6 +24,9 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :invitors, :select => "distinct users.* ", :class_name => "User", :foreign_key => "invitee_id", :association_foreign_key => "invitor_id", :join_table => "invites"
   has_and_belongs_to_many :watching_comments, :class_name => "Comment", :join_table => "watches"
   has_many :watches
+  has_and_belongs_to_many :mentioned_friends, :class_name => "User", :foreign_key => "user_id", :association_foreign_key => "friend_id", :join_table => "mentions"
+  has_many :notifications
+  has_and_belongs_to_many :notified_comments, :class_name => "Comment", :join_table => "notifications"
   
   attr_accessor :plain_password 
   attr_accessor :new_created
@@ -59,6 +62,7 @@ class User < ActiveRecord::Base
     ret[:signup_sns] = self.setting.signup_sns
     ret[:sns_user_id] = self.setting["user_id_#{self.setting.signup_sns}"]
     ret[:row] = self[:row]
+    ret[:is_watching] = self[:is_watching] == 1 ? true : false
     if options[:with_key]
       ret[:key] = self.password 
       # ret[:invites_left] = 100 - self.invites_count

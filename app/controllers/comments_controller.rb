@@ -37,6 +37,7 @@ class CommentsController < ApplicationController
       @comment.clear_below_ids_for_above
       Watch.add(@current_user, @comment)
       @comment.notify_followers
+      @comment.notify_watchers
       @current_user.sync(@comment, params[:sync_sns])
     end
     api_response posted.facade(nil, :lang => session[:lang]), "comment"
@@ -94,7 +95,8 @@ class CommentsController < ApplicationController
     @following = Comment.find :all, :include => [:app, :user], :joins => "join follows f on f.following_id = comments.user_id", :conditions => "f.user_id = #{@current_user.id} and #{@max_condition}", :order => "comments.id desc", :limit => limit
     @me = @current_user.comments.find :all, :include => [:app], :conditions => "#{@max_condition}", :order => "comments.id desc", :limit => limit
     @reply_me = Comment.find :all, :include => [:app, :user], :joins => "join comments c on c.id = comments.in_reply_to_id", :conditions => "c.user_id = #{@current_user.id} and #{@max_condition}", :order => "comments.id desc", :limit => limit
-    @comments = @following | @me | @reply_me
+    @watching = @current_user.notified_comments.find :all, :include => [:app], :conditions => "#{@max_condition}", :order => "notifications.notification_id desc", :limit => limit
+    @comments = @following | @me | @reply_me | @watching
     @comments.sort! { |a,b| b.id <=> a.id }
     api_response (@comments.uniq)[0,limit].facade(nil, :lang => session[:lang]), "reviews"
   end
