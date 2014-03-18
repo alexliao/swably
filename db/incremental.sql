@@ -53,12 +53,12 @@ DROP INDEX `oauth_sina` ,
 DROP INDEX `oauth_facebook` ,
 DROP INDEX `oauth_twitter` ;
 
-CREATE TABLE `nappstr`.`metions` (
-  `metion_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `nappstr`.`mentions` (
+  `mention_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
   `friend_id` int(10) unsigned NOT NULL,
   `created_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`metion_id`),
+  PRIMARY KEY (`mention_id`),
   UNIQUE KEY `unique` (`user_id`,`friend_id`),
   KEY `Index_2` (`user_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
