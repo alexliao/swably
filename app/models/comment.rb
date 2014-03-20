@@ -164,8 +164,8 @@ class Comment < ActiveRecord::Base
     ret = {app_icons: [], replies_count: below_array.size}
     (1..([below_array.size, 3].min)).each do |n|
       comment = Comment.find_by_id below_array[n-1]
-      icon = comment.app.nil? ? Photo.new('/images/noimage.png') : comment.app.display_icon
-      ret[:app_icons] << icon.thumbnail
+      icon = comment.app.nil? ? nil : comment.app.display_icon.thumbnail
+      ret[:app_icons] << icon
     end
     ret.to_json
   end
