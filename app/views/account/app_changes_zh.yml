@@ -1,5 +1,7 @@
 ---
 changes: 
+  - code: 1630
+    note: 增加提醒功能
   - code: 1600
     note: 增加上下文和新导航
   - code: 1582
