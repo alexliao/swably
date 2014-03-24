@@ -4,25 +4,23 @@
 <style type="text/css">
     html, body { position: absolute; width: 100%; height: 100%; min-height: 430px; }
     #content, #body {height: 100%;}
-    img {vertical-align: top;}
+    img {vertical-align: middle;}
 </style>
 <div style="position: absolute; width: 100%; height: 100%; min-height: 768px; ">
-    <div style="position: relative; width: 888px; height: 695px; margin: 20px auto; " >
-        <img src="/images/icon.png" alt="swably_app_sharing_app_logo" id="swably" name="upload_download_comment" style="position: absolute; ">
-        <div style="position: absolute; right: 20px;">
-            <%=t :follow_us_on%>&nbsp;&nbsp;
-            <a href="http://twitter.com/swablyofficial" title="Swably App Sharing" target="_blank"><img src="/images/twitter.png" alt="swably_apk_tiwtter" name="swably_twitter_sharing" id="swably_sharing_apps_on_twitter" /></a>&nbsp;&nbsp;
-            <a href="http://www.facebook.com/Swably" title="Swably Facebook" target="_blank"><img src="/images/facebook.png" alt="swably_facebook_android" name="swably_facebook_sharing" id="swably_sharing_apps_on_facebook" /></a>  
-        </div>
-        <img src="/images/phone.png" alt="swably_nexus_phone_app" name="swably_phone_sharing" id="swably_sharing_apps_on_phone" style="position: absolute; left: 529px; top: 82px;">
-        <img src="/images/slogon_2014_<%=session[:lang]%>.png" alt="swap apps with swably" name="swably_4_sharing" id="swably_sharing_apps_on_nexus" style="position: absolute; top: 188px;">
-        <div style="position: absolute; top: 521px;"><%=render(:partial =>  'default/download') %></div>
+    <div style="position: absolute; top: 15px; left: 15px; color: #00a1e9; font-size: 40px; font-weight: bold;"><%=t :swably%></div>
+    <div style="position: relative; width: 460px;  margin: 20px auto; " align="center" >
+        <img src="/images/icon.png" alt="swably_app_sharing_app_logo" id="swably" name="upload_download_comment" style="margin-top: 90px;">
+        <div style="margin-top: 50px; font-weight: bold; font-size: 36px;"><%=t(:slogon)%></div>
+        <div style="margin-top: 70px;"><%=render(:partial =>  'default/download') %></div>
     </div>
-    <div style="position: absolute; width: 100%; height: 44px; bottom: 0px; background: #000;">
-        <div style="font-size: 24px; width: 888px;  margin: 10px auto; " >
-            <%=t :slogon%>
-            <div class="rfloat" style="font-size: 16px; margin-top: 3px; margin-right: 20px;">
-                <%=render :partial => 'shared/btn_lang'%>
+    <div style="position: absolute; width: 100%; height: 70px; bottom: 0px; background: #292929;">
+        <div style="font-size: 14px; width: 100%;  margin: 10px auto; " >
+            <div class="float" style="margin-top: 3px; margin-left: 15px;"><%=t :swably%></div>
+            <div class="rfloat" style="margin-top: 3px; margin-right: 15px;">
+                <%=render :partial => 'shared/btn_lang'%>&nbsp;&nbsp;&nbsp;
+                <%=t :follow_us_on%>&nbsp;&nbsp;
+                <a href="http://twitter.com/swablyofficial" title="Swably App Sharing" target="_blank"><img src="/images/twitter.png" alt="swably_apk_tiwtter" name="swably_twitter_sharing" id="swably_sharing_apps_on_twitter" /></a>&nbsp;&nbsp;
+                <a href="http://www.facebook.com/Swably" title="Swably Facebook" target="_blank"><img src="/images/facebook.png" alt="swably_facebook_android" name="swably_facebook_sharing" id="swably_sharing_apps_on_facebook" /></a>  
                 <div class="clear"></div>
             </div>
         </div>

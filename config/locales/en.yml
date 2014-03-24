@@ -2,8 +2,9 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
+  swably: Swably
   follow_us_on: "Follow us on"
-  slogon: "Upload, download, comment apps"
+  slogon: "What apps do you want?"
   lets_swap_apps: "Let's Swap Apps!"
   x_posts: 
     one: "1 Post"
