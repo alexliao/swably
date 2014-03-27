@@ -116,7 +116,7 @@ class CommentsController < ApplicationController
   def public
     return unless validate_format
     return unless validate_count
-    try_update_user_info
+    # try_update_user_info
     limit = params[:count]
     @max_condition =  params[:max_id] ? "comments.id < #{params[:max_id]}" : "true"
     @comments = Comment.find :all, :include => [:app, :user], :conditions => "#{@max_condition} and users.enabled=1", :order => "comments.id desc", :limit => limit

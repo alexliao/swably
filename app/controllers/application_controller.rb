@@ -104,6 +104,8 @@ class ApplicationController < ActionController::Base
     access.created_at = Time.now
     access.duration = Time.now - @begin_time 
     access.save
+
+    try_update_user_info
   end
 
   def gen_simple_referer(params)
@@ -848,7 +850,7 @@ end
   end  
   
   def try_update_user_info
-    return if @current_user.is_anonymous
+    return if @current_user.nil? or @current_user.is_anonymous
     changed = false
     if params[:client_version] and params[:client_version] != @current_user.client_version
       changed = true
