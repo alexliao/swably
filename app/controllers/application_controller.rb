@@ -847,6 +847,27 @@ end
     rand(100000000)
   end  
   
+  def try_update_user_info
+    return if @current_user.is_anonymous
+    changed = false
+    if params[:client_version] and params[:client_version] != @current_user.client_version
+      changed = true
+      @current_user.client_version = params[:client_version]
+    end
+    if params[:country] and params[:country] != @current_user.country_code
+      changed = true
+      @current_user.country_code = params[:country]
+    end
+    if params[:lang] and params[:lang] != @current_user.lang
+      changed = true
+      @current_user.lang = params[:lang]
+    end
+    if params[:imei] and params[:imei] != @current_user.imei
+      changed = true
+      @current_user.imei = params[:imei]
+    end
+    @current_user.save if changed
+  end
 
 class Array
   def facade(current_user=nil, options = {})
