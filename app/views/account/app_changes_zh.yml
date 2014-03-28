@@ -1,5 +1,7 @@
 ---
 changes: 
+  - code: 1650
+    note: 更新封面
   - code: 1641
     note: 修复闪退
   - code: 1630
