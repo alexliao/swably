@@ -39,7 +39,7 @@ class CommentsController < ApplicationController
       # the notify order means the priority
       @comment.try_notify_reply
       @comment.notify_watchers
-      @comment.notify_followers
+      @comment.try_notify_followers
       @current_user.sync(@comment, params[:sync_sns])
     end
     api_response posted.facade(nil, :lang => session[:lang]), "comment"
