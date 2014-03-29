@@ -3,8 +3,20 @@ class Feed < ActiveRecord::Base
   OBJECT_USER = "user"
   OBJECT_REVIEW = "review"
   OBJECT_APP = "app"
-  has_one :user
-  has_one :producer, class_name: "User"
+  belongs_to :user
+  belongs_to :producer, class_name: "User"
+
+  def facade(current_user = nil, options = {})
+    ret = {}
+    ret[:id] = self.id
+    ret[:title] = self.title
+    ret[:content] = self.content
+    ret[:created_at] = self.created_at.to_i
+    ret[:producer] = self.producer.facade(nil, options.merge(:names_only => true))
+    ret[:object_type] = self.object_type
+    ret[:object_id] = self.object_id
+    ret
+  end
 
 	def self.follow(user, follower)
 		feed = Feed.new

@@ -90,6 +90,18 @@ puts "-------------"
 puts ret.facade
     api_response ret.facade
   end
+
+  #api
+  def list
+    return unless validate_format
+    return unless validate_count
+    return unless validate_signin
+    limit = params[:count]
+    @max_condition =  params[:max_id] ? "feeds.id < #{params[:max_id]}" : "true"
+    @feeds = @current_user.feeds.find :all, :include => [:producer], :conditions => "#{@max_condition} and users.enabled=1", :order => "feeds.id desc", :limit => limit
+    ret = {:user => @current_user.facade(@current_user), :feeds => @feeds.facade(@current_user, :lang => session[:lang])}
+    api_response ret
+  end
 #-------------------------------------------------------------------------  
 protected
 

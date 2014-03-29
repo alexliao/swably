@@ -27,6 +27,7 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :mentioned_friends, :class_name => "User", :foreign_key => "user_id", :association_foreign_key => "friend_id", :join_table => "mentions"
   has_many :notifications
   has_and_belongs_to_many :notified_comments, :class_name => "Comment", :join_table => "notifications"
+  has_many :feeds
   
   attr_accessor :plain_password 
   attr_accessor :new_created
