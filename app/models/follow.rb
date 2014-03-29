@@ -38,6 +38,7 @@ class Follow < ActiveRecord::Base
     record.save
     user.followings_count(true)
     following.followers_count(true)
+    Feed.follow(following, user)
     record
   end
 

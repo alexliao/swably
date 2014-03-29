@@ -73,3 +73,18 @@ CREATE TABLE `nappstr`.`notifications` (
   KEY `Index_4` (`created_at`) USING BTREE
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
+CREATE TABLE `feeds` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `producer_id` int(11) DEFAULT NULL,
+  `title` varchar(200) DEFAULT NULL,
+  `content` varchar(200) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `object_type` varchar(45) DEFAULT NULL,
+  `object_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique` (`user_id`,`producer_id`,`object_type`,`object_id`,`content`),
+  KEY `user_id` (`user_id`),
+  KEY `created_at` (`created_at`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+

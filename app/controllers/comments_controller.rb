@@ -36,8 +36,10 @@ class CommentsController < ApplicationController
       @comment.update_parent
       @comment.clear_below_ids_for_above
       Watch.add(@current_user, @comment)
-      @comment.notify_followers
+      # the notify order means the priority
+      @comment.try_notify_reply
       @comment.notify_watchers
+      @comment.notify_followers
       @current_user.sync(@comment, params[:sync_sns])
     end
     api_response posted.facade(nil, :lang => session[:lang]), "comment"

@@ -13,6 +13,7 @@ class WatchesController < ApplicationController
     Watch.add(@user, comment)
     Mention.add(@current_user, @user)
     Notification.add(@user, comment)
+    Feed.mention_review @user, @current_user, comment
     expire_notify(@user.id)
     api_response comment.facade, "review"
   end

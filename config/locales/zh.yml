@@ -8,6 +8,17 @@ zh:
   download_disabled: "抱歉，这个应用的开发者禁止了下载"
   download_swably: "下载万宝乐"  
 
+  # feed_title_follow: "%{name}开始关注你了"
+  # feed_title_following_add_review: "%{name}发布了一条评论"
+  # feed_title_mention_review: "%{name}提醒你关注一条评论"
+  # feed_title_watching_add_reply: "%{name}在你关注的评论下跟贴"
+  # feed_title_reply_my_review: "%{name}回复了你的评论“%{my_review}”"
+  feed_title_follow: "开始关注你了"
+  feed_title_following_add_review: "发布了一条评论"
+  feed_title_mention_review: "提醒你关注%{name}的评论"
+  feed_title_watching_add_reply: "在你关注的评论下跟贴"
+  feed_title_reply_my_review: "回复了你的评论“%{my_review}”"
+  
   date:
     abbr_day_names:
     - 日

@@ -56,16 +56,6 @@ class Comment < ActiveRecord::Base
     ret
   end
 
-  def notify_followers
-    #Thread.new do
-      users = self.user.followers
-      users |= [self.in_reply_to.user] if self.in_reply_to
-      users.each do |user|
-        expire_notify(user.id) 
-      end
-    #end
-  end
-  
   def update_parent
       #comms = app.comments.find(:all, :include => [:user], :order => "comments.id desc", :limit => 10)
       #comms.reverse!
@@ -170,13 +160,41 @@ class Comment < ActiveRecord::Base
     ret.to_json
   end
 
+  def notify_followers
+    #Thread.new do
+      users = self.user.followers
+      # users |= [self.in_reply_to.user] if self.in_reply_to
+      users.each do |user|
+        # begin
+          Feed.following_add_review(user, self)
+          expire_notify(user.id) 
+        # rescue Exception => exc
+        #   logger.error("#{Time.now.short_time} Comment.notify_followers user: #{user.id} error: #{exc.to_s}")
+        # end
+      end
+    #end
+  end
+  
   def notify_watchers
     return if self.above_ids == ""
     users = User.find_by_sql("select u.* from users u join watches w on u.id=w.user_id where w.comment_id in (#{self.above_ids})")
+    users -= [self.user]
     users.each do |user|
-      Notification.add(user, self)
-      expire_notify(user.id) unless user.id == self.user_id
+      # begin
+        Notification.add(user, self)
+        Feed.watching_add_reply user, self
+        expire_notify(user.id) unless user.id == self.user_id
+      # rescue Exception => exc
+        # logger.error("#{Time.now.short_time} Comment.notify_watchers user: #{user.id} error: #{exc.to_s}")
+      # end
     end
+  end
+
+  def try_notify_reply
+    return unless self.in_reply_to_id
+    return if self.in_reply_to.user_id == self.user_id
+    Feed.reply_my_review self.in_reply_to.user, self, self.in_reply_to
+    expire_notify(self.in_reply_to.user.id)
   end
 
 end
