@@ -161,7 +161,7 @@ class Comment < ActiveRecord::Base
   end
 
   def try_notify_followers
-    return unless self.in_reply_to_id
+    return if self.in_reply_to_id
     #Thread.new do
       users = self.user.followers
       # users |= [self.in_reply_to.user] if self.in_reply_to
