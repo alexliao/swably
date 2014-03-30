@@ -15,6 +15,7 @@ class Feed < ActiveRecord::Base
     ret[:producer] = self.producer.facade(nil, options.merge(:names_only => true))
     ret[:object_type] = self.object_type
     ret[:object_id] = self.object_id
+    ret[:read] = self.created_at.to_i < (options[:read_at].to_i || Time.now.to_i)
     ret
   end
 

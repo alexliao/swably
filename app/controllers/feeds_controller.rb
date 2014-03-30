@@ -5,6 +5,7 @@ class FeedsController < ApplicationController
   
   #api
   def check
+    # puts Time.now
     render :text => Time.now.to_f
   end
   
@@ -124,7 +125,7 @@ puts ret.facade
     limit = params[:count]
     @max_condition =  params[:max_id] ? "feeds.id < #{params[:max_id]}" : "true"
     @feeds = @current_user.feeds.find :all, :include => [:producer], :conditions => "#{@max_condition} and users.enabled=1", :order => "feeds.id desc", :limit => limit
-    ret = {:user => @current_user.facade(@current_user), :feeds => @feeds.facade(@current_user, :lang => session[:lang])}
+    ret = {:user => @current_user.facade(@current_user), :feeds => @feeds.facade(@current_user, :lang => session[:lang], :read_at => params[:read_at])}
     api_response ret
   end
 #-------------------------------------------------------------------------  
