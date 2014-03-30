@@ -20,6 +20,6 @@ en:
   # feed_title_reply_my_review: "%{name} reply your post \"%{my_review}\""
   feed_title_follow: "is following you"
   feed_title_following_add_review: "add a post"
-  feed_title_mention_review: "mention you to follow %{name}'s post"
+  feed_title_mention_review: "mention you to follow post of %{name}"
   feed_title_watching_add_reply: "reply to the post you are following"
   feed_title_reply_my_review: "reply to your post \"%{my_review}\""

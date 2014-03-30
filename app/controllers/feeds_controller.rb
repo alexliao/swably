@@ -8,6 +8,31 @@ class FeedsController < ApplicationController
     render :text => Time.now.to_f
   end
   
+  def fetch2
+    return unless validate_format
+    return unless validate_signin
+    return unless validate_count
+
+    limit = params[:limit]
+    since = params[:since] ? Time.at(params[:since].to_f) : Time.now - 3600*24*7
+
+    count = @current_user.feeds.count(:conditions => ["created_at > ?", since])
+    if 1 == count
+      recent_feed = @current_user.feeds.find :first, order: "id desc"
+    end
+    if count > 1
+      rows = @current_user.feeds.find(:all, :select => "u.name", :joins => "join users u on u.id=feeds.producer_id", :conditions => ["feeds.created_at > ?", since], :order => "feeds.created_at desc", :limit => limit)
+      names = (rows.collect {|r| r["name"]}).uniq.join(", ")
+    end
+
+    ret = Hash.new
+    ret[:fetch_time] = Time.now.to_f
+    ret[:count] = count
+    ret[:names] = names
+    ret[:recent_feed] = recent_feed.facade if recent_feed
+    api_response ret.facade
+end
+
   def fetch
     return unless validate_format
     return unless validate_signin
