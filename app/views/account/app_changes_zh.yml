@@ -1,5 +1,7 @@
 ---
 changes: 
+  - code: 1660
+    note: 全新的通知机制
   - code: 1650
     note: 更新封面
   - code: 1641
