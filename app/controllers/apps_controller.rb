@@ -313,6 +313,7 @@ protected
 
     app = App.find(:first, :conditions => ["package=? and signature=?", infos[:package], infos[:signature]])
     if app
+      raise Exception.new("can not upload #{infos[:package]} v#{infos[:version_code]} which is not newer than existed v#{app.version_code}") if infos[:version_code].to_i <= app.version_code
       old_apk_path = "public#{app.apk}"
       old_icon_path = "public#{app.icon}"
       FileUtils.rm(old_apk_path, :force => true) if old_apk_path != apk_path
