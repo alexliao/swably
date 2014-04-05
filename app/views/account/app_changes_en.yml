@@ -1,5 +1,7 @@
 ---
 changes: 
+  - code: 1700
+    note: You can mention friends about a post
   - code: 1600
     note: Add thread and navigation
   - code: 1582
