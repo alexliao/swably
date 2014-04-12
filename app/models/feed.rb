@@ -10,7 +10,7 @@ class Feed < ActiveRecord::Base
     ret = {}
     ret[:id] = self.id
     ret[:title] = self.title
-    ret[:content] = self.content
+    ret[:content] = self.content if self.content # avoid literarl "null" 
     ret[:created_at] = self.created_at.to_i
     ret[:producer] = self.producer.facade(nil, options.merge(:names_only => true))
     ret[:object_type] = self.object_type

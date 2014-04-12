@@ -403,6 +403,15 @@ class UsersController < ApplicationController
     api_response ret
   end
 
+  #api
+  def recent_reviewed_apps
+    return unless validate_format
+    return unless validate_count
+    return unless validate_id_and_get_user
+    limit = params[:count]
+    @apps = App.find :all, :select => "distinct apps.*", :joins => "join comments on apps.id=comments.app_id", :conditions => "comments.user_id = #{@user.id} and comments.app_id is not null", :order => "comments.id desc", :limit => limit
+    api_response @apps.facade(@current_user), "apps"
+  end
 
   #----------------------------------------------------------------------
 protected
