@@ -24,7 +24,7 @@ class WatchesController < ApplicationController
     return unless validate_signin
     return unless validate_id_and_get_user
     comment = Comment.find_by_id params[:review_id]
-    Watch.cancel(@ser, comment)
+    Watch.cancel(@user, comment)
     api_response comment.facade, "review"
   end
 
