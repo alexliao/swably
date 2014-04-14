@@ -83,7 +83,6 @@ CREATE TABLE `feeds` (
   `object_type` varchar(45) DEFAULT NULL,
   `object_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `unique` (`user_id`,`producer_id`,`object_type`,`object_id`,`content`),
   KEY `user_id` (`user_id`),
   KEY `created_at` (`created_at`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
