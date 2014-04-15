@@ -1,5 +1,6 @@
 # require "lib/iconv_util"
 class CommentsController < ApplicationController
+  before_filter :log_install, only: [:public, :requests, :shares]
   before_filter :log_access
   include CommonHelper
   include FileHelper

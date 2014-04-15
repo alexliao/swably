@@ -87,3 +87,17 @@ CREATE TABLE `feeds` (
   KEY `created_at` (`created_at`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
+CREATE TABLE `nappstr`.`installs` (
+  `id` INT NOT NULL,
+  `imei` VARCHAR(45) NULL,
+  `user_id` INT NULL,
+  `created_at` DATETIME NULL,
+  `updated_at` DATETIME NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `imei` (`imei` ASC),
+  INDEX `user_id` (`user_id` ASC),
+  INDEX `created_at` (`created_at` ASC),
+  INDEX `updated_at` (`updated_at` ASC))
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = latin1;
+

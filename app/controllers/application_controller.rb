@@ -30,6 +30,15 @@ class ApplicationController < ActionController::Base
   #   redirect_to :controller => "admin", :action => "login" unless (session[:is_admin] || (current_user and current_user.is_admin))
   # end
 
+  def log_install
+    return unless params[:imei]
+    install = Install.find(:first, conditions: ["imei=?", params[:imei]]) || Install.new
+    install.imei = params[:imei]
+    install.user_id = params[:user_id]
+    install.updated_at = Time.now
+    install.save
+  end
+
   def authorize
     flash[:admin_return] = request.path
     redirect_to :controller => "admin", :action => "login" unless (session[:is_admin] || (current_user and current_user.is_admin))
