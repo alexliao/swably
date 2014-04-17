@@ -274,6 +274,19 @@ class AppsController < ApplicationController
     api_response @apps.facade(@current_user, :lang => session[:lang]), "apps"
   end
 
+  # def download
+  #   path = "public/apks/#{params[:folder]}/#{params[:filename]}"
+  #   send_file path, :streaming => true
+  # end
+
+  def download
+    return unless validate_id_and_get_app
+    path = "public#{@app.apk}"
+    send_file path, :streaming => true
+    download = Download.new app_id: @app.id, user_id: params[:user_id]
+    download.save
+  end
+
 #-------------------------------------------------------------------------  
 protected
 

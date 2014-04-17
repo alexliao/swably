@@ -59,6 +59,8 @@ Swably::Application.routes.draw do
   match 'a/:id' => 'apps#show', :id => /\d+/
   match 'r/:id' => 'comments#show', :id => /\d+/
 
+  # match 'apks/:folder/:filename' => 'apps#download', :filename => /[^\/]+/
+
   # See how all your routes lay out with "rake routes"
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.

@@ -99,3 +99,18 @@ CREATE TABLE `installs` (
   KEY `created_at` (`created_at`),
   KEY `updated_at` (`updated_at`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+CREATE TABLE `nappstr`.`downloads` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `app_id` INT NULL,
+  `user_id` INT NULL,
+  `created_at` DATETIME NULL,
+  PRIMARY KEY (`id`),
+  INDEX `app_id` (`app_id` ASC),
+  INDEX `user_id` (`user_id` ASC),
+  INDEX `created_at` (`created_at` ASC))
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = latin1;
+-- ALTER TABLE `nappstr`.`apps` 
+-- ADD INDEX `apk` (`apk` ASC);
+
