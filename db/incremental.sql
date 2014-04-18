@@ -111,6 +111,6 @@ CREATE TABLE `nappstr`.`downloads` (
   INDEX `created_at` (`created_at` ASC))
 ENGINE = MyISAM
 DEFAULT CHARACTER SET = latin1;
--- ALTER TABLE `nappstr`.`apps` 
--- ADD INDEX `apk` (`apk` ASC);
+ALTER TABLE `nappstr`.`downloads` 
+ADD COLUMN `source` VARCHAR(45) NULL AFTER `created_at`;
 
