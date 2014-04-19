@@ -338,8 +338,8 @@ class User < ActiveRecord::Base
     "users"
   end
   
-  def self.fake
-    ret = User.new(:username => 'anonymous', :photo => '/images/noimage.png', :enabled => true)
+  def self.fake(client_version = nil, lang = nil, country_code = nil, imei = nil)
+    ret = User.new(:username => 'anonymous', :photo => '/images/noimage.png', :enabled => true, :client_version => client_version, :lang => lang, :country_code => country_code, :imei => imei)
     ret[:id] = 0
     ret
   end

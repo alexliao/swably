@@ -408,7 +408,7 @@ class ApplicationController < ActionController::Base
 protected
 
   def current_user
-    @_current_user = session[:user_id].to_i == 0 ? User.fake : User.find(session[:user_id]) unless @_current_user
+    @_current_user = session[:user_id].to_i == 0 ? User.fake(params[:client_version]) : User.find(session[:user_id]) unless @_current_user
     return @_current_user
   end
 
