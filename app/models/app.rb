@@ -33,12 +33,7 @@ class App < ActiveRecord::Base
     ret[:size] = self.size
     ret[:icon] = self.display_icon.thumbnail
     ret[:banner] = self.display_banner.medium
-    # if current_user and current_user.client_version and current_user.client_version.to_i > 1820
-    #   ret[:apk] = "/apps/download/#{self.id}?r=app"
-    # else
-    #   ret[:apk] = self.apk + "?r=app" if self.apk
-    # end
-    ret[:apk] = self.apk + "?r=app" if self.apk
+    ret[:apk] = "/apps/download/#{self.id}?r=app"
     ret[:enabled] = self.enabled
     ret[:updated_at] = self.updated_at.to_i
     ret[:signature] = self.signature
