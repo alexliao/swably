@@ -1,5 +1,7 @@
 ---
 changes: 
+  - code: 1820
+    note: 合并主页导航；
   - code: 1811
     note: 修复提醒没刷新的bug；
   - code: 1810
