@@ -33,8 +33,8 @@ class App < ActiveRecord::Base
     ret[:size] = self.size
     ret[:icon] = self.display_icon.thumbnail
     ret[:banner] = self.display_banner.medium
-    # ret[:apk] = self.apk
-    ret[:apk] = "/apps/download/#{self.id}?r=app"
+    ret[:apk] = self.apk + "?r=app"
+    # ret[:apk] = "/apps/download/#{self.id}?r=app"
     ret[:enabled] = self.enabled
     ret[:updated_at] = self.updated_at.to_i
     ret[:signature] = self.signature

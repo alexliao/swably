@@ -282,7 +282,7 @@ class AppsController < ApplicationController
   def download
     return unless validate_id_and_get_app
     path = "public#{@app.apk}"
-    send_file path, :streaming => true
+    send_file path, :stream => true
     download = Download.new app_id: @app.id, user_id: params[:user_id], source: params[:r]
     download.save
   end

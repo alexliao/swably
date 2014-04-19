@@ -38,7 +38,7 @@ class AccountController < ApplicationController
     changes = yml["changes"]
     # send_file "public/downloads/swably_#{session[:lang]}.data", :filename => "swably_#{session[:lang]}_#{Time.now.to_i}.apk", :streaming => true
     filename = "swably-#{session[:lang]}#{changes[0]["code"]}.apk"
-    send_file "public/downloads/#{filename}", :streaming => true
+    send_file "public/downloads/#{filename}", :stream => true
   end
   
   #API
