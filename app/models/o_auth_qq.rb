@@ -171,9 +171,30 @@ puts userinfo
 #  end
 
 
+#   def get_following_ids(user)
+#     ret = nil
+#     resp = get_api_access_token(user).get("/api/friends/idollist?format=json&reqnum=#{FRIENDS_LIMIT}")
+#     if resp.class == Net::HTTPOK
+#       users = JSON.parse(resp.body)["data"]["info"]
+#       ret = users.collect {|u| u['name']}
+#     end
+#     ret
+#   end
+
+#   def get_follower_ids(user)
+#     ret = nil
+#     resp = get_api_access_token(user).get("/api/friends/fanslist?format=json&reqnum=#{FRIENDS_LIMIT}")
+# #puts resp
+#     if resp.class == Net::HTTPOK
+#       users = JSON.parse(resp.body)["data"]["info"]
+#       ret = users.collect {|u| u['name']}
+#     end
+#     ret
+#   end
+
   def get_following_ids(user)
     ret = nil
-    resp = get_api_access_token(user).get("/api/friends/idollist?format=json&reqnum=#{FRIENDS_LIMIT}")
+    resp = https(@api_site).get("/api/friends/idollist?format=json&reqnum=#{FRIENDS_LIMIT}&#{common_params(user.setting.oauth_qq)}")
     if resp.class == Net::HTTPOK
       users = JSON.parse(resp.body)["data"]["info"]
       ret = users.collect {|u| u['name']}
@@ -181,16 +202,6 @@ puts userinfo
     ret
   end
 
-  def get_follower_ids(user)
-    ret = nil
-    resp = get_api_access_token(user).get("/api/friends/fanslist?format=json&reqnum=#{FRIENDS_LIMIT}")
-#puts resp
-    if resp.class == Net::HTTPOK
-      users = JSON.parse(resp.body)["data"]["info"]
-      ret = users.collect {|u| u['name']}
-    end
-    ret
-  end
 
   def follow_official(user)
     # follow_on_sns user, "Swably"

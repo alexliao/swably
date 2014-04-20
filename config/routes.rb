@@ -51,6 +51,7 @@ Swably::Application.routes.draw do
   
   match 'reports/list' => 'reports#index'
   match 'users/find' => 'users#find'
+  match 'users/recommend' => 'users#recommend'
 
   resources :reports
   resources :users

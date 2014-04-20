@@ -130,7 +130,7 @@ class UsersController < ApplicationController
 #        end
 #      end
 #    end
-    users = User.find_by_sql("select u.* from users u where u.enabled=1 and u.id <> #{@current_user.id} order by id desc limit #{limit}")
+    users = User.find_by_sql("select u.* from users u where u.enabled=1 and u.id <> #{@current_user.id} order by reviews_count desc limit #{limit}")
     ret["local"] = users
     ret[:groups]["local"] = users.size
     api_response ret.facade(@current_user)
