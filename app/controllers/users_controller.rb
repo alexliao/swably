@@ -118,6 +118,11 @@ class UsersController < ApplicationController
     return unless validate_format
     return unless validate_count
     limit = params[:count]
+
+    #mark as activated to avoid guide process again
+    @current_user.activated = true
+    @current_user.save        
+    
     ret = {:groups => {}}
 # disable sns suggestions here
 #    ENV['connections'].split.each do | provider_id |
