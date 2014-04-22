@@ -889,7 +889,7 @@ end
 class Hash
   def facade(current_user=nil, options = {})
     ret = {}
-    self.each {|key, value| ret[key] = value.methods.include?("facade") ? value.facade(current_user, options) : value}
+    self.each {|key, value| ret[key] = value.methods.include?(:facade) ? value.facade(current_user, options) : value}
     ret
   end
 end
