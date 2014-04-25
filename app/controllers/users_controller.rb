@@ -419,6 +419,17 @@ class UsersController < ApplicationController
     api_response @apps.facade(@current_user), "apps"
   end
 
+  #api
+  def starred_posts
+    return unless validate_format
+    return unless validate_count
+    return unless validate_id_and_get_user
+    limit = params[:count]
+    @max_condition =  params[:max_id] ? "dig_id < #{params[:max_id]}" : "true"
+    @comments = @user.digged_comments.find :all, :select => "comments.*, digs.dig_id", :conditions => "#{@max_condition}", :order => "dig_id desc", :limit => limit
+    api_response @comments.facade(@current_user), "reviews"
+  end
+
   #----------------------------------------------------------------------
 protected
   def map_field(str)
