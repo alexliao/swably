@@ -36,7 +36,7 @@ class Feed < ActiveRecord::Base
 		feed.object_type = OBJECT_REVIEW
 		feed.object_id = review.id
 		# feed.title = I18n.t(:feed_title_following_add_review, name: review.user.name)
-		feed.title = I18n.t(:feed_title_following_add_review)
+		feed.title = I18n.t( (review.app_id.nil? or 0==review.app_id) ? :feed_title_following_add_request : :feed_title_following_add_review)
 		feed.content = review.content
 		feed.save unless feed.exists
 	end
