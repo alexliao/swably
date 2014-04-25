@@ -98,6 +98,16 @@ class Feed < ActiveRecord::Base
 		feed.save unless feed.exists
 	end
 
+	def self.following_app_add_review(user, review)
+		feed = Feed.new
+		feed.user_id = user.id
+		feed.producer_id = review.user.id
+		feed.object_type = OBJECT_REVIEW
+		feed.object_id = review.id
+		feed.title = I18n.t(:feed_title_following_app_add_review, name: review.app.name)
+		feed.content = review.content
+		feed.save unless feed.exists
+	end
 
 	def exists
 		# count = Feed.count(conditions: ["user_id=? and producer_id=? and object_type=? and object_id=?", user_id, producer_id, object_type, object_id])

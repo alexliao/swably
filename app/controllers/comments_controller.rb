@@ -40,6 +40,7 @@ class CommentsController < ApplicationController
       # the notify order means the priority
       @comment.try_notify_reply
       @comment.notify_watchers
+      @comment.try_notify_app_followers
       @comment.try_notify_followers
       @current_user.sync(@comment, params[:sync_sns])
     end

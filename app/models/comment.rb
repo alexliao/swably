@@ -200,4 +200,15 @@ class Comment < ActiveRecord::Base
     expire_notify(self.in_reply_to.user.id)
   end
 
+  def try_notify_app_followers
+    return if self.in_reply_to_id
+    return if self.app_id.nil? or 0==self.app_id
+    users = self.app.liked_by_users
+    users -= [self.user]
+    users.each do |user|
+      Feed.following_app_add_review(user, self)
+      expire_notify(user.id) 
+    end
+  end
+
 end
