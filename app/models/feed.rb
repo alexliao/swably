@@ -87,6 +87,18 @@ class Feed < ActiveRecord::Base
 		feed.save unless feed.exists
 	end
 
+	def self.star_post(user, starrer, review)
+		feed = Feed.new
+		feed.user_id = user.id
+		feed.producer_id = starrer.id
+		feed.object_type = OBJECT_REVIEW
+		feed.object_id = review.id
+		feed.title = I18n.t(:feed_title_star_post)
+		feed.content = review.content
+		feed.save unless feed.exists
+	end
+
+
 	def exists
 		# count = Feed.count(conditions: ["user_id=? and producer_id=? and object_type=? and object_id=?", user_id, producer_id, object_type, object_id])
 		latest = Feed.find :first, conditions: "user_id=#{self.user_id}", order: "id desc"

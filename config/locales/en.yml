@@ -23,3 +23,4 @@ en:
   feed_title_mention_review: "mention you to follow post of %{name}"
   feed_title_watching_add_reply: "reply to the post you are following"
   feed_title_reply_my_review: "reply to your post \"%{my_review}\""
+  feed_title_star_post: "starred your post"

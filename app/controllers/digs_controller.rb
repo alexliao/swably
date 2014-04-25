@@ -10,6 +10,8 @@ class DigsController < ApplicationController
     return unless validate_presence_of_id
     return unless validate_id_and_get_review
     Dig.add(@current_user, @comment)
+    Feed.star_post @comment.user, @current_user, @comment
+    expire_notify @comment.user.id
     api_response @comment.facade, "review"
   end
   
