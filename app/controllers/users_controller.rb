@@ -437,10 +437,13 @@ protected
   end
   
   def gen_friends_for_mention(user)
-    # followings = user.followings.find :order => "follow_id desc", :limit => 5
-    recent_talkers = Comment.find_by_sql("select distinct user_id from comments order by id desc limit 5")
-    recent_talkers.reverse.each do |r|
-      friend = User.find_by_id r["user_id"]
+    followings = user.followings.find :all, :order => "follow_id desc", :limit => 20
+    # recent_talkers = Comment.find_by_sql("select distinct user_id from comments order by id desc limit 5")
+    # recent_talkers.reverse.each do |r|
+    #   friend = User.find_by_id r["user_id"]
+    #   Mention.add(user, friend)
+    # end
+    followings.reverse.each do |friend|
       Mention.add(user, friend)
     end
   end
