@@ -30,8 +30,12 @@ class CommentsController < ApplicationController
     @comment.sdk = params[:sdk]
     @comment.image, @comment.image_size = save_image(params[:image]) if params[:image]
     
-    posted = Comment.find(:first, :conditions => ["app_id = ? and user_id = ? and content = ? and created_at > subdate(now(), interval 1 day)", @comment.app_id, @comment.user_id, @comment.content])
-    unless posted
+    condition_str = "app_id = ? and user_id = ? and content = ? and created_at > subdate(now(), interval 1 day)"
+    condition = [condition_str + " "]
+    posted = Comment.find(:first, :conditions => ["app_id = ? and user_id = ? and content = ? and in_reply_to_id <=> ? and image_size <=> ? and created_at > subdate(now(), interval 1 day)", @comment.app_id, @comment.user_id, @comment.content, @comment.in_reply_to_id, @comment.image_size])
+    if posted
+      render text: "Can not post same content repeatedly.", status: 400
+    else
       @comment.save
       posted = @comment
       @comment.update_parent
@@ -43,8 +47,8 @@ class CommentsController < ApplicationController
       @comment.try_notify_app_followers
       @comment.try_notify_followers
       @current_user.sync(@comment, params[:sync_sns])
+      api_response posted.facade(nil, :lang => session[:lang]), "comment"
     end
-    api_response posted.facade(nil, :lang => session[:lang]), "comment"
   end
 
   #api
