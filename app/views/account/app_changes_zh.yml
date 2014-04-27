@@ -1,5 +1,11 @@
 ---
 changes: 
+  - code: 1850
+    note: 优化图片下载，节省3G流量；修复连续传图片失败的Bug；
+  - code: 1840
+    note: 可以收藏帖子，关注应用；
+  - code: 1830
+    note: 增加引导流程；
   - code: 1820
     note: 合并主页导航；
   - code: 1811
