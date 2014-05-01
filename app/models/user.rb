@@ -492,6 +492,13 @@ class User < ActiveRecord::Base
 
   def sync(iu, sync_sns)
     upload_url = "http://#{ENV['host']}/r/#{iu.id}"
+
+    # clean @name
+    if iu.in_reply_to_id
+      at_name = "@#{iu.in_reply_to.user.get_screen_name}"
+      iu.content = "#{at_name} #{iu.content}" unless iu.content.include?(at_name)
+    end
+
     #dests = ["twitter", "facebook", "buzz", "sina", "qq", "douban"]
     #dests = ["sina", "qq", "douban", "twitter", "facebook", "buzz"] if lang == 'zh' 
     #dests.each do | provider_id |
@@ -520,7 +527,7 @@ class User < ActiveRecord::Base
 	 	      logger.info("#{Time.now.short_time} sync #{t_provider_id} Net::HTTPUnauthorized: #{resp.body}")
 	 	    end
           rescue Exception => e
-puts "sync exception: " + e.to_s
+#puts "sync exception: " + e.to_s
 		    logger.info("sync #{t_provider_id} exception: #{e.to_s}")
           end
         end
