@@ -1,5 +1,7 @@
 ---
 changes: 
+  - code: 1861
+    note: 改进回复人名的显示
   - code: 1850
     note: 优化图片下载，节省3G流量；修复连续传图片失败的Bug；
   - code: 1840
