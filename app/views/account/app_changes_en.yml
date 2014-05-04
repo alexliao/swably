@@ -1,5 +1,13 @@
 ---
 changes: 
+  - code: 1861
+    note: Improve in reply to
+  - code: 1850
+    note: Optimize for mobile network, fix bugs；
+  - code: 1840
+    note: Can fav post, follow app；
+  - code: 1830
+    note: Add guide process；
   - code: 1820
     note: You can share system apps. Refine navigation.
   - code: 1600
