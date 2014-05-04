@@ -1,9 +1,9 @@
 zh:
   swably: 万宝乐
   follow_us_on: "关注我们"
-  slogon: "你需要什么应用？问万宝乐"
-  slogon_m: "你需要什么应用？\n问万宝乐"
-  lets_swap_apps: "让我们交换应用吧！"  
+  slogon: "永不嫌多"
+  subtitle1: "万宝乐是一个安卓App分享社区"
+  subtitle2: "你可以上传、下载、评论你喜欢的App"
   x_posts: "%{count}条评论"
   download_disabled: "抱歉，这个应用的开发者禁止了下载"
   download_swably: "下载万宝乐"  

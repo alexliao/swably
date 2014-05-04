@@ -4,9 +4,9 @@
 en:
   swably: Swably
   follow_us_on: "Follow us on"
-  slogon: "What apps do you want?"
-  slogon_m: "What apps do you want?"
-  lets_swap_apps: "Let's Swap Apps!"
+  slogon: "We never have too many apps"
+  subtitle1: "Swably is a user sharing community of Android apps"
+  subtitle2: "You can upload, download and review apps you like"
   x_posts: 
     one: "1 Post"
     other: "%{count} Posts"
