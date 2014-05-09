@@ -120,9 +120,9 @@ class ApplicationController < ActionController::Base
   def gen_simple_referer(params)
     ret = params[:r] || params[:referer] || request.env["HTTP_REFERER"]
     if ret
-      ret = "sync_sina" if ret.match('weibo\.') and controller=='comments' and action=='show'
-      ret = "sync_tencent" if ret.match('t\.qq\.com') and controller=='comments' and action=='show'
-      ret = "sync_twitter" if ret.match('t\.co') and controller=='comments' and action=='show'
+      ret = "sync_sina" if ret.match('weibo\.') and params[:controller]=='comments' and params[:action]=='show'
+      ret = "sync_tencent" if ret.match('t\.qq\.com') and params[:controller]=='comments' and params[:action]=='show'
+      ret = "sync_twitter" if ret.match('t\.co') and params[:controller]=='comments' and params[:action]=='show'
     end
     ret 
   end
