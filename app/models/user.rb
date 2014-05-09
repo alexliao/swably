@@ -97,6 +97,7 @@ class User < ActiveRecord::Base
       ret[:upload_id] = self[:share_id] if self[:share_id]
       ret[:uploaded_at] = self[:uploaded_at].to_i if self[:uploaded_at]
       ret[:version_name] = self[:version_name] if self[:version_name]
+      ret[:user_url] = self.setting.get_user_url
     end
     ret
   end

@@ -92,6 +92,12 @@ class Setting < ActiveRecord::Base
     "<a href='#{provider.get_user_url(user_id_provider(provider_id))}' target='_blank' class='outer'>#{username}</a>"
   end
   
+  def get_user_url(provider_id = nil)
+    provider_id ||= self.signup_sns 
+    provider = OAuthProvider.get_instance(provider_id)
+    provider.get_user_url(user_id_provider(provider_id))
+  end
+
 #  def self.get_consumer(provider_id)
 #    case provider_id
 #    when "twitter"
