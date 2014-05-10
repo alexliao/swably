@@ -136,7 +136,7 @@ class UsersController < ApplicationController
 #      end
 #    end
     # users = User.find_by_sql("select u.* from users u where u.enabled=1 and u.id <> #{@current_user.id} order by reviews_count desc limit #{limit}")
-    users = User.find_by_sql("select u.* from users u left join follows f on f.following_id = u.id and f.user_id = #{@current_user.id}  where f.following_id is null and u.enabled=1 and u.id <> #{@current_user.id} order by reviews_count desc limit #{limit}")
+    users = User.find_by_sql("select u.*, count(c.id) as activeness from users u left join follows f on f.following_id = u.id and f.user_id = #{@current_user.id} join comments c on c.user_id=u.id where f.following_id is null and u.enabled=1 and u.id <> #{@current_user.id} and c.created_at > subdate(now(), interval 7 day) group by c.user_id order by activeness desc limit #{limit}")
     ret["local"] = users
     ret[:groups]["local"] = users.size
     api_response ret.facade(@current_user)
