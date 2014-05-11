@@ -695,7 +695,7 @@ protected
       return ret
     end
     unless @comment
-      api_error "ID [#{params[:id]}] doesn't exist", 404
+      api_error t(:error_comment_id_not_exist), 404
       ret = false
     end
     ret

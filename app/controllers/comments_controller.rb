@@ -189,8 +189,9 @@ class CommentsController < ApplicationController
   def thread
     return unless validate_format
     return unless validate_count
+    return unless validate_id_and_get_review
     limit = params[:count]
-    @comment = Comment.find(:first, :conditions => ["id=?", params[:id]])
+    # @comment = Comment.find(:first, :conditions => ["id=?", params[:id]])
     
     if @comment.above_ids.size > 0
       @above_reviews = Comment.find :all, :conditions => "id in (#{@comment.above_ids})", :order => "id desc", :limit => limit

@@ -7,6 +7,7 @@ zh:
   x_posts: "%{count}条评论"
   download_disabled: "抱歉，这个应用的开发者禁止了下载"
   download_swably: "下载万宝乐"  
+  error_comment_id_not_exist: "这个帖子已经被删除了"
 
   # feed_title_follow: "%{name}开始关注你了"
   # feed_title_following_add_review: "%{name}发布了一条评论"

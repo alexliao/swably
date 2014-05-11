@@ -12,6 +12,7 @@ en:
     other: "%{count} Posts"
   download_disabled: "Sorry, downloading is disabled by the developer of the app"
   download_swably: "Download Swably"
+  error_comment_id_not_exist: "This post is deleted"
 
   # feed_title_follow: "%{name} is following you"
   # feed_title_following_add_review: "%{name} add a review"
