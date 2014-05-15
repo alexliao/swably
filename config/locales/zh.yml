@@ -21,7 +21,7 @@ zh:
   feed_title_mention_review: "提醒你关注%{name}的帖子"
   feed_title_watching_add_reply: "在你关注的帖子下跟帖"
   feed_title_reply_my_review: "回复了你的帖子“%{my_review}”"
-  feed_title_star_post: "收藏了你的帖子"
+  feed_title_star_post: "赞了你的帖子"
 
   date:
     abbr_day_names:
