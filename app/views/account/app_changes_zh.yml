@@ -1,5 +1,7 @@
 ---
 changes: 
+  - code: 1901
+    note: 更直观的按钮
   - code: 1861
     note: 改进回复人名的显示
   - code: 1850
