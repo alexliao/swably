@@ -63,7 +63,7 @@
                         </div>
                     <%end%>
                 </div>        
-                <%=render(:partial =>  'shared/download_app', :locals => {:app => app}) if app%>
+                <%=render(:partial =>  'shared/download_app', :locals => {:app => app, :review_id => @comment.id}) if app%>
             </div>
         <%else%>
             <%=('No record or deleted')%>

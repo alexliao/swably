@@ -114,3 +114,9 @@ DEFAULT CHARACTER SET = latin1;
 ALTER TABLE `nappstr`.`downloads` 
 ADD COLUMN `source` VARCHAR(45) NULL AFTER `created_at`;
 
+ALTER TABLE `nappstr`.`apps` 
+ADD COLUMN `downloads_count` INT UNSIGNED NULL AFTER `review`;
+ALTER TABLE `nappstr`.`downloads` 
+CHANGE COLUMN `app_id` `app_id` INT(11) UNSIGNED NULL DEFAULT NULL ,
+CHANGE COLUMN `user_id` `user_id` INT(11) UNSIGNED NULL DEFAULT NULL ,
+ADD COLUMN `comment_id` INT UNSIGNED NULL AFTER `source`;

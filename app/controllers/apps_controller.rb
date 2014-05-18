@@ -289,8 +289,9 @@ class AppsController < ApplicationController
   # end
   def download
     return unless validate_id_and_get_app
-    download = Download.new app_id: @app.id, user_id: params[:user_id], source: params[:r]
+    download = Download.new app_id: @app.id, user_id: params[:user_id], source: params[:r], comment_id: params[:review_id]
     download.save
+    @app.downloads_count true
     redirect_to @app.apk
   end
 #-------------------------------------------------------------------------  

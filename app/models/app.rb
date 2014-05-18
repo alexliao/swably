@@ -11,6 +11,7 @@ class App < ActiveRecord::Base
   has_and_belongs_to_many :uploaders, :class_name => "User", :foreign_key => "app_id", :association_foreign_key => "user_id", :join_table => "shares"
   has_many :comments
   has_many :likes
+  has_many :downloads
   has_and_belongs_to_many :liked_by_users, :class_name => "User", :foreign_key => "app_id", :association_foreign_key => "user_id", :join_table => "likes"
   belongs_to :dev, :class_name => 'User', :foreign_key => 'dev_id'
   has_and_belongs_to_many :uploaders, :class_name => "User", :join_table => "shares"
@@ -47,6 +48,7 @@ class App < ActiveRecord::Base
         ret[:contact] = self.contact || self.dev_extemail
 #        ret[:review] = self.last_review
         ret[:reviews_count] = self.reviews_count
+        ret[:downloads_count] = self.downloads_count
         ret[:likes_count] = self.likes_count
         ret[:is_liked] = current_user.is_liking(self.id) ? true : false if current_user
         ret[:like_id] = self[:like_id] if self[:like_id]
@@ -85,6 +87,15 @@ class App < ActiveRecord::Base
     unless ret
       ret = self.likes(:refresh).count
       self.update_attribute(:likes_count, ret)
+    end
+    ret
+  end
+
+   def downloads_count(refresh = false)
+    ret = refresh ? nil : read_attribute("downloads_count")
+    unless ret
+      ret = self.downloads(:refresh).count
+      self.update_attribute(:downloads_count, ret)
     end
     ret
   end

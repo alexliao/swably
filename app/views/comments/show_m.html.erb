@@ -51,7 +51,7 @@
                         </div>
                     <%end%>
                     </div>        
-                    <%=render(:partial =>  'shared/download_app', :locals => {:app => app})  if app%>
+                    <%=render(:partial =>  'shared/download_app', :locals => {:app => app, :review_id => @comment.id})  if app%>
                 <%if @comment.image%>
                 <br/>
                 <div style="padding: 8px;">
