@@ -1,5 +1,7 @@
 ---
 changes: 
+  - code: 1920
+    note: intuitive buttons; improve user and app profile; save apk to sd card folder swably
   - code: 1861
     note: Improve in reply to
   - code: 1850

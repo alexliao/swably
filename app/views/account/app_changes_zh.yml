@@ -1,5 +1,7 @@
 ---
 changes: 
+  - code: 1920
+    note: 改进用户和应用页面;下载的apk保存在sd卡wanbaole目录下
   - code: 1901
     note: 更直观的按钮
   - code: 1861
