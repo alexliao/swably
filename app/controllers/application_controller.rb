@@ -200,15 +200,17 @@ class ApplicationController < ActionController::Base
   def set_lang
 #    session[:lang] = params[:lang] || cookies[:lang] || lang_by_request || ENV['lang']
 #    session[:lang] = ENV['lang'] unless ['en', 'zh'].include? session[:lang]
-    if(ENV['lang'] == 'zh') 
-      session[:lang] = 'zh'
-    else
-      session[:lang] = params[:lang] || cookies[:lang] || lang_by_request || ENV['lang']
-    end
-#    session[:lang] = params[:lang] || ENV['lang']
+
+    # if(ENV['lang'] == 'zh') 
+    #   session[:lang] = 'zh'
+    # else
+    #   session[:lang] = params[:lang] || cookies[:lang] || lang_by_request || ENV['lang']
+    # end
+
+    session[:lang] = params[:lang] || ENV['lang']
     # set_locale session[:lang]
     I18n.locale = session[:lang]
-    cookies[:lang] = { :value => session[:lang] , :expires => 1.years.from_now } if cookies[:lang] != session[:lang]
+    # cookies[:lang] = { :value => session[:lang] , :expires => 1.years.from_now } if cookies[:lang] != session[:lang]
     #current_user.update_attribute(:lang, session[:lang]) if current_user.lang != session[:lang]
   end
 
