@@ -86,6 +86,8 @@ class ApplicationController < ActionController::Base
     session[:m] = @guess_mobile ? "_m" : "" unless params[:version]
     #session[:m] = (http_user_agent.downcase.include?("android") or http_user_agent.downcase.include?("iphone")) ? "_m" : ""
     #session[:app_scheme] = params[:app_scheme] if params[:app_scheme]
+
+    session[:in_weixin] = http_user_agent.include?("MicroMessenger")
   end
 
   def log_access

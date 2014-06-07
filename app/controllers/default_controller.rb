@@ -12,6 +12,7 @@ class DefaultController < ApplicationController
   end
   
   def index
+
     if session[:m]
         @comments = Comment.find :all, :include => [:app, :user], :conditions => "in_reply_to_id is null and length(content) > 15 and length(content) < 90 and users.enabled=1", :order => "comments.id desc", :limit => 4
     end

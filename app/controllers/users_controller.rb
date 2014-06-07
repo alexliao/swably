@@ -430,6 +430,16 @@ class UsersController < ApplicationController
     api_response @comments.facade(@current_user), "reviews"
   end
 
+  def recommend_swably
+    return unless validate_id_and_get_user
+    @comment = Comment.new
+    @comment.user = @user
+    @comment.app = App.find_by_id t(:recommend_swably_id)
+    @comment.content = t(:recommend_text)
+    @comment.created_at = Time.now - 60
+    render :template => "comments/show#{session[:m]}"
+  end
+
   #----------------------------------------------------------------------
 protected
   def map_field(str)

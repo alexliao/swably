@@ -1,11 +1,14 @@
             <div  style="border-top: solid 1px #939393;">
                 <%if app.enabled%>
-                <%review_id = review_id%>
-                <a href="/apps/download/<%=app.id%>?review_id=<%=review_id%>" class="btn">
-                    <div style="padding:20px;" class="btn" align="center">
-                        <img src="/images/download.png" <%if session[:m] == '_m'%>width="60px"<%end%>/>
-                    </div>
-                </a>
+                    <%review_id = review_id%>
+                    <a href="/apps/download/<%=app.id%>?review_id=<%=review_id%>" class="btn">
+                        <div style="padding:20px;" class="btn" align="center">
+                            <img src="/images/download.png" <%if session[:m] == '_m'%>width="60px"<%end%>/>
+                        </div>
+                    </a>
+                    <%if session[:in_weixin] %>
+                        <div style="padding: 0 20px; line-height: 125%;"><%=t(:download_in_weixin)%></div>
+                    <%end%>               
                 <%else%>
                     <div style="padding:20px;">
                         <span><%=t(:download_disabled)%> </span>
