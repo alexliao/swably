@@ -10,12 +10,12 @@ class WatchesControllerTest < ActionController::TestCase
   end
 
   test "add" do
-    get :add, id: @comment1.id, user_id: @user.id, current_user_id: 1, format: :json
+    get :add, review_id: @comment1.id, id: @user.id, user_id: 1, format: :json
     assert_response :success
   end
 
   test "cancel" do
-    get :cancel, id: @comment100000.id, user_id: @user.id, current_user_id: 1, format: :json
+    get :cancel, review_id: @comment100000.id, id: @user.id, user_id: 1, format: :json
     assert_response :success
   end
 end

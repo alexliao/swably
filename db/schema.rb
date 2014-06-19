@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(:version => 0) do
     t.string   "item_id",         :limit => 50
     t.string   "method",          :limit => 6
     t.boolean  "is_xhr"
-    t.string   "remote_ip",       :limit => 15
+    t.string   "remote_ip"
     t.string   "http_user_agent", :limit => 1000
     t.text     "http_referer"
     t.text     "query_string"
@@ -43,28 +43,41 @@ ActiveRecord::Schema.define(:version => 0) do
   add_index "app_locales", ["app_id"], :name => "app_id"
   add_index "app_locales", ["code"], :name => "code"
 
+  create_table "app_tags", :force => true do |t|
+    t.integer  "user_id",    :null => false
+    t.integer  "app_id",     :null => false
+    t.integer  "tag_id",     :null => false
+    t.datetime "created_at", :null => false
+  end
+
+  add_index "app_tags", ["app_id"], :name => "app_id"
+  add_index "app_tags", ["tag_id"], :name => "tag_id"
+  add_index "app_tags", ["user_id", "app_id", "tag_id"], :name => "user_app_tag", :unique => true
+  add_index "app_tags", ["user_id"], :name => "user_id"
+
   create_table "apps", :force => true do |t|
     t.string   "name",                    :limit => 100
-    t.integer  "version_code",                            :default => -1,   :null => false
+    t.integer  "version_code",                            :default => -1,    :null => false
     t.string   "version_name",            :limit => 100
-    t.string   "package",                 :limit => 200,                    :null => false
+    t.string   "package",                 :limit => 200,                     :null => false
     t.string   "icon",                    :limit => 500
     t.string   "apk",                     :limit => 500
-    t.string   "signature",               :limit => 50,                     :null => false
-    t.datetime "created_at",                                                :null => false
-    t.datetime "updated_at",                                                :null => false
-    t.integer  "size",                                    :default => 0,    :null => false
-    t.integer  "reviews_count",                           :default => 0,    :null => false
-    t.integer  "likes_count",                             :default => 0,    :null => false
+    t.string   "signature",               :limit => 50,                      :null => false
+    t.datetime "created_at",                                                 :null => false
+    t.datetime "updated_at",                                                 :null => false
+    t.integer  "size",                                    :default => 0,     :null => false
+    t.integer  "reviews_count",                           :default => 0,     :null => false
+    t.integer  "likes_count",                             :default => 0,     :null => false
     t.integer  "dev_id"
     t.string   "description",             :limit => 500
     t.string   "contact",                 :limit => 200
-    t.boolean  "enabled",                                 :default => true, :null => false
+    t.boolean  "enabled",                                 :default => true,  :null => false
     t.string   "dev_extemail",            :limit => 100
     t.datetime "dev_extemail_updated_at"
     t.datetime "dev_engaged_at"
-    t.boolean  "on_cloud"
+    t.boolean  "on_cloud",                                :default => false, :null => false
     t.string   "review",                  :limit => 5000
+    t.integer  "downloads_count"
   end
 
   add_index "apps", ["package", "signature"], :name => "uid", :unique => true
@@ -105,7 +118,7 @@ ActiveRecord::Schema.define(:version => 0) do
     t.string   "sns_id",                :limit => 45
     t.string   "model",                 :limit => 200
     t.integer  "sdk"
-    t.integer  "digs_count"
+    t.integer  "digs_count",                            :default => 0, :null => false
     t.string   "in_reply_to_user_json", :limit => 2000
     t.string   "image",                 :limit => 200
     t.integer  "image_size"
@@ -131,12 +144,37 @@ ActiveRecord::Schema.define(:version => 0) do
   add_index "digs", ["user_id", "comment_id"], :name => "unique", :unique => true
   add_index "digs", ["user_id"], :name => "Index_2"
 
+  create_table "downloads", :force => true do |t|
+    t.integer  "app_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.string   "source",     :limit => 45
+    t.integer  "comment_id"
+  end
+
+  add_index "downloads", ["app_id"], :name => "app_id"
+  add_index "downloads", ["created_at"], :name => "created_at"
+  add_index "downloads", ["user_id"], :name => "user_id"
+
   create_table "exclude_emails", :primary_key => "in", :force => true do |t|
     t.string   "email",      :limit => 100, :null => false
     t.datetime "created_at",                :null => false
   end
 
   add_index "exclude_emails", ["email"], :name => "email"
+
+  create_table "feeds", :force => true do |t|
+    t.integer  "user_id",                    :null => false
+    t.integer  "producer_id"
+    t.string   "title",       :limit => 200
+    t.string   "content",     :limit => 200
+    t.datetime "created_at"
+    t.string   "object_type", :limit => 45
+    t.integer  "object_id"
+  end
+
+  add_index "feeds", ["created_at"], :name => "created_at"
+  add_index "feeds", ["user_id"], :name => "user_id"
 
   create_table "flags", :primary_key => "flag_id", :force => true do |t|
     t.integer  "user_id",    :null => false
@@ -162,6 +200,18 @@ ActiveRecord::Schema.define(:version => 0) do
   add_index "follows", ["user_id", "following_id"], :name => "unique", :unique => true
   add_index "follows", ["user_id"], :name => "Index_2"
 
+  create_table "installs", :force => true do |t|
+    t.string   "imei",       :limit => 45
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "installs", ["created_at"], :name => "created_at"
+  add_index "installs", ["imei"], :name => "imei", :unique => true
+  add_index "installs", ["updated_at"], :name => "updated_at"
+  add_index "installs", ["user_id"], :name => "user_id"
+
   create_table "invites", :force => true do |t|
     t.integer  "invitor_id"
     t.string   "request_id",  :limit => 100
@@ -185,6 +235,33 @@ ActiveRecord::Schema.define(:version => 0) do
   add_index "likes", ["updated_at"], :name => "Index_4"
   add_index "likes", ["user_id", "app_id"], :name => "unique", :unique => true
   add_index "likes", ["user_id"], :name => "Index_2"
+
+  create_table "mentions", :primary_key => "mention_id", :force => true do |t|
+    t.integer  "user_id",    :null => false
+    t.integer  "friend_id",  :null => false
+    t.datetime "created_at"
+  end
+
+  add_index "mentions", ["user_id", "friend_id"], :name => "unique", :unique => true
+  add_index "mentions", ["user_id"], :name => "Index_2"
+
+  create_table "metions", :primary_key => "metion_id", :force => true do |t|
+    t.integer  "user_id",    :null => false
+    t.integer  "friend_id",  :null => false
+    t.datetime "created_at"
+  end
+
+  add_index "metions", ["user_id", "friend_id"], :name => "unique", :unique => true
+  add_index "metions", ["user_id"], :name => "Index_2"
+
+  create_table "notifications", :primary_key => "notification_id", :force => true do |t|
+    t.integer  "user_id",    :null => false
+    t.integer  "comment_id", :null => false
+    t.datetime "created_at"
+  end
+
+  add_index "notifications", ["created_at"], :name => "Index_4"
+  add_index "notifications", ["user_id"], :name => "Index_2"
 
   create_table "recent_accesses", :force => true do |t|
     t.string   "controller",      :limit => 50
@@ -253,6 +330,13 @@ ActiveRecord::Schema.define(:version => 0) do
   add_index "shares", ["updated_at"], :name => "updated_at"
   add_index "shares", ["user_id"], :name => "user_id"
 
+  create_table "tags", :force => true do |t|
+    t.string   "name",       :limit => 45, :null => false
+    t.datetime "created_at",               :null => false
+  end
+
+  add_index "tags", ["name"], :name => "name_UNIQUE", :unique => true
+
   create_table "user_signs", :primary_key => "user_sign_id", :force => true do |t|
     t.integer  "user_id",                  :null => false
     t.datetime "updated_at",               :null => false
@@ -297,7 +381,6 @@ ActiveRecord::Schema.define(:version => 0) do
   end
 
   add_index "users", ["updated_at"], :name => "updated_at"
-  add_index "users", ["username"], :name => "username", :unique => true
 
   create_table "watches", :primary_key => "watch_id", :force => true do |t|
     t.integer  "user_id",    :null => false
