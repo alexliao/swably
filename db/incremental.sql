@@ -120,3 +120,26 @@ ALTER TABLE `nappstr`.`downloads`
 CHANGE COLUMN `app_id` `app_id` INT(11) UNSIGNED NULL DEFAULT NULL ,
 CHANGE COLUMN `user_id` `user_id` INT(11) UNSIGNED NULL DEFAULT NULL ,
 ADD COLUMN `comment_id` INT UNSIGNED NULL AFTER `source`;
+
+CREATE TABLE `nappstr`.`tags` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `created_at` DATETIME NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC))
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8;
+CREATE TABLE `nappstr`.`app_tags` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` INT UNSIGNED NOT NULL,
+  `app_id` INT UNSIGNED NOT NULL,
+  `tag_id` INT UNSIGNED NOT NULL,
+  `created_at` DATETIME NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `user_id` (`user_id` ASC),
+  INDEX `app_id` (`app_id` ASC),
+  INDEX `tag_id` (`tag_id` ASC),
+  UNIQUE INDEX `user_app_tag` (`user_id` ASC, `app_id` ASC, `tag_id` ASC))
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8;
+
