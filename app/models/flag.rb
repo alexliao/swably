@@ -1,5 +1,5 @@
 class Flag < ActiveRecord::Base
-  set_primary_key  "flag_id"
+  self.primary_key =  "flag_id"
   belongs_to :user
   belongs_to :app
 

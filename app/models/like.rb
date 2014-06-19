@@ -1,5 +1,5 @@
 class Like < ActiveRecord::Base
-  set_primary_key  "like_id"
+  self.primary_key =  "like_id"
   belongs_to :user
   belongs_to :app
 

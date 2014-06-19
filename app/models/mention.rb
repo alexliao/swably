@@ -1,5 +1,5 @@
 class Mention < ActiveRecord::Base
-  set_primary_key  "mention_id"
+  self.primary_key =  "mention_id"
   belongs_to :user
   
   def self.add(user, friend)

@@ -1,5 +1,5 @@
 class Watch < ActiveRecord::Base
-  set_primary_key  "watch_id"
+  self.primary_key =  "watch_id"
   belongs_to :user
   belongs_to :comment
 

@@ -1,5 +1,5 @@
 class Follow < ActiveRecord::Base
-  set_primary_key  "follow_id"
+  self.primary_key =  "follow_id"
   belongs_to :user
   belongs_to :following, :class_name => 'User', :foreign_key => 'following_id'
 

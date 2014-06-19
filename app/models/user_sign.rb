@@ -1,5 +1,5 @@
 class UserSign < ActiveRecord::Base
-  set_primary_key  "user_sign_id"
+  self.primary_key =  "user_sign_id"
   belongs_to :user
   belongs_to :app
 

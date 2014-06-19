@@ -1,6 +1,6 @@
 # This class is not used, because no related table in database
 class Claim < ActiveRecord::Base
-  set_primary_key  "claim_id"
+  self.primary_key =  "claim_id"
   belongs_to :user
   belongs_to :app
 

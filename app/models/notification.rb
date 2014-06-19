@@ -1,5 +1,5 @@
 class Notification < ActiveRecord::Base
-  set_primary_key  "notification_id"
+  self.primary_key =  "notification_id"
   belongs_to :user
 
   def self.add(user, comment)

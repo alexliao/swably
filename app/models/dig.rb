@@ -1,5 +1,5 @@
 class Dig < ActiveRecord::Base
-  set_primary_key  "dig_id"
+  self.primary_key =  "dig_id"
   belongs_to :user
   belongs_to :review
 

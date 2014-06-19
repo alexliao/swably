@@ -1,5 +1,5 @@
 class Share < ActiveRecord::Base
-  set_primary_key  "share_id"
+  self.primary_key =  "share_id"
   belongs_to :user
   belongs_to :app
 
