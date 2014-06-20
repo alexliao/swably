@@ -21,7 +21,7 @@ class AccountController < ApplicationController
   end
   def app_version
     return unless validate_format
-    yml = YAML.load(File.open("app/views/account/app_changes_#{session[:lang]}.yml"))
+    yml = YAML.load(File.open("app/views/account/app_changes_#{ENV['lang']}.yml"))
 #    yml = YAML.load(File.open("app/views/account/app_changes.yml"))
     changes = yml["changes"]
     ret = []
@@ -34,10 +34,10 @@ class AccountController < ApplicationController
   
   #api
   def upgrade
-    yml = YAML.load(File.open("app/views/account/app_changes_#{session[:lang]}.yml"))
+    yml = YAML.load(File.open("app/views/account/app_changes_#{ENV['lang']}.yml"))
     changes = yml["changes"]
     # send_file "public/downloads/swably_#{session[:lang]}.data", :filename => "swably_#{session[:lang]}_#{Time.now.to_i}.apk", :streaming => true
-    filename = "swably-#{session[:lang]}#{changes[0]["code"]}.apk"
+    filename = "swably-#{ENV['lang']}#{changes[0]["code"]}.apk"
     send_file "public/downloads/#{filename}", :stream => true
   end
   
