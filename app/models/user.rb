@@ -672,6 +672,9 @@ class User < ActiveRecord::Base
     system("curl http://zh.swably.com/connections/accept_access_token/qq.json?access_token=#{ERB::Util.url_encode(self.setting.oauth_qq)}")
   end
 
+  def locale
+    ('zh' == self.lang)? :zh : :en
+  end
   
   #--------------------------------------------------------------------------------------------------------------
 private
