@@ -25,7 +25,7 @@ class Feed < ActiveRecord::Base
 		feed.producer_id = follower.id
 		feed.object_type = OBJECT_USER
 		feed.object_id = follower.id
-		feed.title = I18n.t(:feed_title_follow, locale: user.locale)
+		feed.title = I18n.t(:feed_title_follow, locale: ENV['lang'])
 		feed.save unless feed.exists
 	end
 
@@ -36,7 +36,7 @@ class Feed < ActiveRecord::Base
 		feed.object_type = OBJECT_REVIEW
 		feed.object_id = review.id
 		# feed.title = I18n.t(:feed_title_following_add_review, name: review.user.name)
-		feed.title = I18n.t( (review.app_id.nil? or 0==review.app_id) ? :feed_title_following_add_request : :feed_title_following_add_review , locale: user.locale )
+		feed.title = I18n.t( (review.app_id.nil? or 0==review.app_id) ? :feed_title_following_add_request : :feed_title_following_add_review , locale: ENV['lang'] )
 		feed.content = review.content
 		feed.save unless feed.exists
 	end
@@ -48,7 +48,7 @@ class Feed < ActiveRecord::Base
 		feed.object_type = OBJECT_REVIEW
 		feed.object_id = review.id
 		# feed.title = I18n.t(:feed_title_reply_my_review, name: review.user.name, my_review: my_review.content)
-		feed.title = I18n.t(:feed_title_reply_my_review, my_review: my_review.content, locale: user.locale)
+		feed.title = I18n.t(:feed_title_reply_my_review, my_review: my_review.content, locale: ENV['lang'])
 		feed.content = review.content
 		feed.save unless feed.exists
 	end
@@ -59,7 +59,7 @@ class Feed < ActiveRecord::Base
 		feed.producer_id = mentioner.id
 		feed.object_type = OBJECT_REVIEW
 		feed.object_id = review.id
-		feed.title = I18n.t(:feed_title_mention_review, name: review.user.name, locale: user.locale)
+		feed.title = I18n.t(:feed_title_mention_review, name: review.user.name, locale: ENV['lang'])
 		feed.content = review.content
 		feed.save unless feed.exists
 	end
@@ -70,7 +70,7 @@ class Feed < ActiveRecord::Base
 	# 	feed.producer_id = review.user.id
 	# 	feed.object_type = OBJECT_REVIEW
 	# 	feed.object_id = review.id
-	# 	feed.title = I18n.t(:feed_title_watching_add_reply, name: review.user.name, watching_review: watching_review.content, locale: user.locale)
+	# 	feed.title = I18n.t(:feed_title_watching_add_reply, name: review.user.name, watching_review: watching_review.content, locale: ENV['lang'])
 	# 	feed.content = review.content
 	# 	feed.save unless feed.exists
 	# end
@@ -82,7 +82,7 @@ class Feed < ActiveRecord::Base
 		feed.object_type = OBJECT_REVIEW
 		feed.object_id = review.id
 		# feed.title = I18n.t(:feed_title_watching_add_reply, name: review.user.name)
-		feed.title = I18n.t(:feed_title_watching_add_reply, locale: user.locale)
+		feed.title = I18n.t(:feed_title_watching_add_reply, locale: ENV['lang'])
 		feed.content = review.content
 		feed.save unless feed.exists
 	end
@@ -93,7 +93,7 @@ class Feed < ActiveRecord::Base
 		feed.producer_id = starrer.id
 		feed.object_type = OBJECT_REVIEW
 		feed.object_id = review.id
-		feed.title = I18n.t(:feed_title_star_post, locale: user.locale)
+		feed.title = I18n.t(:feed_title_star_post, locale: ENV['lang'])
 		feed.content = review.content
 		feed.save unless feed.exists
 	end
