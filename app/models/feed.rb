@@ -104,7 +104,7 @@ class Feed < ActiveRecord::Base
 		feed.producer_id = review.user.id
 		feed.object_type = OBJECT_REVIEW
 		feed.object_id = review.id
-		feed.title = I18n.t(:feed_title_following_app_add_review, name: review.app.name, locale: user.locale)
+		feed.title = I18n.t(:feed_title_following_app_add_review, name: review.app.name, locale: ENV['lang'])
 		feed.content = review.content
 		feed.save unless feed.exists
 	end
