@@ -1,5 +1,7 @@
 ---
 changes: 
+  - code: 1940
+    note: 增加邀请功能
   - code: 1930
     note: 增加推荐万宝乐功能
   - code: 1920
