@@ -492,8 +492,10 @@ class User < ActiveRecord::Base
   end
 
   def sync(iu, sync_sns)
-    upload_url = "http://#{ENV['host']}/r/#{iu.id}"
+    return if sync_sns.nil? or sync_sns.empty?
 
+    upload_url = "http://#{ENV['host']}/r/#{iu.id}"
+    old_content = iu.content # don't modify iu content
     # clean @name
     if iu.in_reply_to_id
       at_name = "@#{iu.in_reply_to.user.get_screen_name}"
@@ -520,6 +522,7 @@ class User < ActiveRecord::Base
                 status_id = provider.get_status_id(json)
                 iu.sns_id = sync_sns
                 iu.sns_status_id = status_id
+                iu.content = old_content
                 iu.save
               end
             #end
@@ -535,6 +538,7 @@ class User < ActiveRecord::Base
       end
     end
     reqs.each {|t| t.join} 
+    iu.content = old_content
   end
   
   def connect(connect_info)
