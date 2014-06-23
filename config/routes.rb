@@ -55,6 +55,7 @@ Swably::Application.routes.draw do
 
   resources :reports
   resources :users
+  resources :app_tags
 
   root :to => 'default#index'
   match 'a/:id' => 'apps#show', :id => /\d+/

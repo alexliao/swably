@@ -1,0 +1,25 @@
+base_dir=/Users/alex/documents/swably/android
+
+expect -c "
+set timeout 30;
+spawn rsync -v $base_dir/swably-zh/swably-zh$1.apk root@zh.swably.com:/var/www/swably/public/downloads/ 
+expect \"*assword:\" {send \"guufy999\n\";}
+expect eof;"
+
+expect -c "
+set timeout 30;
+spawn rsync -v $base_dir/swably-zh/swably-zh$1.apk root@swably.com:/var/www/swably/public/downloads/ 
+expect \"*assword:\" {send \"guufy999\n\";}
+expect eof;"
+
+expect -c "
+set timeout 30;
+spawn rsync -v $base_dir/swably-en/swably-en$1.apk root@zh.swably.com:/var/www/swably/public/downloads/ 
+expect \"*assword:\" {send \"guufy999\n\";}
+expect eof;"
+
+expect -c "
+set timeout 30;
+spawn rsync -v $base_dir/swably-en/swably-en$1.apk root@swably.com:/var/www/swably/public/downloads/ 
+expect \"*assword:\" {send \"guufy999\n\";}
+expect eof;"

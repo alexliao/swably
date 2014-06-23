@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+# This model initially had no columns defined.  If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+
+swably:
+  id: 1
+  name: Swably
+  package: "goofy2.swably"
+  signature: "JybmimMmZ7I1dQS01S6ftw=="
+  created_at: '2014-6-19 17:53'
+  updated_at: '2014-6-19 17:53'
