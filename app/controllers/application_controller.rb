@@ -705,6 +705,22 @@ protected
     ret
   end
 
+  def validate_id_and_get_tag
+    ret = true
+    if params[:id]
+      @tag = Tag.find_by_id params[:id]
+    else
+      api_error "you need to specify tag [id].", 400
+      ret = false
+      return ret
+    end
+    unless @tag
+      api_error "ID [#{params[:id]}] doesn't exist", 404
+      ret = false
+    end
+    ret
+  end
+
   def validate_id_or_uid_and_get_entry
     ret = true
     if params[:id]

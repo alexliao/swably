@@ -60,6 +60,7 @@ class App < ActiveRecord::Base
         ret[:uploaders_count] = self.uploaders.count
         ret[:upload_id] = self[:share_id] if self[:share_id]
         ret[:uploaded_at] = self[:uploaded_at].to_i if self[:uploaded_at]
+        ret[:app_tag_id] = self[:app_tag_id] if self[:app_tag_id]
      end
     end
     ret
