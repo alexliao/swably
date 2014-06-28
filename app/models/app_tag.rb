@@ -15,11 +15,14 @@ class AppTag < ActiveRecord::Base
       tag = Tag.ensure tag
     end
 
-    record = AppTag.find(:first, :conditions => ["user_id = ? and app_id = ? and tag_id = ?", user_id, app_id, tag.id])
-    unless record
-      remove(user_id, app_id, tag.id)
-      record = add(user_id, app_id, tag.id)
-    end
+    # record = AppTag.find(:first, :conditions => ["user_id = ? and app_id = ? and tag_id = ?", user_id, app_id, tag.id])
+    # unless record
+    #   remove(user_id, app_id, tag.id)
+    #   record = add(user_id, app_id, tag.id)
+    # end
+    remove(user_id, app_id, tag.id)
+    record = add(user_id, app_id, tag.id)
+
     record
   end
 

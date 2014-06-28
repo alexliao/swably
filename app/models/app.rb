@@ -15,6 +15,7 @@ class App < ActiveRecord::Base
   has_and_belongs_to_many :liked_by_users, :class_name => "User", :foreign_key => "app_id", :association_foreign_key => "user_id", :join_table => "likes"
   belongs_to :dev, :class_name => 'User', :foreign_key => 'dev_id'
   has_and_belongs_to_many :uploaders, :class_name => "User", :join_table => "shares"
+  # has_and_belongs_to_many :tags, :select => "distinct tag_id, tags.*", :count_select => "count distinct tag_id", :join_table => "app_tags" # can not count distinctly
 
   # constant for move apk to cloud storage
   # CACHE_SIZE = 4000 
@@ -48,6 +49,7 @@ class App < ActiveRecord::Base
         ret[:contact] = self.contact || self.dev_extemail
 #        ret[:review] = self.last_review
         ret[:reviews_count] = self.reviews_count
+        ret[:tags_count] = self.tags_count
         ret[:downloads_count] = self.downloads_count
         ret[:likes_count] = self.likes_count
         ret[:is_liked] = current_user.is_liking(self.id) ? true : false if current_user
@@ -68,6 +70,15 @@ class App < ActiveRecord::Base
     unless ret
       ret = self.comments(:refresh).count
       self.update_attribute(:reviews_count, ret)
+    end
+    ret
+  end
+
+  def tags_count(refresh = false)
+    ret = refresh ? nil : read_attribute("tags_count")
+    unless ret
+      ret = self.unique_tags_count
+      self.update_attribute(:tags_count, ret)
     end
     ret
   end
@@ -235,4 +246,13 @@ class App < ActiveRecord::Base
     rescue
     end
   end
+
+  def unique_tags
+    # Tag.find_by_sql "SELECT distinct tag_id, tags.* FROM `tags` INNER JOIN `app_tags` ON `tags`.`id` = `app_tags`.`tag_id` WHERE `app_tags`.`app_id` = #{self.id} order by `app_tags`.`created_at` desc "
+    Tag.find(:all, select: "count(a.tag_id) as count, t.*", joins: "t join app_tags a on t.id=a.tag_id", conditions: "a.app_id=#{self.id}", group: "a.tag_id", order: "count desc, a.id desc")
+  end
+  def unique_tags_count
+    Tag.count_by_sql "SELECT count(distinct tag_id) FROM `tags` INNER JOIN `app_tags` ON `tags`.`id` = `app_tags`.`tag_id` WHERE `app_tags`.`app_id` = #{self.id}"
+  end
+
 end

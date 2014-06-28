@@ -294,6 +294,36 @@ class AppsController < ApplicationController
     @app.downloads_count true
     redirect_to @app.apk
   end
+
+  # An app's public tags includes recent users icons
+  def tags
+    return unless validate_id_and_get_app
+    @tags = @app.unique_tags
+    api_response @tags.facade(@current_user, app_id: @app.id, with_user_icons: true), "tags"
+  end
+
+  def my_added_tags
+    return unless validate_signin
+    return unless validate_format
+    return unless validate_id_and_get_app
+    limit = params[:count] || 10
+
+    # @tags = Tag.find :all
+    my_tags = Tag.find(:all, select: "t.*", joins: "t join app_tags a on t.id=a.tag_id", conditions: ["a.app_id=? and a.user_id=?", @app.id, @current_user.id], order: "a.id desc")
+    others_tags = Tag.find(:all, select: "count(a.tag_id) as count, t.*", joins: "t join app_tags a on t.id=a.tag_id", conditions: ["a.app_id=? and a.user_id<>?", @app.id, @current_user.id], group: "a.tag_id", order: "count desc", limit: limit)
+    # hot_tags = Tag.find(:all, select: "count(a.tag_id) as count, t.*", joins: "t join app_tags a on t.id=a.tag_id", group: "a.tag_id", order: "count desc", limit: limit)
+    preset_tags = Tag.find(:all, conditions: "flag=1", order: "created_at")
+    # @tags = my_tags | others_tags | hot_tags | preset_tags
+    @tags = my_tags | others_tags | preset_tags
+
+    # if tag_ids.size > 0
+    #   @tags = Tag.find :all, conditions: "id in (#{tag_ids.join(",")})"
+    # else
+    #   @tags = []
+    # end
+    api_response @tags.facade(@current_user, app_id: @app.id), "tags"
+  end
+  
 #-------------------------------------------------------------------------  
 protected
 

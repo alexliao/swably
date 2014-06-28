@@ -8,3 +8,8 @@ alex:
   id: 1
   name: Alex Liao
   username: alex
+
+dennis: 
+  id: 2
+  name: Dennis Chu
+  username: dennis

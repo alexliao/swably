@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 0) do
+ActiveRecord::Schema.define(:version => 20140628181700000) do
 
   create_table "accesses", :force => true do |t|
     t.string   "controller",      :limit => 50
@@ -78,6 +78,7 @@ ActiveRecord::Schema.define(:version => 0) do
     t.boolean  "on_cloud",                                :default => false, :null => false
     t.string   "review",                  :limit => 5000
     t.integer  "downloads_count"
+    t.integer  "tags_count"
   end
 
   add_index "apps", ["package", "signature"], :name => "uid", :unique => true
@@ -333,6 +334,7 @@ ActiveRecord::Schema.define(:version => 0) do
   create_table "tags", :force => true do |t|
     t.string   "name",       :limit => 45, :null => false
     t.datetime "created_at",               :null => false
+    t.integer  "flag"
   end
 
   add_index "tags", ["name"], :name => "name_UNIQUE", :unique => true

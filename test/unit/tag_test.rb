@@ -15,4 +15,8 @@ class TagTest < ActiveSupport::TestCase
     end
   end
 
+  test "app's tags count" do
+    app = apps(:swably)
+    assert_equal 3, app.unique_tags_count
+  end
 end
