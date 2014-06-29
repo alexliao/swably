@@ -309,12 +309,13 @@ class AppsController < ApplicationController
     limit = params[:count] || 10
 
     # @tags = Tag.find :all
-    my_tags = Tag.find(:all, select: "t.*", joins: "t join app_tags a on t.id=a.tag_id", conditions: ["a.app_id=? and a.user_id=?", @app.id, @current_user.id], order: "a.id desc")
-    others_tags = Tag.find(:all, select: "count(a.tag_id) as count, t.*", joins: "t join app_tags a on t.id=a.tag_id", conditions: ["a.app_id=? and a.user_id<>?", @app.id, @current_user.id], group: "a.tag_id", order: "count desc", limit: limit)
-    # hot_tags = Tag.find(:all, select: "count(a.tag_id) as count, t.*", joins: "t join app_tags a on t.id=a.tag_id", group: "a.tag_id", order: "count desc", limit: limit)
+    my_tags = Tag.find(:all, select: "t.*", joins: "t join app_tags at on t.id=at.tag_id", conditions: ["at.app_id=? and at.user_id=?", @app.id, @current_user.id], order: "at.id desc")
+    others_tags = Tag.find(:all, select: "count(at.tag_id) as count, t.*", joins: "t join app_tags at on t.id=at.tag_id", conditions: ["at.app_id=? and at.user_id<>?", @app.id, @current_user.id], group: "at.tag_id", order: "count desc", limit: limit)
+    my_other_tags = Tag.find(:all, select: "t.*", joins: "t join app_tags at on t.id=at.tag_id", conditions: ["at.app_id<>? and at.user_id=?", @app.id, @current_user.id], order: "at.id desc")
+    # hot_tags = Tag.find(:all, select: "count(at.tag_id) as count, t.*", joins: "t join app_tags at on t.id=at.tag_id", group: "at.tag_id", order: "count desc", limit: limit)
     preset_tags = Tag.find(:all, conditions: "flag=1", order: "created_at")
     # @tags = my_tags | others_tags | hot_tags | preset_tags
-    @tags = my_tags | others_tags | preset_tags
+    @tags = my_tags | others_tags | my_other_tags | preset_tags
 
     # if tag_ids.size > 0
     #   @tags = Tag.find :all, conditions: "id in (#{tag_ids.join(",")})"
