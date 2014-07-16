@@ -1,5 +1,9 @@
 ---
 changes: 
+  - code: 1951
+    note: 增加友盟统计
+  - code: 1950
+    note: 增加自定义标签功能
   - code: 1940
     note: 增加邀请功能
   - code: 1930

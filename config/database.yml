@@ -25,6 +25,7 @@ development:
  username: root
  password: guufy999
  # host: zh.swably.com
+ # host: swably.com
  host: localhost
  encoding: utf8 
 
