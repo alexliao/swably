@@ -3,6 +3,15 @@ class AppTag < ActiveRecord::Base
   belongs_to :user
   belongs_to :tag
 
+  def facade(current_user = nil, options = {})
+    ret = {}
+    ret[:id] = self.id
+    ret[:app] = self.app.facade(current_user, options)
+    ret[:tag] = self.tag.facade(current_user, options)
+    ret[:created_at] = self.created_at.to_i
+    ret
+  end
+
   def self.add(user_id, app_id, tag_id)
     record = AppTag.new(user_id: user_id, app_id: app_id, tag_id: tag_id)
     record.save

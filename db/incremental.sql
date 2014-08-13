@@ -143,3 +143,9 @@ CREATE TABLE `nappstr`.`app_tags` (
 ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
 
+ALTER TABLE `nappstr`.`accesses` 
+ADD INDEX `controller` (`controller` ASC),
+ADD INDEX `action` (`action` ASC),
+ADD INDEX `http_referer` (`http_referer`(255) ASC),
+ADD INDEX `created_at` (`created_at` ASC);
+
