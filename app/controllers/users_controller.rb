@@ -446,7 +446,7 @@ class UsersController < ApplicationController
     return unless validate_count
     return unless validate_id_and_get_user
     limit = params[:count]
-    @max_condition =  params[:max_id] ? "id < #{params[:max_id]}" : "true"
+    @max_condition =  params[:max_id] ? "app_tags.id < #{params[:max_id]}" : "true"
     @app_tags = AppTag.find :all, :include => [:app, :tag], :conditions => "user_id=#{@user.id} and #{@max_condition}", :order => "app_tags.id desc", :limit => limit
     api_response @app_tags.facade(nil, :names_only => true), "app_tags"
   end
