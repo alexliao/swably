@@ -1,7 +1,8 @@
 # require "lib/time_util"
 
 class UsersController < ApplicationController
-  #before_filter :redirect_anonymous, :except =>[:info, :show, :rss, :followings, :followers, :find]
+  include FileHelper
+ #before_filter :redirect_anonymous, :except =>[:info, :show, :rss, :followings, :followers, :find]
   before_filter :log_access
 
   def rss
@@ -370,6 +371,18 @@ class UsersController < ApplicationController
   # PUT /users/1.json
   def update
     @user = User.find(params[:id])
+    
+    if params[:avatar_file]
+      url, path = save_file(params[:avatar_file], get_picture_dir, "avatar#{@user.id}")
+      params[:user] ||= {}
+      params[:user][:photo] = url
+    end
+    if params[:banner_file]
+      url, path = save_file(params[:banner_file], get_picture_dir, "banner#{@user.id}")
+      params[:user] ||= {}
+      params[:user][:banner] = url
+    end
+    
     respond_to do |format|
       if @user.update_attributes(params[:user])
         format.html { redirect_to @user, notice: 'user was successfully updated.' }
