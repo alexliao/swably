@@ -33,3 +33,4 @@ pickle-email-*.html
 /public/pictures/*
 /public/feeds/*
 /public/downloads/*
+*.swp
