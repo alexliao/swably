@@ -14,7 +14,7 @@ class TagsController < ApplicationController
   end
 
   def public
-  @tags = Tag.find(:all, select: "count(a.tag_id) as count, t.*", joins: "t join app_tags a on t.id=a.tag_id", group: "a.tag_id", order: "count desc, a.id desc")
+  @tags = Tag.find(:all, select: "count(a.tag_id) as count, t.*", joins: "t join app_tags a on t.id=a.tag_id", group: "a.tag_id", order: "count desc, a.id desc", limit: 100)
   api_response @tags.facade(@current_user), "tags"
   end
 
