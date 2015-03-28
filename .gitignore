@@ -34,3 +34,9 @@ pickle-email-*.html
 /public/feeds/*
 /public/downloads/*
 *.swp
+.tags
+tags
+
+.ruby-version
+.ruby-gemset
+
