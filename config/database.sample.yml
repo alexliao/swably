@@ -17,7 +17,7 @@
 #   username: root
 #   password: guufy999
 #   host: localhost
-#   encoding: utf8 
+#   encoding: utf8
 
 development:
  adapter: mysql2
@@ -27,7 +27,7 @@ development:
  # host: zh.swably.com
  # host: swably.com
  host: localhost
- encoding: utf8 
+ encoding: utf8
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -45,8 +45,8 @@ production:
   username: root
   password: guufy999
   host: localhost
-  encoding: utf8 
-  
+  encoding: utf8
+
 
 benchmarking:
   encoding: utf8

@@ -206,8 +206,10 @@ ActiveRecord::Schema.define(:version => 20140628181700000) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "channel_id"
   end
 
+  add_index "installs", ["channel_id"], :name => "index_installs_on_channel_id"
   add_index "installs", ["created_at"], :name => "created_at"
   add_index "installs", ["imei"], :name => "imei", :unique => true
   add_index "installs", ["updated_at"], :name => "updated_at"
