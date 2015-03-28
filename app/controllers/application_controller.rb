@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
   #before_filter :set_back
   after_filter :log_action_duration
   #layout :enable_embed
-  
+
 
   # def authorize
   #   flash[:admin_return] = request.path
@@ -35,6 +35,7 @@ class ApplicationController < ActionController::Base
     install = Install.find(:first, conditions: ["imei=?", params[:imei]]) || Install.new
     install.imei = params[:imei]
     install.user_id = params[:user_id]
+    install.channel_id = params[:channel_id] if params[:channel_id].present?
     install.updated_at = Time.now
     install.save
   end
@@ -51,8 +52,8 @@ class ApplicationController < ActionController::Base
         session[:is_admin] = true
         redirect_to :action => "index"
         return
-    end    
-    
+    end
+
     if request.get?
     else
       if params[:admin][:password] == ENV['admin_pwd']
@@ -72,11 +73,11 @@ class ApplicationController < ActionController::Base
 #    min = Time.now.min
 #    #recycle invites 1 min per hour
 #    if min == 0
-#      ret = ActiveRecord::Base.connection.execute("delete from invites where invitee_id is null and created_at < subdate(now(), interval 3 day)") 
+#      ret = ActiveRecord::Base.connection.execute("delete from invites where invitee_id is null and created_at < subdate(now(), interval 3 day)")
 #      puts "recycle invites: #{ret}"
 #    end
   end
-  
+
   def set_mobile
     http_user_agent = request.env["HTTP_USER_AGENT"] || ""
 #puts http_user_agent
@@ -94,7 +95,7 @@ class ApplicationController < ActionController::Base
     @begin_time = Time.now
     #breakpoint()
   end
-  
+
   def log_action_duration
     return unless @begin_time
     #breakpoint()
@@ -113,7 +114,7 @@ class ApplicationController < ActionController::Base
     access.user_id = @current_user.id == 0 ? nil : @current_user.id
     access.imei = params[:imei]
     access.created_at = Time.now
-    access.duration = Time.now - @begin_time 
+    access.duration = Time.now - @begin_time
     access.save
 
     try_update_user_info
@@ -126,7 +127,7 @@ class ApplicationController < ActionController::Base
       ret = "sync_tencent" if ret.match('t\.qq\.com') and params[:controller]=='comments' and params[:action]=='show'
       ret = "sync_twitter" if ret.match('t\.co') and params[:controller]=='comments' and params[:action]=='show'
     end
-    ret 
+    ret
   end
 
   def login_by_user_id
@@ -151,7 +152,7 @@ class ApplicationController < ActionController::Base
 #          params[:user_id] = nil
 #          params[:user_key] = nil
 #          params[:official] = nil
-#          redirect_to params 
+#          redirect_to params
 #        end
       end
     end
@@ -172,11 +173,11 @@ class ApplicationController < ActionController::Base
       end
     end
   end
-  
+
   def login_from_cookie
     if session[:user_id].nil?
       if cookies[:auth_token]
-        user = User.find_by_remember_token(cookies[:auth_token]) 
+        user = User.find_by_remember_token(cookies[:auth_token])
         if user && user.remember_token_expires && Time.now < user.remember_token_expires  and user.enabled
           _sign_in(user)
         else
@@ -190,7 +191,7 @@ class ApplicationController < ActionController::Base
 
   def login_from_param
     if params[:current_user_id]
-      user = User.find_by_id(params[:current_user_id]) 
+      user = User.find_by_id(params[:current_user_id])
       if user
         _sign_in(user)
       else
@@ -203,7 +204,7 @@ class ApplicationController < ActionController::Base
 #    session[:lang] = params[:lang] || cookies[:lang] || lang_by_request || ENV['lang']
 #    session[:lang] = ENV['lang'] unless ['en', 'zh'].include? session[:lang]
 
-    # if(ENV['lang'] == 'zh') 
+    # if(ENV['lang'] == 'zh')
     #   session[:lang] = 'zh'
     # else
     #   session[:lang] = params[:lang] || cookies[:lang] || lang_by_request || ENV['lang']
@@ -233,18 +234,18 @@ class ApplicationController < ActionController::Base
     yield
     set_locale old
   end
-  
+
   def redirect_anonymous
     if current_user.is_anonymous
       if params[:format]
         api_error "unauthenticated user", 401
       else
         session[:request_uri] = request.env["REQUEST_URI"] unless request.xhr?
-        redirect_to '/account/signin' 
+        redirect_to '/account/signin'
       end
     end
   end
-   
+
   def redirect_disabled
     if current_user and !current_user.activated
       redirect_to :controller => 'account', :action => 'disabled'
@@ -255,7 +256,7 @@ class ApplicationController < ActionController::Base
     return unless request.xhr? # change to log online from javascript
     Online.update(@current_user.id) unless @current_user.is_anonymous
   end
-  
+
   def set_current_user_for_template
     @current_user = current_user
   end
@@ -263,11 +264,11 @@ class ApplicationController < ActionController::Base
 #  def sync_current_user
 #    session[:user_id] = @user.id
 #  end
-  
+
   def set_return_uri
     session[:original_uri] = request.request_uri unless params[:format]
   end
-  
+
   def auto_login
     #auto sign in if the url is clicked from invite email
     if params[:login] != nil
@@ -277,7 +278,7 @@ class ApplicationController < ActionController::Base
       end
     end
   end
-  
+
 #  def authorize
 #    unless current_user
 #      flash[:notice] = "请登录"
@@ -287,12 +288,12 @@ class ApplicationController < ActionController::Base
 #      redirect_to :controller => 'users', :action => 'login_form' and return false
 #    end
 #  end
-  
+
   def redirect_to_homepage
     redirect_to("/welcome")
   end
-  
-  
+
+
 #  def display_current_user
 #    ret = current_user
 #    if ret == nil
@@ -302,13 +303,13 @@ class ApplicationController < ActionController::Base
 #    end
 #    ret
 #  end
-  
-  
+
+
 #  def add_user_to_session_and_redirect_to_home(user)
 #    _sign_in(user)
 #    redirect_to_homepage
 #  end
-  
+
   def _sign_in(user)
     clear_match
     session[:user_id] = user["id"]
@@ -316,9 +317,9 @@ class ApplicationController < ActionController::Base
     set_current_user_for_template
 #    #set default city
 #    unless user.city or user.is_anonymous # this is expensive database query.
-#      user.set_city_by_ip(request.remote_ip) 
+#      user.set_city_by_ip(request.remote_ip)
 #    end
-    
+
 #    if !user.is_anonymous and session[:invited_to_group_by]
 #      invitor = User.find(session[:invited_to_group_by])
 #      key = hash_group_id(@current_group.id)
@@ -329,7 +330,7 @@ class ApplicationController < ActionController::Base
 #    end
     #session[:original_uri] = @current_user.network_lack > 0 ? "/users/friends" : ''
   end
-  
+
   #set default city
   def is_friend(user_id)
     if current_user == nil
@@ -339,19 +340,19 @@ class ApplicationController < ActionController::Base
     end
     ret
   end
-  
-  
+
+
   def deliver_mail(mail) # work for only one receiver.
     #ret = deliver_as_gbk(mail)
     #ret = deliver(mail) if ret # try again with utf8
     ret = deliver(mail)
     ret
   end
- 
+
   def send_email(from, to, subject, body, cc = nil, bcc = nil)
     deliver_mail(Mailer.create_simple_mail(from, to, subject, body, cc, bcc))
   end
-  
+
 #  def deliver_as_gbk(mail)
 #    begin
 #      deliver(IconvUtil.new.utf8_to_gbk_mail(mail))
@@ -360,7 +361,7 @@ class ApplicationController < ActionController::Base
 #      return exc.message
 #    end
 #  end
-  
+
   #deliver mail, return nil if success, or error message
   def deliver(mail)
     begin
@@ -380,26 +381,26 @@ class ApplicationController < ActionController::Base
 #      return exc.message
 #    end
 #  end
-  
+
   def error_color(text)
     "<font color=red>#{text}</font>"
   end
-  
+
   def gbk_to_utf8(str)
     IconvUtil.new.gbk_to_utf8(str)
   end
-    
- 
+
+
 
   def expire_notify(user_id = nil)
-    user_id ||= @current_user.id 
+    user_id ||= @current_user.id
     begin
       expire_page(:controller => 'feeds', :action => 'check', :id => user_id)
     rescue
       puts e
     end
-  end  
-  
+  end
+
   def expire_notify_all()
     begin
       FileUtils.rm(Dir.glob('public/feeds/check/*.*'))
@@ -407,7 +408,7 @@ class ApplicationController < ActionController::Base
       puts e
     end
   end
-  
+
 #----------------------------------------------------------------
 protected
 
@@ -427,7 +428,7 @@ protected
   def offline(delay = nil)
     @current_user.offline(delay)
   end
- 
+
   def logout
     # @current_user.forget_me unless @current_user.is_anonymous
     session[:user_id] = nil
@@ -441,12 +442,12 @@ protected
   #   ret = (address.province != '海外') ? 'zh' : 'en'  if address
   #   ret
   # end
-  
+
   def lang_by_request
     str = (request.env["HTTP_ACCEPT_LANGUAGE"] || "").downcase
     str.match(/^zh/) ? "zh" : "en"
   end
-  
+
   def __(str, b)
     eval %("#{str}"), b
   end
@@ -472,10 +473,10 @@ protected
     Notimsg.create(to_id, content, read_at)
     expire_notify(to_id) unless read_at
   end
-  
+
 #  def self.create_notification(to_id , content)
 #    message = Notimsg.new(:from_id => 1, :to_id => to_id, :content => content) # temporily set id=1, because can't create ActionController instance
-#    message.save      
+#    message.save
 #    expire_page("/messages/check/#{to_id}")
 #  end
 
@@ -488,16 +489,16 @@ protected
 #    end
     ret
   end
-  
+
   def self.convert(str)
     begin
       ret = IconvUtil.new.utf8_to_gbk(str)
     rescue
       ret = ''
-    end  
+    end
     ret
   end
-  
+
   def escape_string(str)
     render_to_string(:inline => "<%=escape_javascript(h(str))%>", :locals => {:str=>str})
   end
@@ -516,7 +517,7 @@ protected
   #   ret = "" if ret == User::MATCH_SEP || ret == User::GEO_SEP
   #   ret
   # end
-  
+
 #  def notify_follow(user)
 #    temp_user_locale(user) do
 #      #_name = "<a href='/users/show/#{current_user.id}' target='_blank'>#{current_user.display_name}</a>"
@@ -571,7 +572,7 @@ protected
       render :text => facade.to_json, :status => code
     end
   end
-  
+
   def api_error(msg, code)
     ret = {:error_code => code, :error_message => msg}
     if params[:format] == 'xml'
@@ -583,7 +584,7 @@ protected
       render :text => msg, :status => code
     end
   end
-  
+
   def api_errors2hash(active_record_errors)
     errs = {}
     active_record_errors.each do |err|
@@ -591,7 +592,7 @@ protected
     end
     errs
   end
-  
+
   def validate_signin
     if @current_user.is_anonymous
       api_error "The required parameters [user_id] and [user_key] doesn't match or missed.", 401
@@ -646,7 +647,7 @@ protected
     end
     return true
   end
-  
+
   def validate_presence_of_id
     ret = true
     unless params[:id]
@@ -688,7 +689,7 @@ protected
     end
     ret
   end
-  
+
   def validate_id_and_get_review
     ret = true
     if params[:id]
@@ -734,7 +735,7 @@ protected
     end
     unless @entry
       if params[:id]
-        api_error "ID [#{params[:id]}] doesn't exist", 404 
+        api_error "ID [#{params[:id]}] doesn't exist", 404
       elsif params[:uid]
         api_error "UID [#{params[:uid]}] doesn't exist", 404
       end
@@ -759,11 +760,11 @@ protected
 #      session[:connect_info] = nil
 #    end
   end
-  
+
   def genVipKey(min_id, count)
     User.hash_password("#{min_id},#{count}")
   end
-  
+
   def matched_list
     session[:matched_list] ||= []
     session[:matched_list]
@@ -799,9 +800,9 @@ protected
 #      end
 #    end
 #    super(options, deprecated_status, &block)
-#  end  
-  
-  
+#  end
+
+
 #  def render_file(template_path, status = nil, use_full_path = false, locals = {}) #:nodoc:
 #    template_path = "#{template_path}#{session[:m]}"
 #    super(template_path, status, use_full_path, locals)
@@ -811,11 +812,11 @@ protected
 #    partial_path = "#{partial_path}#{session[:m]}"
 #    super(partial_path, object, local_assigns, status)
 #  end
-  
+
   def mobile
     session[:m] == '_m'
   end
-  
+
   def android
     http_user_agent = request.env["HTTP_USER_AGENT"] || ""
     http_user_agent.downcase.include?("android")
@@ -847,7 +848,7 @@ protected
       maker.channel.description = description || ""
       maker.channel.link = link || url_for(url_params) #"http://#{HOST_NAME}"
       maker.items.do_sort = true
- 
+
       collection.each do |item|
         rss_item = maker.items.new_item
         item.to_rss(rss_item)
@@ -855,7 +856,7 @@ protected
     end
     send_data feed.to_s, :type => "application/rss+xml", :disposition => 'inline'
   end
-  
+
   # for embeded webpage in smartphone app
   def enable_embed
     session[:embed] = params[:embed] if params[:embed]
@@ -876,8 +877,8 @@ end
 #    end
 #    code
     rand(100000000)
-  end  
-  
+  end
+
   def try_update_user_info
     return if @current_user.nil? or @current_user.is_anonymous
     changed = false
@@ -915,7 +916,7 @@ class Hash
 end
 
 class Time
-  
+
   def short_time
     strftime('%Y-%m-%d %H:%M:%S')
   end
